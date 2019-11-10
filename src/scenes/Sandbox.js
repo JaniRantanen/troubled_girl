@@ -189,7 +189,7 @@ export class Sandbox extends Phaser.Scene {
         if (!this.player.hurt) {
             if (bodyB.name == "bottom") {
                 this.player.hurt = true;
-                this.cameras.main.flash(250);
+                this.cameras.main.flash(125);
                 setTimeout(() => {
                     this.scene.restart();
                 }, 125);
@@ -210,9 +210,7 @@ export class Sandbox extends Phaser.Scene {
 
             if (bodyB.name === "oldman") {
                 this.cameras.main.fadeOut();
-                this.sound.stopAll();
                 this.scene.start("Win");
-
             }
         }
     }

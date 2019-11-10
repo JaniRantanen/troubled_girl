@@ -6,8 +6,6 @@ export class Win extends Phaser.Scene {
 	}
 
 	create() {
-		console.log("WIN")
-
 		this.add.image(0, 0, "Taustataivas").setOrigin(0, 0).setDepth(-10)
 		this.add.image(0, 0, "taaimmaisetpuut").setOrigin(0, 0).setDepth(-8)
 		this.add.image(0, 0, "keskimmaisetpuut").setOrigin(0, 0).setDepth(-6)
