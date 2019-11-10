@@ -9,6 +9,12 @@ export class Sandbox extends Phaser.Scene {
         this.player = null;
         this.oldman = null;
         this.enemy = null;
+        this.music = null;
+    }
+    preload() {
+        if (this.music == null) {
+            this.music = this.sound.add("theme", { loop: true }).play();
+        }
     }
 
     create() {
@@ -27,7 +33,6 @@ export class Sandbox extends Phaser.Scene {
         // CONTROLS 
         this.controls = this.input.keyboard.createCursorKeys();
 
-
         // PLAYER
         this.player = this.impact.add.sprite(150, 1500, "player")
             .setActiveCollision()
@@ -40,18 +45,7 @@ export class Sandbox extends Phaser.Scene {
 
         this.player.setCollideCallback(this.collide, this);
 
-        // OLD MAN
-        this.oldman = this.impact.add.sprite(4096, 1300, "oldman")
-            .setActiveCollision()
-            .setTypeA()
-            .setMaxVelocity(500)
-            .setFriction(1000, 100)
-            .setGravity(10)
-            .setBodySize(50, 175)
-            .setOffset(75, 25)
-
-        this.oldman.body.name = "oldman";
-
+        this.player.hurt = false;
         this.player.body.accelGround = 1200;
         this.player.body.accelAir = 600;
         this.player.body.jumpSpeed = 700;
@@ -104,7 +98,20 @@ export class Sandbox extends Phaser.Scene {
             repeat: 1
         });
 
-        this.cameras.main.setBounds(0, 0, 10000, 1800);
+
+        // OLD MAN
+        this.oldman = this.impact.add.sprite(4096, 1300, "oldman")
+            .setActiveCollision()
+            .setTypeA()
+            .setMaxVelocity(500)
+            .setFriction(1000, 100)
+            .setGravity(10)
+            .setBodySize(50, 175)
+            .setOffset(75, 25)
+
+        this.oldman.body.name = "oldman";
+
+        this.cameras.main.setBounds(0, 0, worldWidth, 1800);
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
 
@@ -124,7 +131,7 @@ export class Sandbox extends Phaser.Scene {
             frameRate: 5,
             repeat: -1,
 
-        });
+        })
 
         this.enemy.anims.play('enemy_hum_idle');
 
@@ -137,14 +144,8 @@ export class Sandbox extends Phaser.Scene {
         //LEVEL
         var map = this.make.tilemap({ key: 'map' });
         var tileset = map.addTilesetImage('../assets/tilesets/tileset.png', 'tiles');
-
-        // Name of layer from Weltmeister, tileset, x, y
         var layer = map.createStaticLayer('map', tileset, 0, 0);
-
-        // This will pull in the "collision" layer from the associated map
         this.impact.world.setCollisionMap('map');
-
-
     }
 
     update(time, delta) {
@@ -185,30 +186,34 @@ export class Sandbox extends Phaser.Scene {
     }
 
     collide(bodyA, bodyB, axis) {
-        if (bodyB.name == "bottom") {
-            this.cameras.main.flash(250);
-            setTimeout(() => {
-                this.scene.restart();
-            }, 125);
-        }
+        if (!this.player.hurt) {
+            if (bodyB.name == "bottom") {
+                this.player.hurt = true;
+                this.cameras.main.flash(250);
+                setTimeout(() => {
+                    this.scene.restart();
+                }, 125);
+            }
 
-        if (bodyB.type === 2) {
-            this.cameras.main.shake(125);
-            setTimeout(() => {
-                this.scene.restart();
-            }, 250);
-        }
+            if (bodyB.type === 2) {
+                this.player.hurt = true;
+                this.cameras.main.shake(125);
+                setTimeout(() => {
+                    this.scene.restart();
+                }, 250);
+            }
 
-        if (bodyB.name === "boots") {
-            this.player.body.jumpSpeed = this.player.body.jumpSpeed * 1.5;
-            this.item.destroy();
-        }
+            if (bodyB.name === "boots") {
+                this.player.body.jumpSpeed = this.player.body.jumpSpeed * 1.5;
+                this.item.destroy();
+            }
 
-        if (bodyB.name === "oldman") {
-            this.cameras.main.fadeOut();
-            this.scene.start("Win");
-        }
+            if (bodyB.name === "oldman") {
+                this.cameras.main.fadeOut();
+                this.sound.stopAll();
+                this.scene.start("Win");
 
+            }
+        }
     }
 }
-

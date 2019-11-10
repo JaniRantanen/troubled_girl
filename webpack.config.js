@@ -17,6 +17,10 @@ module.exports = {
                 to: './assets',
             },
             {
+                from: './src/levels',
+                to: './levels',
+            },
+            {
                 from: './src/index.html',
                 to: './',
             }

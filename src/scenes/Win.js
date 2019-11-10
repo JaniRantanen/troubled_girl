@@ -7,7 +7,6 @@ export class Win extends Phaser.Scene {
 
 	create() {
 		console.log("WIN")
-		this.sound.add("theme", { loop: true }).play();
 
 		this.add.image(0, 0, "Taustataivas").setOrigin(0, 0).setDepth(-10)
 		this.add.image(0, 0, "taaimmaisetpuut").setOrigin(0, 0).setDepth(-8)

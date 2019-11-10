@@ -1,3 +1,4 @@
+import { version } from "../../package.json";
 import { InteractiveButton, TextElement } from "../UI";
 
 export class MainMenu extends Phaser.Scene {
@@ -6,7 +7,6 @@ export class MainMenu extends Phaser.Scene {
     }
 
     create() {
-        this.sound.add("theme", { loop: true }).play();
 
         this.add.image(0, 0, "Taustataivas").setOrigin(0, 0).setDepth(-10)
         this.add.image(0, 0, "taaimmaisetpuut").setOrigin(0, 0).setDepth(-8)
@@ -20,6 +20,8 @@ export class MainMenu extends Phaser.Scene {
 
         let startGameButton = this.add.existing(new InteractiveButton(this, (width / 2), (height / 3) + 200, "Start", { font: "64px Montserrat" }, "button"));
         startGameButton.onClick = () => this.scene.start("Sandbox");
+
+        let versionData = this.add.existing(new TextElement(this, (width / 2), (height / 3) + 500, `V. ${version}`, { font: "20px Montserrat" }));
 
     }
 
