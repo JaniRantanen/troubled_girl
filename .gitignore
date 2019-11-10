@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+
+# Original files for assets
+originals/
+
+# Distribution folder
+dist/

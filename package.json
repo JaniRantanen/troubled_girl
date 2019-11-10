@@ -1,0 +1,28 @@
+{
+  "name": "troubled_girl",
+  "version": "1.0.0",
+  "description": "Entry for Game Off 2019",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=development&&webpack-dev-server",
+    "demo": "set NODE_ENV=production&&webpack-dev-server",
+    "build": "set NODE_ENV=production&&webpack -p --progress"
+  },
+  "keywords": [
+    "gamejam",
+    "prototype",
+    "phaser"
+  ],
+  "author": "Jani Rantanen",
+  "license": "None",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.0.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "phaser": "^3.20.1",
+    "webfontloader": "^1.6.28"
+  }
+}
