@@ -11,7 +11,6 @@ export class Sandbox extends Phaser.Scene {
         this.controls = null;
         this.player = null;
         this.oldman = null;
-        this.enemy = null;
         this.music = null;
     }
     preload() {
@@ -26,10 +25,10 @@ export class Sandbox extends Phaser.Scene {
         this.impact.world.setBounds(0, 0, worldWidth, 1800);
 
         for (let i = 0; i <= worldWidth; i = i + 1600) {
-            this.add.image(i, -250, "Taustataivas").setOrigin(0, 0).setDepth(-10)
-            this.add.image(i, -250, "taaimmaisetpuut").setOrigin(0, 0).setDepth(-8)
-            this.add.image(i, -250, "keskimmaisetpuut").setOrigin(0, 0).setDepth(-6)
-            this.add.image(i, -250, "etummaisetpuut").setOrigin(0, 0).setDepth(-4)
+            this.add.image(i, -100, "Taustataivas").setOrigin(0, 0).setDepth(-10)
+            this.add.image(i, -100, "taaimmaisetpuut").setOrigin(0, 0).setDepth(-8)
+            this.add.image(i, -100, "keskimmaisetpuut").setOrigin(0, 0).setDepth(-6)
+            this.add.image(i, -100, "etummaisetpuut").setOrigin(0, 0).setDepth(-4)
         }
 
 
@@ -119,10 +118,11 @@ export class Sandbox extends Phaser.Scene {
 
         //ENEMY
 
-        this.enemy = new SimpleEnemy(this, 1000, 1600);
+        let initialGuard = new SimpleEnemy(this, 1000, 1600);
+        let pitGuard = new SimpleEnemy(this, 2300, 1600);
 
         // ITEM
-        this.item = this.impact.add.sprite(150, 1500, "item");
+        this.item = this.impact.add.sprite(150, 1400, "item");
         this.item.setFixedCollision();
         this.item.body.name = "boots";
 
