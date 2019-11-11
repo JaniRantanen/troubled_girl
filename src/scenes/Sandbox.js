@@ -1,3 +1,5 @@
+import { Enemy } from "../characters/Enemy";
+
 /*
     TODO: Clean this horrible monolithic mess of logic
 */
@@ -116,14 +118,7 @@ export class Sandbox extends Phaser.Scene {
 
 
         //ENEMY
-        this.enemy = this.impact.add.sprite(1750, 1300, "enemy_hum_idle");
-        this.enemy.setActiveCollision();
-        this.enemy.setTypeB();
-        this.enemy.setGravity(10);
-        this.enemy.setMaxVelocity(500)
-        this.enemy.setFriction(1000, 100)
-        this.enemy.setBodySize(300, 350);
-        this.enemy.setOffset(50, 50);
+        this.enemy = new Enemy(this, 400, 1500, "enemy_hum_idle")
 
         this.anims.create({
             key: 'enemy_hum_idle',
