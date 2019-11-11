@@ -16,7 +16,7 @@ export class SimpleEnemy {
 	}
 
 	initialize() {
-		this.body.setActiveCollision();
+		this.body.setPassiveCollision();
 		this.body.setTypeB();
 		this.body.setGravity(10);
 		this.body.setMaxVelocity(500)

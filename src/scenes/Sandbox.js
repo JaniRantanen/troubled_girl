@@ -36,7 +36,7 @@ export class Sandbox extends Phaser.Scene {
         this.controls = this.input.keyboard.createCursorKeys();
 
         // PLAYER
-        this.player = this.impact.add.sprite(300, 1500, "player")
+        this.player = this.impact.add.sprite(300, 1700, "player")
             .setActiveCollision()
             .setTypeA()
             .setMaxVelocity(500)
@@ -55,53 +55,53 @@ export class Sandbox extends Phaser.Scene {
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('idle', { start: 0, end: 2 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'idle_stare',
             frames: this.anims.generateFrameNumbers('idle_stare', { start: 0, end: 4 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('run', { start: 0, end: 4 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'jump_fall',
             frames: this.anims.generateFrameNumbers('jump_fall', { start: 0, end: 4 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'jump_up',
             frames: this.anims.generateFrameNumbers('jump_up', { start: 0, end: 3 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: 1
         });
 
         this.anims.create({
             key: 'slide',
             frames: this.anims.generateFrameNumbers('slide', { start: 0, end: 7 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'dash',
             frames: this.anims.generateFrameNumbers('dash', { start: 0, end: 7 }),
-            frameRate: 5,
+            frameRate: 10,
             repeat: 1
         });
 
         // OLD MAN
-        this.oldman = this.impact.add.sprite(4096, 1300, "oldman")
+        this.oldman = this.impact.add.sprite(4200, 1300, "oldman")
             .setActiveCollision()
             .setTypeA()
             .setMaxVelocity(500)
@@ -119,7 +119,8 @@ export class Sandbox extends Phaser.Scene {
         //ENEMY
 
         let initialGuard = new SimpleEnemy(this, 1000, 1600);
-        let pitGuard = new SimpleEnemy(this, 2300, 1600);
+        let pitGuard = new SimpleEnemy(this, 2500, 1600);
+        let pitGuard_2 = new SimpleEnemy(this, 2800, 1600);
 
         // ITEM
         this.item = this.impact.add.sprite(150, 1400, "item");
