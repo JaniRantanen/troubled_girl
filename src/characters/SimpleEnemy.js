@@ -40,7 +40,7 @@ export class SimpleEnemy {
 
 		if (this.body.scene) {
 
-			this.body.flipX = this.body.vel.x > 0;
+			this.body.flipX = this.body.vel.x >= 0;
 
 			if (this.canSeePlayer) {
 				this.searchTimeLeft = 3000;
