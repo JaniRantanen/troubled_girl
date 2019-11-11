@@ -1,4 +1,5 @@
-import { Enemy } from "../characters/Enemy";
+import { SimpleEnemy } from "../characters/SimpleEnemy";
+
 
 /*
     TODO: Clean this horrible monolithic mess of logic
@@ -36,7 +37,7 @@ export class Sandbox extends Phaser.Scene {
         this.controls = this.input.keyboard.createCursorKeys();
 
         // PLAYER
-        this.player = this.impact.add.sprite(150, 1500, "player")
+        this.player = this.impact.add.sprite(300, 1500, "player")
             .setActiveCollision()
             .setTypeA()
             .setMaxVelocity(500)
@@ -100,7 +101,6 @@ export class Sandbox extends Phaser.Scene {
             repeat: 1
         });
 
-
         // OLD MAN
         this.oldman = this.impact.add.sprite(4096, 1300, "oldman")
             .setActiveCollision()
@@ -118,21 +118,11 @@ export class Sandbox extends Phaser.Scene {
 
 
         //ENEMY
-        this.enemy = new Enemy(this, 400, 1500, "enemy_hum_idle")
 
-        this.anims.create({
-            key: 'enemy_hum_idle',
-            frames: this.anims.generateFrameNumbers('enemy_hum_idle', { start: 0, end: 3 }),
-            frameRate: 5,
-            repeat: -1,
-
-        })
-
-        this.enemy.anims.play('enemy_hum_idle');
-
+        this.enemy = new SimpleEnemy(this, 1000, 1600);
 
         // ITEM
-        this.item = this.impact.add.sprite(150, 1000, "item");
+        this.item = this.impact.add.sprite(150, 1500, "item");
         this.item.setFixedCollision();
         this.item.body.name = "boots";
 
@@ -141,6 +131,7 @@ export class Sandbox extends Phaser.Scene {
         var tileset = map.addTilesetImage('../assets/tilesets/tileset.png', 'tiles');
         var layer = map.createStaticLayer('map', tileset, 0, 0);
         this.impact.world.setCollisionMap('map');
+
     }
 
     update(time, delta) {
@@ -181,6 +172,7 @@ export class Sandbox extends Phaser.Scene {
     }
 
     collide(bodyA, bodyB, axis) {
+        console.log(bodyB)
         if (!this.player.hurt) {
             if (bodyB.name == "bottom") {
                 this.player.hurt = true;

@@ -59,8 +59,9 @@ export class Boot extends Phaser.Scene {
         this.load.image('oldman', 'placeholders/oldMan.png');
 
         //LEVELS
-        this.load.tilemapImpact('map', '../levels/sandbox.js');
+        this.load.tilemapImpact('map', '../levels/flat.js');
         this.load.image('tiles', '../assets/tilesets/tileset.png');
+
 
 
         // Fonts
