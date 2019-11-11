@@ -39,9 +39,9 @@ ig.module(
 			// Default settings when creating new layers in Weltmeister. Change these
 			// as you like
 			'layerDefaults': {
-				'width': 96,
-				'height': 36,
-				'tilesize': 50
+				'width': 48,
+				'height': 18,
+				'tilesize': 100
 			},
 
 			// Whether to ask before closing Weltmeister when there are unsaved changes
