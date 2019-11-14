@@ -69,6 +69,7 @@ export class Boot extends Phaser.Scene {
 
         //LEVELS
         this.load.tilemapImpact('map', '../levels/flat.js');
+        this.load.tilemapImpact('mock', '../levels/mock.js');
         this.load.image('tiles', '../assets/tilesets/tileset.png');
 
 
