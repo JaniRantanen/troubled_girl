@@ -39,16 +39,24 @@ export class Boot extends Phaser.Scene {
         this.load.image("taaimmaisetpuut", "images/Taaimmaisetpuut.png");
         this.load.image("Taustataivas", "images/Taustataivas.png");
 
-        // Player sprites
+
+        // Player sprites and animations
         let spriteconf = { frameWidth: 200, frameHeight: 200, spacing: 2 };
         this.load.image('player', 'sprites/player/player.png');
-        this.load.spritesheet('dash', 'sprites/player/dash.png', spriteconf);
         this.load.spritesheet('idle', 'sprites/player/idle.png', spriteconf);
         this.load.spritesheet('idle_stare', 'sprites/player/idle_stare.png', spriteconf);
-        this.load.spritesheet('jump_fall', 'sprites/player/jump_fall.png', spriteconf);
-        this.load.spritesheet('jump_up', 'sprites/player/jump_up.png', spriteconf);
-        this.load.spritesheet('run', 'sprites/player/run.png', spriteconf);
         this.load.spritesheet('slide', 'sprites/player/slide.png', spriteconf);
+        this.load.atlas('TG_girl_run', 'sprites/player/TG_girl_run.png', 'sprites/player/TG_girl_run.json');
+        this.load.atlas('TG_girl_jumpup', 'sprites/player/TG_girl_jumpup.png', 'sprites/player/TG_girl_jumpup.json');
+        this.load.atlas('TG_girl_jumpdrop', 'sprites/player/TG_girl_jumpdrop.png', 'sprites/player/TG_girl_jumpdrop.json');
+        this.load.atlas('TG_girl_crawlidle', 'sprites/player/TG_girl_crawlidle.png', 'sprites/player/TG_girl_crawlidle.json');
+        this.load.atlas('TG_girl_crawlmove', 'sprites/player/TG_girl_crawlmove.png', 'sprites/player/TG_girl_crawlmove.json');
+        this.load.atlas('TG_girl_dash', 'sprites/player/TG_girl_dash.png', 'sprites/player/TG_girl_dash.json');
+        this.load.atlas('TG_girl_doublejump', 'sprites/player/TG_girl_doublejump.png', 'sprites/player/TG_girl_doublejump.json');
+        this.load.atlas('TG_girl_hit', 'sprites/player/TG_girl_hit.png', 'sprites/player/TG_girl_hit.json');
+        this.load.atlas('TG_girl_pull', 'sprites/player/TG_girl_pull.png', 'sprites/player/TG_girl_pull.json');
+        this.load.atlas('TG_girl_push', 'sprites/player/TG_girl_push.png', 'sprites/player/TG_girl_push.json');
+
 
         // Enemy sprites
         this.load.spritesheet('enemy_hum_idle', 'sprites/enemy_hum/enemy_hum.png', { frameWidth: 400, frameHeight: 400, spacing: 2 });
@@ -57,9 +65,14 @@ export class Boot extends Phaser.Scene {
         this.load.image('item', 'placeholders/item.png');
         this.load.image('button', 'placeholders/button.png');
         this.load.image('oldman', 'placeholders/oldMan.png');
+        this.load.image('box', 'placeholders/box.png');
+        this.load.image('door', 'placeholders/door.png');
 
         //LEVELS
-        this.load.tilemapImpact('map', '../levels/flat.js');
+        this.load.tilemapImpact('sandbox', '../levels/sandbox.js');
+        this.load.tilemapImpact('pushpull', '../levels/pushpull.js');
+        this.load.tilemapImpact('battleground', '../levels/battleground.js');
+
         this.load.image('tiles', '../assets/tilesets/tileset.png');
 
 
@@ -78,9 +91,9 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once('camerafadeoutcomplete', function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("Sandbox");
+                this.scene.start("sandbox");
             } else {
-                this.scene.start("MainMenu");
+                this.scene.start("mainmenu");
             }
 
         }, this);

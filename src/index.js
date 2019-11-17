@@ -1,11 +1,13 @@
 
-import { Boot, MainMenu, Sandbox, Win } from "./scenes";
+import { Boot, MainMenu, Win } from "./scenes";
+import { Sandbox, PushPull, Battleground } from "./scenes";
+import { _DEBUG } from "./scenes/_DEBUG";
 
 var game = new Phaser.Game({
     width: 1600,
     height: 900,
     type: Phaser.AUTO,
-    scene: [Boot, MainMenu, Sandbox, Win],
+    scene: [Boot, MainMenu, Win, Sandbox, PushPull, Battleground, _DEBUG],
     physics: {
         default: 'impact',
         impact: {

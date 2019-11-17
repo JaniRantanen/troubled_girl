@@ -1,5 +1,3 @@
-Tänne kaikki alkuperäiset assetit, projektitiedostot jne.
+Tï¿½nne kaikki alkuperï¿½iset assetit, projektitiedostot jne.
 
-Lisäilen niitä sitten täältä tuonne projektiin sisään.
-
-T: Jani
+Lisï¿½ilen niitï¿½ sitten tï¿½ï¿½ltï¿½ tuonne projektiin sisï¿½ï¿½n.
