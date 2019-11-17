@@ -39,6 +39,12 @@ export class Boot extends Phaser.Scene {
         this.load.image("taaimmaisetpuut", "images/Taaimmaisetpuut.png");
         this.load.image("Taustataivas", "images/Taustataivas.png");
 
+        // Art objects
+        this.load.image('metsa_kanto', 'images/metsa_kanto.png');
+        this.load.image('metsa_kivi', 'images/metsa_kivi.png');
+        this.load.image('metsa_pensas', 'images/metsa_pensas.png');
+        this.load.image('metsa_puu', 'images/metsa_puu.png');
+
 
         // Player sprites and animations
         let spriteconf = { frameWidth: 200, frameHeight: 200, spacing: 2 };
@@ -58,7 +64,6 @@ export class Boot extends Phaser.Scene {
         this.load.atlas('TG_girl_pull', 'sprites/player/TG_girl_pull.png', 'sprites/player/TG_girl_pull.json');
         this.load.atlas('TG_girl_push', 'sprites/player/TG_girl_push.png', 'sprites/player/TG_girl_push.json');
 
-
         // Enemy sprites
         this.load.spritesheet('enemy_hum_idle', 'sprites/enemy_hum/enemy_hum.png', { frameWidth: 400, frameHeight: 400, spacing: 2 });
 
@@ -73,6 +78,7 @@ export class Boot extends Phaser.Scene {
         this.load.tilemapImpact('sandbox', '../levels/sandbox.js');
         this.load.tilemapImpact('pushpull', '../levels/pushpull.js');
         this.load.tilemapImpact('battleground', '../levels/battleground.js');
+        this.load.tilemapImpact('hide', '../levels/hide.js');
 
         this.load.image('tiles', '../assets/tilesets/tileset.png');
 
@@ -92,7 +98,7 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once('camerafadeoutcomplete', function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("sandbox");
+                this.scene.start("hide");
             } else {
                 this.scene.start("mainmenu");
             }
