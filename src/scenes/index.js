@@ -1,6 +1,7 @@
 export { Boot } from "./Boot";
 export { MainMenu } from "./MainMenu";
 export { Win } from "./Win";
+export { Home } from "./Home";
 
 export { Sandbox } from "./testLevels/Sandbox";
 export { PushPull } from "./testLevels/PushPull";
