@@ -24,7 +24,7 @@ export class PushPull extends Phaser.Scene {
 		this.impact.world.setCollisionMap("pushpull");
 
 		// PLAYER
-		this.player = new Player(this, 200, 1700);
+		this.player = new Player(this, 225, 1600);
 
 		// CAMERAS
 		this.cameras.main.setBounds(0, 0, worldWidth, 1800);
@@ -51,7 +51,7 @@ export class PushPull extends Phaser.Scene {
 			x: 4600,
 			y: 1600,
 			spriteKey: "door",
-			sceneKey: "battleground",
+			sceneKey: "hide",
 			bodySize: {
 				x: 100,
 				y: 200

@@ -6,6 +6,7 @@ export class Player {
 		this.health = 3;
 		this.hurt = false;
 		this.isDragging = false;
+
 		this.controls = scene.input.keyboard.addKeys({
 			up: "w",
 			down: "s",
@@ -25,8 +26,6 @@ export class Player {
 		this.sprite.setMaxVelocity(500);
 		this.sprite.setFriction(1000, 100);
 		this.sprite.setGravity(10);
-		this.sprite.setBodySize(50, 175);
-		this.sprite.setOffset(75, 25);
 		this.sprite.setCollideCallback(this.collide, this);
 
 		this.scene.events.on("preupdate", this.update, this);
@@ -71,6 +70,18 @@ export class Player {
 			return null;
 		}
 	}
+
+	//TODO: Rethink this horrible hack
+	get isHiding() {
+		let hideableObjects = this.scene.children.getChildren().filter((gameobject) => gameobject.getData("hideable"));
+		if (hideableObjects.length > 0) {
+			let isWithinHideable = hideableObjects.some((val) => val.getBounds().contains(this.scene.player.sprite.x, this.scene.player.sprite.y), this);
+			return isWithinHideable && this.isCrouchingOrCrawling;
+		} else {
+			return false;
+		}
+	}
+
 
 	animate() {
 		let { anims } = this.scene;
@@ -170,22 +181,22 @@ export class Player {
 			key: "TG_girl_crawlmove",
 			frames: anims.generateFrameNames("TG_girl_crawlmove"),
 			frameRate: 10,
-			repeat: 1
+			repeat: -1
 		});
 
 		anims.create({
 			key: "TG_girl_crawlidle",
 			frames: anims.generateFrameNames("TG_girl_crawlidle"),
 			frameRate: 10,
-			repeat: 1
+			repeat: -1
 		});
 	}
 
 	update(time, delta) {
 		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
 
-		//Slow down player when dragging items
-		if (this.isDragging) {
+		//Slow down player when dragging items or crawling
+		if (this.isDragging || this.isCrouchingOrCrawling) {
 			acceleration = acceleration / 8;
 		}
 
@@ -205,8 +216,13 @@ export class Player {
 				this.sprite.flipX ? this.sprite.anims.play("TG_girl_push", true) : this.sprite.anims.play("TG_girl_pull", true);
 			} else {
 				this.sprite.flipX = true;
-				this.sprite.anims.play("TG_girl_run", true);
+				if (this.isCrouchingOrCrawling) {
+					this.sprite.anims.play("TG_girl_crawlmove", true);
+				} else {
+					this.sprite.anims.play("TG_girl_run", true);
+				}
 			}
+
 		}
 		else if (this.controls.right.isDown) {
 			this.sprite.setAccelerationX(acceleration);
@@ -215,7 +231,11 @@ export class Player {
 				this.sprite.flipX ? this.sprite.anims.play("TG_girl_pull", true) : this.sprite.anims.play("TG_girl_push", true);
 			} else {
 				this.sprite.flipX = false;
-				this.sprite.anims.play("TG_girl_run", true);
+				if (this.isCrouchingOrCrawling) {
+					this.sprite.anims.play("TG_girl_crawlmove", true);
+				} else {
+					this.sprite.anims.play("TG_girl_run", true);
+				}
 			}
 		}
 		else {
@@ -233,11 +253,29 @@ export class Player {
 			this.sprite.anims.play("TG_girl_jumpdrop");
 		}
 
-		// Idle
-		if (this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing) {
-			this.sprite.anims.play("TG_girl_idle", true);
+		// Crouching
+		if (this.controls.down.isDown && this.sprite.body.standing && !this.isDragging && this.sprite.vel.x === 0) {
+			this.sprite.anims.play("TG_girl_crawlidle", true);
+			if (!this.isCrouchingOrCrawling) {
+				this.sprite.setBodySize(150, 100);
+				this.sprite.setOffset(25, 100);
+				this.sprite.body.pos = { x: this.sprite.body.pos.x, y: this.sprite.body.pos.y + 100 };
+			}
+			this.isCrouchingOrCrawling = true;
 		}
 
+		// Idle
+		if (this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp) {
+			this.sprite.anims.play("TG_girl_idle", true);
+			this.sprite.setBodySize(50, 200);
+			this.sprite.setOffset(75, 0);
+
+			if (this.isCrouchingOrCrawling) {
+				this.sprite.body.pos = { x: this.sprite.body.pos.x, y: this.sprite.body.pos.y - 100 };
+				this.isCrouchingOrCrawling = false;
+			}
+
+		}
 	}
 
 	handleMovementTrace(res) {
@@ -265,7 +303,6 @@ export class Player {
 			this.closestInteraction.drop();
 		}
 	}
-
 
 	collide(bodyA, bodyB, axis) {
 		if (!this.hurt) {
@@ -296,6 +333,7 @@ export class Player {
 	}
 
 	respawn() {
+		this.scene.events.off("update");
 		this.scene.scene.restart();
 	}
 }

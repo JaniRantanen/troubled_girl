@@ -36,7 +36,7 @@ export class Sandbox extends Phaser.Scene {
         }
 
         // PLAYER
-        this.player = new Player(this, 225, 1700);
+        this.player = new Player(this, 225, 1600);
 
         // CAMERAS
         this.cameras.main.setBounds(0, 0, worldWidth, 1800);

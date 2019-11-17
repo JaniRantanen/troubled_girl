@@ -28,7 +28,7 @@ export class Battleground extends Phaser.Scene {
 		this.impact.world.setCollisionMap("battleground");
 
 		// PLAYER
-		this.player = new Player(this, 200, 1700);
+		this.player = new Player(this, 225, 1600);
 
 		// CAMERAS
 		this.cameras.main.setBounds(0, 0, worldWidth, 1800);

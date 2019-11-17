@@ -70,7 +70,8 @@ export class SimpleEnemy {
 
 	get canSeePlayer() {
 		let { x, y } = this.scene.player.sprite;
-		return Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, x, y) < this.senseDistance;
+
+		return Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, x, y) < this.senseDistance && !this.scene.player.isHiding;
 	}
 
 	attack() {
@@ -92,7 +93,7 @@ export class SimpleEnemy {
 			These next lines are the quick hack that should be fixed!
 		*/
 		let playerWithinReach = this.sprite.getBounds().contains(this.scene.player.sprite.x, this.scene.player.sprite.y);
-		if (playerWithinReach) {
+		if (playerWithinReach && !this.scene.player.isHiding) {
 			this.scene.player.takeDamage();
 		}
 	}
