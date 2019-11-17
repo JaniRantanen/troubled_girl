@@ -1,7 +1,7 @@
 export class Box {
-	constructor(scene, x, y) {
+	constructor(scene, x, y, spriteKey = "box") {
 		this.scene = scene;
-		this.sprite = scene.impact.add.sprite(x, y, "box");
+		this.sprite = scene.impact.add.sprite(x, y, spriteKey);
 
 		this.sprite.setData("interactable", true);
 		this.sprite.setData("draggable", true);
@@ -12,10 +12,6 @@ export class Box {
 		this.sprite.setMaxVelocity(500);
 		this.sprite.setFriction(2000);
 		this.sprite.setBounce(0, 0);
-
-		//Minor size change so the box can fall through a single "unit" of width (ie. tile width)
-		this.sprite.setBodySize(99, 100);
-		this.sprite.setOffset(1, 0);
 
 		this.sprite.drag = this.drag.bind(this);
 		this.sprite.drop = this.drop.bind(this);
