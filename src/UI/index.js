@@ -1,4 +1,2 @@
-import { TextElement } from "./TextElement";
-import { InteractiveButton } from "./InteractiveButton";
-
-export { TextElement, InteractiveButton };
+export { TextElement } from "./TextElement";
+export { InteractiveButton } from "./InteractiveButton";

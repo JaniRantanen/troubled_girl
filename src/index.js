@@ -1,7 +1,7 @@
 
 import { Boot, MainMenu, Win } from "./scenes";
 import { Sandbox, PushPull, Battleground, Hide } from "./scenes";
-import { _DEBUG } from "./scenes/_DEBUG";
+import { _DEBUG } from "./scenes/utility/_DEBUG";
 
 var game = new Phaser.Game({
     width: 1600,
@@ -9,7 +9,7 @@ var game = new Phaser.Game({
     type: Phaser.AUTO,
     scene: [Boot, MainMenu, Win, Sandbox, PushPull, Hide, Battleground, _DEBUG],
     physics: {
-        default: 'impact',
+        default: "impact",
         impact: {
             gravity: 100,
             debug: process.env.NODE_ENV === "development"

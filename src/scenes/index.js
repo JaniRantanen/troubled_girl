@@ -2,8 +2,8 @@ export { Boot } from "./Boot";
 export { MainMenu } from "./MainMenu";
 export { Win } from "./Win";
 
-export { Sandbox } from "./tests/Sandbox";
-export { PushPull } from "./tests/PushPull";
-export { Battleground } from "./tests/Battleground";
-export { Hide } from "./tests/Hide";
+export { Sandbox } from "./testLevels/Sandbox";
+export { PushPull } from "./testLevels/PushPull";
+export { Battleground } from "./testLevels/Battleground";
+export { Hide } from "./testLevels/Hide";
 
