@@ -76,22 +76,29 @@ export class Player {
 		let { anims } = this.scene;
 
 		anims.create({
-			key: "idle",
-			frames: anims.generateFrameNumbers("idle", { start: 0, end: 2 }),
+			key: "TG_girl_idle",
+			frames: anims.generateFrameNames("TG_girl_idle"),
 			frameRate: 10,
 			repeat: -1
 		});
 
 		anims.create({
-			key: "idle_stare",
-			frames: anims.generateFrameNumbers("idle_stare", { start: 0, end: 4 }),
+			key: "TG_girl_eyes_stare",
+			frames: anims.generateFrameNames("TG_girl_eyes_stare"),
 			frameRate: 10,
 			repeat: -1
 		});
 
 		anims.create({
-			key: "slide",
-			frames: anims.generateFrameNames("slide", { start: 0, end: 7 }),
+			key: "TG_girl_eyes_turn",
+			frames: anims.generateFrameNames("TG_girl_eyes_turn"),
+			frameRate: 10,
+			repeat: -1
+		});
+
+		anims.create({
+			key: "TG_girl_slide",
+			frames: anims.generateFrameNames("TG_girl_slide"),
 			frameRate: 10,
 			repeat: -1
 		});
@@ -172,13 +179,6 @@ export class Player {
 			frameRate: 10,
 			repeat: 1
 		});
-
-		anims.create({
-			key: "TG_girl_hit",
-			frames: anims.generateFrameNames("TG_girl_hit"),
-			frameRate: 10,
-			repeat: 1
-		});
 	}
 
 	update(time, delta) {
@@ -235,7 +235,7 @@ export class Player {
 
 		// Idle
 		if (this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing) {
-			this.sprite.anims.play("idle", true);
+			this.sprite.anims.play("TG_girl_idle", true);
 		}
 
 	}

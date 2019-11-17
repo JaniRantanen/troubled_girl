@@ -43,9 +43,10 @@ export class Boot extends Phaser.Scene {
         // Player sprites and animations
         let spriteconf = { frameWidth: 200, frameHeight: 200, spacing: 2 };
         this.load.image('player', 'sprites/player/player.png');
-        this.load.spritesheet('idle', 'sprites/player/idle.png', spriteconf);
-        this.load.spritesheet('idle_stare', 'sprites/player/idle_stare.png', spriteconf);
-        this.load.spritesheet('slide', 'sprites/player/slide.png', spriteconf);
+        this.load.atlas('TG_girl_idle', 'sprites/player/TG_girl_idle.png', 'sprites/player/TG_girl_idle.json');
+        this.load.atlas('TG_girl_eyes_stare', 'sprites/player/TG_girl_eyes_stare.png', 'sprites/player/TG_girl_eyes_stare.json');
+        this.load.atlas('TG_girl_eyes_turn', 'sprites/player/TG_girl_eyes_turn.png', 'sprites/player/TG_girl_eyes_turn.json');
+        this.load.atlas('TG_girl_slide', 'sprites/player/TG_girl_slide.png', 'sprites/player/TG_girl_slide.json');
         this.load.atlas('TG_girl_run', 'sprites/player/TG_girl_run.png', 'sprites/player/TG_girl_run.json');
         this.load.atlas('TG_girl_jumpup', 'sprites/player/TG_girl_jumpup.png', 'sprites/player/TG_girl_jumpup.json');
         this.load.atlas('TG_girl_jumpdrop', 'sprites/player/TG_girl_jumpdrop.png', 'sprites/player/TG_girl_jumpdrop.json');
