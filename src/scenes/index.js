@@ -1,6 +1,8 @@
-import { Boot } from "./Boot";
-import { MainMenu } from "./MainMenu";
-import { Sandbox } from "./Sandbox";
-import { Win } from "./Win";
+export { Boot } from "./Boot";
+export { MainMenu } from "./MainMenu";
+export { Win } from "./Win";
 
-export { Boot, MainMenu, Sandbox, Win };
+export { Sandbox } from "./tests/Sandbox";
+export { PushPull } from "./tests/PushPull";
+export { Battleground } from "./tests/Battleground";
+

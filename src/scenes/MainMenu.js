@@ -3,7 +3,7 @@ import { InteractiveButton, TextElement } from "../UI";
 
 export class MainMenu extends Phaser.Scene {
     constructor() {
-        super({ key: "MainMenu" });
+        super({ key: "mainmenu" });
     }
 
     create() {
@@ -19,7 +19,7 @@ export class MainMenu extends Phaser.Scene {
         let gameTitleText = this.add.existing(new TextElement(this, (width / 2), (height / 3), "TROUBLED GIRL", { font: "128px Cinzel Decorative" }).setShadow(5, 5, "#000"))
 
         let startGameButton = this.add.existing(new InteractiveButton(this, (width / 2), (height / 3) + 200, "Start", { font: "64px Montserrat" }, "button"));
-        startGameButton.onClick = () => this.scene.start("Sandbox");
+        startGameButton.onClick = () => this.scene.start("sandbox");
 
         let versionData = this.add.existing(new TextElement(this, (width / 2), (height / 3) + 500, `V. ${version}`, { font: "20px Montserrat" }));
 
