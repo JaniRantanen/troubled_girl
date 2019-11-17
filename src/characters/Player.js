@@ -1,33 +1,27 @@
 export class Player {
 	constructor(scene, x, y) {
 		this.scene = scene;
+		this.sprite = scene.impact.add.sprite(x, y, "player");
+
+		this.health = 3;
 		this.hurt = false;
 		this.isDragging = false;
-
-		this.sprite = scene.impact.add.sprite(x, y, "player");
-		this.sprite.accelGround = 1200;
-		this.sprite.accelAir = 600;
-		this.sprite.jumpSpeed = 700;
-
 		this.controls = scene.input.keyboard.addKeys({
 			up: "w",
 			down: "s",
 			left: "a",
 			right: "d",
-			interact: "e"
+			interact: "e",
 		});
 
-		this.initialize();
-	}
+		this.sprite.body.accelGround = 1200;
+		this.sprite.body.accelAir = 600;
+		this.sprite.body.jumpSpeed = 700;
+		this.sprite.body.name = "player";
 
-	get currentFacing() {
-		return this.sprite.flipX ? "left" : "right";
-	}
-
-	initialize() {
-		//Physics
-		this.sprite.setActiveCollision();
+		this.sprite.setLiteCollision();
 		this.sprite.setTypeA();
+		this.sprite.setCheckAgainstB();
 		this.sprite.setMaxVelocity(500);
 		this.sprite.setFriction(1000, 100);
 		this.sprite.setGravity(10);
@@ -35,7 +29,50 @@ export class Player {
 		this.sprite.setOffset(75, 25);
 		this.sprite.setCollideCallback(this.collide, this);
 
-		//Animations
+		this.scene.events.on("preupdate", this.update, this);
+
+		this.controls.interact.on("down", this.startDrag, this);
+		this.controls.interact.on("up", this.stopDrag, this);
+		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
+
+		this.animate();
+	}
+
+	//TODO: Rethink this horrible hack
+	get closestInteraction() {
+		let interactDistance = 150;
+		let { x, y } = this.sprite;
+
+		//What interactable objects there are?
+		let interactableObjects = this.scene.children.getChildren().filter((gameobject) => gameobject.getData("interactable"));
+
+		// How many of them are within interaction distance on the correct side (left or right)?
+		let objectsThatAreCloseEnough = interactableObjects
+			.filter((val) => Phaser.Math.Distance.Between(x, y, val.x, val.y) <= interactDistance)
+			.filter((value) => {
+				if (!this.sprite.flipX) {
+					return value.x > x;
+				} else {
+					return value.x < x;
+				}
+			})
+
+		// Sort them by proximity to player coordinates (closest first, farthest last)
+		let sortedByDistance = objectsThatAreCloseEnough.sort(function (a, b) {
+			let aDistance = Phaser.Math.Distance.Between(x, y, a.x, a.y);
+			let bDistance = Phaser.Math.Distance.Between(x, y, b.x, b.y);
+			return aDistance < bDistance ? a : b;
+		});
+
+		if (sortedByDistance.length > 0) {
+			let closestInteraction = sortedByDistance[0];
+			return closestInteraction;
+		} else {
+			return null;
+		}
+	}
+
+	animate() {
 		let { anims } = this.scene;
 
 		anims.create({
@@ -142,13 +179,23 @@ export class Player {
 			frameRate: 10,
 			repeat: 1
 		});
-
-		this.scene.events.on("update", this.update, this);
-
 	}
 
 	update(time, delta) {
-		let acceleration = this.sprite.standing ? this.sprite.accelGround : this.sprite.accelAir;
+		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
+
+		//Slow down player when dragging items
+		if (this.isDragging) {
+			acceleration = acceleration / 8;
+		}
+
+		//Handle gravity on slopes
+		if (this.sprite.body.slope) {
+			this.sprite.setGravity(0);
+		} else {
+			this.sprite.setGravity(10);
+		}
+
 
 		// Left, right, stop
 		if (this.controls.left.isDown) {
@@ -175,79 +222,80 @@ export class Player {
 			this.sprite.setAccelerationX(0);
 		}
 
-		// Jumping
+		// Jumping up
 		if (this.controls.up.isDown && this.sprite.body.standing && !this.isDragging) {
-			this.sprite.setVelocityY(-this.sprite.jumpSpeed);
+			this.sprite.setVelocityY(-this.sprite.body.jumpSpeed);
 			this.sprite.anims.play("TG_girl_jumpup");
 		}
 
-		if (this.sprite.vel.y > 0) {
+		// Falling
+		if (this.sprite.vel.y > 0 && !this.sprite.body.standing) {
 			this.sprite.anims.play("TG_girl_jumpdrop");
 		}
 
-
 		// Idle
-		if (this.sprite.vel.x === 0 && this.sprite.vel.y === 0) {
+		if (this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing) {
 			this.sprite.anims.play("idle", true);
 		}
 
-		// Item interactions
+	}
 
-		if (this.controls.interact.isDown) {
-			console.log("interact is pressed!");
-			this.drag();
+	handleMovementTrace(res) {
+		this.scene.events.emit('debug', res);
+
+		if (res.collision.slope && res.collision.slope.nx != 0) {
+			this.sprite.body.slope = true;
 		} else {
-			console.log("interact is NOT pressed!");
+			this.sprite.body.slope = false;
 		}
 
+		return true; //Due to some other code, this needs to be true. TODO: Investigate further
 	}
 
-	drag() {
-		let interactDistance = 150;
-		let draggableObjects = this.scene.children.getChildren().filter((gameobject) => gameobject.getData("draggable"));
-		let objectsThatAreCloseEnough = draggableObjects.filter((val) => Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, val.x, val.y) <= interactDistance);
-		let sortedByDistance = objectsThatAreCloseEnough.sort(function (a, b) {
-			let aDistance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, a.x, a.y);
-			let bDistance = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, b.x, b.y);
-			return aDistance < bDistance ? a : b;
-		}, this);
-
-		if (sortedByDistance.length > 0) {
-			let closestDraggable = sortedByDistance[0];
-			console.log(closestDraggable)
-			closestDraggable.drag();
+	startDrag() {
+		if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
+			this.closestInteraction.drag();
+			this.isDragging = true;
 		}
 	}
+
+	stopDrag() {
+		this.isDragging = false;
+		if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
+			this.closestInteraction.drop();
+		}
+	}
+
 
 	collide(bodyA, bodyB, axis) {
-		console.log(arguments)
-		console.log(this.scene);
 		if (!this.hurt) {
-			if (bodyB.name == "bottom") {
-				this.hurt = true;
-				this.scene.cameras.main.flash(125);
-				setTimeout(() => {
-					this.scene.restart();
-				}, 125);
-			}
-
 			if (bodyB.type === 2) {
 				this.hurt = true;
-				this.scene.cameras.main.shake(125);
-				setTimeout(() => {
-					this.scene.restart();
-				}, 250, this);
-			}
-
-			if (bodyB.name === "boots") {
-				this.sprite.jumpSpeed = this.sprite.jumpSpeed * 1.5;
-				bodyB.destroy(); //FIX THIS
-			}
-
-			if (bodyB.name === "oldman") {
-				this.scene.cameras.main.fadeOut();
-				this.scene.start("Win");
+				let shake = this.scene.cameras.main.shake(125);
+				shake.on("camerashakecomplete", () => this.scene.restart());
 			}
 		}
+	}
+
+	takeDamage() {
+		if (!this.hurt) {
+			this.hurt = true;
+			this.health--;
+			let bounceBackVelocity = this.sprite.vel.x > 0 ? -1000 : 1000;
+
+			this.sprite.setVelocityX(bounceBackVelocity);
+
+			if (this.health <= 0) {
+				this.respawn();
+			}
+
+			this.scene.cameras.main.flash(750).on("cameraflashcomplete", function () {
+				this.hurt = false;
+			}, this);
+		}
+	}
+
+	respawn() {
+		this.scene.scene.restart();
 	}
 }
