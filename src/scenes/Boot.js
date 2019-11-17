@@ -88,8 +88,11 @@ export class Boot extends Phaser.Scene {
         this.load.image("oldman", "placeholders/oldman.png");
         this.load.image("box", "placeholders/box.png");
         this.load.image("door", "placeholders/door.png");
+        this.load.image("mockbox", "placeholders/mockbox.png");
+        this.load.image("widebox", "placeholders/widebox.png");
 
         //LEVELS
+        this.load.tilemapImpact("home", "../levels/home.js");
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
         this.load.tilemapImpact("pushpull", "../levels/pushpull.js");
         this.load.tilemapImpact("battleground", "../levels/battleground.js");
