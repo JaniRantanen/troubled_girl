@@ -6,8 +6,6 @@ The main goal of this project is to create a small game with [Phaser 3](https://
 
 The most recent **stable** version can be played here: [Play](https://janirantanen.github.io/troubled_girl/dist/)
 
-The most recent **development** version can be played here: [Play](https://www.janirantanen.fi/game_off_2019_dev/)
-
 ## Development
 `npm start` will start the development server in 'localhost:8080'
 
