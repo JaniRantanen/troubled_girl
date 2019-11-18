@@ -210,6 +210,7 @@ export class Player {
 
 		// Left, right, stop
 		if (this.controls.left.isDown) {
+
 			this.sprite.setAccelerationX(-acceleration);
 
 			if (this.isDragging) {
