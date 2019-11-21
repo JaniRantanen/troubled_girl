@@ -37,7 +37,7 @@ export class Dash extends Phaser.Scene {
             x: worldWidth - 300,
             y: 1600,
             spriteKey: "door",
-            sceneKey: "hide",
+            sceneKey: "sandbox",
             bodySize: {
                 x: 100,
                 y: 200

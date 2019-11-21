@@ -2,6 +2,7 @@
 - Implemented Dash
 - Implemented Slide
 - Major code refactoring and improvements
+- Added hit animation to player sprite
 
 1.1.3
 - Code refactoring

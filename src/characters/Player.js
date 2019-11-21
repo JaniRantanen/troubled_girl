@@ -298,9 +298,14 @@ export class Player {
 			this.sprite.anims.play("TG_girl_slide", true);
 		}
 
-		// Idle & Misc state reset
+		// Idle
 		if (this.state.isIdle) {
 			this.sprite.anims.play("TG_girl_idle", true);
+		}
+
+		// Being hurt
+		if (this.state.isHurt) {
+			this.sprite.anims.play("TG_girl_hit", true);
 		}
 
 		this.handleCollisionBoxState();
@@ -409,21 +414,24 @@ export class Player {
 		if (!this.state.isHurt) {
 			this.state.isHurt = true;
 			this.health--;
-			let bounceBackVelocity = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity : this.default.bouncebackVelocity;
-			this.sprite.setVelocity(bounceBackVelocity.x, bounceBackVelocity.y);
+			let bounceBackVelocityX = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity.x : this.default.bouncebackVelocity.x;
+			let bounceBackVelocityY = this.sprite.vel.y < 0 ? this.default.bouncebackVelocity.y : -this.default.bouncebackVelocity.y;
+			this.sprite.setVelocityX(bounceBackVelocityX);
+			this.sprite.setVelocityY(bounceBackVelocityY);
 
 			if (this.health <= 0) {
 				this.respawn();
 			}
 
-			this.scene.cameras.main.flash(750).on("cameraflashcomplete", function () {
+			let flash = this.scene.cameras.main.flash(750);
+
+			flash.on("cameraflashcomplete", function () {
 				this.state.isHurt = false;
 			}, this);
 		}
 	}
 
 	respawn() {
-		console.log("respawn!")
 		this.scene.events.off("update");
 		this.scene.scene.restart();
 	}
