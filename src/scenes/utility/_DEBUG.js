@@ -1,7 +1,7 @@
 export class _DEBUG extends Phaser.Scene {
 
 	constructor() {
-		super({ key: '_DEBUG', active: true });
+		super({ key: '_DEBUG', active: false });
 	}
 
 	create() {
