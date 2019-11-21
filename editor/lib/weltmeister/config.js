@@ -100,7 +100,7 @@ ig.module(
 
 			// Colors to use for the background, selection boxes, text and the grid
 			'colors': {
-				'clear': '#000000',		// Background Color
+				'clear': '#b9b9b9',		// Background Color
 				'highlight': '#ceff36',	// Currently selected tile or entity
 				'primary': '#ffffff', 	// Labels and layer bounds
 				'secondary': '#555555', // Grid and tile selection bounds
