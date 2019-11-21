@@ -410,19 +410,20 @@ export class Player {
 			this.state.isHurt = true;
 			this.health--;
 			let bounceBackVelocity = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity : this.default.bouncebackVelocity;
-			this.sprite.setVelocityX(bounceBackVelocity);
+			this.sprite.setVelocity(bounceBackVelocity.x, bounceBackVelocity.y);
 
 			if (this.health <= 0) {
 				this.respawn();
 			}
 
 			this.scene.cameras.main.flash(750).on("cameraflashcomplete", function () {
-				this.state.hurt = false;
+				this.state.isHurt = false;
 			}, this);
 		}
 	}
 
 	respawn() {
+		console.log("respawn!")
 		this.scene.events.off("update");
 		this.scene.scene.restart();
 	}
