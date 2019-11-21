@@ -100,6 +100,7 @@ export class Boot extends Phaser.Scene {
         this.load.tilemapImpact("dash", "../levels/dash.js");
 
         this.load.image("tiles", "../assets/tilesets/tileset.png");
+        this.load.image("tiles2", "../assets/tilesets/spritesheet.png");
 
         // Fonts
         webfontloader.load({

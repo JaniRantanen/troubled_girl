@@ -13,17 +13,20 @@ export class Dash extends Phaser.Scene {
     }
     create() {
         // WORLD
-        let worldWidth = 1600 * 3;
+        let worldWidth = 1600 * 6;
         this.impact.world.setBounds(0, 0, worldWidth, 1800);
 
         // LEVEL
         var map = this.make.tilemap({ key: "dash" });
         var tileset = map.addTilesetImage("../assets/tilesets/tileset.png", "tiles");
-        var layer = map.createStaticLayer("map", tileset, 0, 0);
+        var tileset_2 = map.addTilesetImage("../assets/tilesets/spritesheet.png", "tiles2");
+        var mapLayer = map.createStaticLayer("map", tileset, 0, 0);
+        var foregroundLayer = map.createStaticLayer("foreground", tileset_2, 0, 0).setDepth(1);
+        var backgroundLayer = map.createStaticLayer("background", tileset, 0, 0).setAlpha(0.1);
         this.impact.world.setCollisionMap("dash");
 
         // PLAYER
-        this.player = new Player(this, 225, 1600);
+        this.player = new Player(this, 300, 1600);
 
         // CAMERAS
         this.cameras.main.setBounds(0, 0, worldWidth, 1800);

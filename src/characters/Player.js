@@ -2,18 +2,25 @@ export class Player {
 	constructor(scene, x, y) {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, "player");
-
 		this.health = 3;
-		this.hurt = false;
-		this.isDragging = false;
+		this.state = {
+			isHurt: false,
+			isCrouchingOrCrawling: false,
+			isDragging: false,
+			isDashing: false,
+			isSliding: false,
+			isIdle: false,
+			isFalling: false,
+		};
 
-		this.controls = scene.input.keyboard.addKeys({
-			up: "w",
-			down: "s",
-			left: "a",
-			right: "d",
-			interact: "e",
-		});
+		this.default = {
+			gravity: new Phaser.Math.Vector2(10, 10),
+			maxVelocity: new Phaser.Math.Vector2(500, 500),
+			friction: new Phaser.Math.Vector2(1000, 100),
+			dashVelocity: new Phaser.Math.Vector2(1000, 0),
+			slideVelocity: new Phaser.Math.Vector2(1000, 0),
+			bouncebackVelocity: new Phaser.Math.Vector2(1000, 0),
+		}
 
 		this.sprite.body.accelGround = 1200;
 		this.sprite.body.accelAir = 600;
@@ -23,17 +30,30 @@ export class Player {
 		this.sprite.setLiteCollision();
 		this.sprite.setTypeA();
 		this.sprite.setCheckAgainstB();
-		this.sprite.setMaxVelocity(500);
-		this.sprite.setFriction(1000, 100);
-		this.sprite.setGravity(10);
-		this.sprite.setCollideCallback(this.collide, this);
+		this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+		this.sprite.setFriction(this.default.friction.x, this.default.friction.y);
+		this.sprite.setGravity(this.default.gravity.x, this.default.gravity.y);
 
-		this.scene.events.on("preupdate", this.update, this);
+		// CONTROLS
+		this.controls = scene.input.keyboard.addKeys({
+			up: "w",
+			down: "s",
+			left: "a",
+			right: "d",
+			interact: "e",
+		});
 
 		this.controls.interact.on("down", this.startDrag, this);
 		this.controls.interact.on("up", this.stopDrag, this);
-		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
 
+		// Keycombos
+		let dashLeftCombo = this.scene.input.keyboard.createCombo([this.controls.left.keyCode, this.controls.left.keyCode], { resetOnMatch: true, maxKeyDelay: 500 });
+		let dashRightCombo = this.scene.input.keyboard.createCombo([this.controls.right.keyCode, this.controls.right.keyCode], { resetOnMatch: true, maxKeyDelay: 500 });
+		this.scene.input.keyboard.on('keycombomatch', () => this.sprite.body.standing ? this.slide() : this.dash(), this)
+
+		// MISC EVENTS AND OVERLOADS
+		this.scene.events.on("preupdate", this.update, this);
+		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
 		this.animate();
 	}
 
@@ -76,7 +96,7 @@ export class Player {
 		let hideableObjects = this.scene.children.getChildren().filter((gameobject) => gameobject.getData("hideable"));
 		if (hideableObjects.length > 0) {
 			let isWithinHideable = hideableObjects.some((val) => val.getBounds().contains(this.scene.player.sprite.x, this.scene.player.sprite.y), this);
-			return isWithinHideable && this.isCrouchingOrCrawling;
+			return isWithinHideable && this.state.isCrouchingOrCrawling;
 		} else {
 			return false;
 		}
@@ -111,7 +131,7 @@ export class Player {
 			key: "TG_girl_slide",
 			frames: anims.generateFrameNames("TG_girl_slide"),
 			frameRate: 10,
-			repeat: -1
+			repeat: 1
 		});
 
 		anims.create({
@@ -193,46 +213,53 @@ export class Player {
 	}
 
 	update(time, delta) {
+		this.state.isFalling = this.sprite.vel.y > 0 && !this.sprite.body.standing && !this.state.isDashing;
+		this.state.isCrouchingOrCrawling = this.controls.down.isDown && this.sprite.body.standing && !this.state.isDragging && !this.state.isDashing;
+		this.state.isIdle = this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp;
+
 		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
 
-		//Slow down player when dragging items or crawling
-		if (this.isDragging || this.isCrouchingOrCrawling) {
+		if (this.sprite.body.standing) {
+			this.scene.events.emit("touchedGround");
+		}
+
+		// Slow down player when dragging items or crawling
+		if (this.state.isDragging || this.state.isCrouchingOrCrawling) {
 			acceleration = acceleration / 8;
 		}
 
-		//Handle gravity on slopes
+		// Handle gravity on slopes
 		if (this.sprite.body.slope) {
 			this.sprite.setGravity(0);
 		} else {
-			this.sprite.setGravity(10);
+			this.sprite.setGravity(this.default.gravity.x, this.default.gravity.y);
 		}
 
-
-		// Left, right, stop
+		// Handle moving left, right and stopping
 		if (this.controls.left.isDown) {
 
 			this.sprite.setAccelerationX(-acceleration);
 
-			if (this.isDragging) {
+			if (this.state.isDragging) {
 				this.sprite.flipX ? this.sprite.anims.play("TG_girl_push", true) : this.sprite.anims.play("TG_girl_pull", true);
 			} else {
 				this.sprite.flipX = true;
-				if (this.isCrouchingOrCrawling) {
+				if (this.state.isCrouchingOrCrawling) {
 					this.sprite.anims.play("TG_girl_crawlmove", true);
 				} else {
 					this.sprite.anims.play("TG_girl_run", true);
 				}
 			}
-
 		}
 		else if (this.controls.right.isDown) {
+
 			this.sprite.setAccelerationX(acceleration);
 
-			if (this.isDragging) {
+			if (this.state.isDragging) {
 				this.sprite.flipX ? this.sprite.anims.play("TG_girl_pull", true) : this.sprite.anims.play("TG_girl_push", true);
 			} else {
 				this.sprite.flipX = false;
-				if (this.isCrouchingOrCrawling) {
+				if (this.state.isCrouchingOrCrawling) {
 					this.sprite.anims.play("TG_girl_crawlmove", true);
 				} else {
 					this.sprite.anims.play("TG_girl_run", true);
@@ -243,84 +270,145 @@ export class Player {
 			this.sprite.setAccelerationX(0);
 		}
 
-		// Jumping up
-		if (this.controls.up.isDown && this.sprite.body.standing && !this.isDragging) {
+		// Jumping
+		if (this.controls.up.isDown && this.sprite.body.standing && !this.state.isDragging) {
 			this.sprite.setVelocityY(-this.sprite.body.jumpSpeed);
-			this.sprite.anims.play("TG_girl_jumpup");
+			this.sprite.anims.play("TG_girl_jumpup", true);
 		}
 
 		// Falling
-		if (this.sprite.vel.y > 0 && !this.sprite.body.standing) {
-			this.sprite.anims.play("TG_girl_jumpdrop");
+		if (this.state.isFalling) {
+			this.sprite.anims.play("TG_girl_jumpdrop", true);
 		}
 
 		// Crouching
-		if (this.controls.down.isDown && this.sprite.body.standing && !this.isDragging && this.sprite.vel.x === 0) {
+		if (this.state.isCrouchingOrCrawling && this.sprite.vel.x === 0) {
 			this.sprite.anims.play("TG_girl_crawlidle", true);
-			if (!this.isCrouchingOrCrawling) {
-				this.sprite.setBodySize(150, 100);
-				this.sprite.setOffset(25, 100);
-				this.sprite.body.pos = { x: this.sprite.body.pos.x, y: this.sprite.body.pos.y + 100 };
-			}
-			this.isCrouchingOrCrawling = true;
 		}
 
-		// Idle
-		if (this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp) {
+		//Dashing and sliding
+		if (this.state.isDashing) {
+			this.sprite.anims.play("TG_girl_dash", true);
+		}
+
+		//Sliding
+		if (this.state.isSliding) {
+			this.sprite.anims.play("TG_girl_slide", true);
+		}
+
+		// Idle & Misc state reset
+		if (this.state.isIdle) {
 			this.sprite.anims.play("TG_girl_idle", true);
-			this.sprite.setBodySize(50, 200);
-			this.sprite.setOffset(75, 0);
+		}
 
-			if (this.isCrouchingOrCrawling) {
-				this.sprite.body.pos = { x: this.sprite.body.pos.x, y: this.sprite.body.pos.y - 100 };
-				this.isCrouchingOrCrawling = false;
-			}
+		this.handleCollisionBoxState();
+	}
+
+	/*
+		Note: Some of the values in this function have been 'jerryrigged' to work for now.
+		Changing the widths/heights might make the sprite seem 'off-place',
+		due to how they have been placed in the animation sheet.
+		TODO: Improve this
+	*/
+	handleCollisionBoxState() {
+		if (this.state.isCrouchingOrCrawling) {
+			let crouchWidth = 150;
+			let crouchHeight = 100;
+			this.changeCollisionBox({ x: (200 - crouchWidth) / 2, y: 100 }, crouchWidth, crouchHeight);
+		}
+
+		if (this.state.isSliding && this.sprite.body.standing) {
+			let slideWidth = 150;
+			let slideHeight = 100;
+			this.changeCollisionBox({ x: (200 - slideWidth) / 2, y: (200 - slideHeight) }, slideWidth, slideHeight);
 
 		}
+
+		if (this.state.isDashing && !this.sprite.body.standing) {
+			let dashWidth = 100;
+			let dashHeight = 50;
+			this.changeCollisionBox({ x: (200 - dashWidth) / 2, y: ((200 - dashHeight) / 2) }, dashWidth, dashHeight);
+
+		}
+
+		if (this.state.isIdle || this.state.isFalling) {
+			let idleWidth = 50;
+			let idleHeight = 160;
+			this.changeCollisionBox({ x: (200 - idleWidth) / 2, y: (200 - idleHeight) }, idleWidth, idleHeight);
+		}
+
+	}
+
+	changeCollisionBox(nextOffset, width, height) {
+		let differenceX = this.sprite.offset.x - nextOffset.x;
+		let differenceY = this.sprite.offset.y - nextOffset.y;
+		this.sprite.body.pos.x = this.sprite.body.pos.x - differenceX;
+		this.sprite.body.pos.y = this.sprite.body.pos.y - differenceY;
+		this.sprite.setOffset(nextOffset.x, nextOffset.y, width, height)
 	}
 
 	handleMovementTrace(res) {
-		this.scene.events.emit('debug', res);
-
 		if (res.collision.slope && res.collision.slope.nx != 0) {
 			this.sprite.body.slope = true;
 		} else {
 			this.sprite.body.slope = false;
 		}
 
-		return true; //Due to some other code, this needs to be true. TODO: Investigate further
+		return true; // Due to some other framework code, this function needs to return true in order to work correctly.
 	}
 
 	startDrag() {
 		if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
 			this.closestInteraction.drag();
-			this.isDragging = true;
+			this.state.isDragging = true;
 		}
 	}
 
 	stopDrag() {
-		this.isDragging = false;
+		this.state.isDragging = false;
 		if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
 			this.closestInteraction.drop();
 		}
 	}
 
-	collide(bodyA, bodyB, axis) {
-		if (!this.hurt) {
-			if (bodyB.type === 2) {
-				this.hurt = true;
-				let shake = this.scene.cameras.main.shake(125);
-				shake.on("camerashakecomplete", () => this.scene.restart());
-			}
+	dash() {
+		if (!this.state.isDashing) {
+			this.state.isDashing = true;
+
+			let { x, y } = this.default.dashVelocity;
+			this.sprite.setVelocityY(0);
+			this.sprite.setMaxVelocity(x, y);
+			this.sprite.setVelocityX(this.sprite.flipX ? -x : x);
+
+			this.scene.events.on("touchedGround", () => {
+				this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+				this.state.isDashing = false;
+				this.scene.events.off("touchedGround");
+			}, this);
+		}
+	}
+
+	slide() {
+		if (!this.state.isSliding) {
+			this.state.isSliding = true;
+
+			let { x, y } = this.default.slideVelocity;
+			this.sprite.setVelocityY(0);
+			this.sprite.setMaxVelocity(x, y);
+			this.sprite.setVelocityX(this.sprite.flipX ? -x : x);
+
+			setTimeout(() => {
+				this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+				this.state.isSliding = false;
+			}, 500, this);
 		}
 	}
 
 	takeDamage() {
-		if (!this.hurt) {
-			this.hurt = true;
+		if (!this.state.isHurt) {
+			this.state.isHurt = true;
 			this.health--;
-			let bounceBackVelocity = this.sprite.vel.x > 0 ? -1000 : 1000;
-
+			let bounceBackVelocity = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity : this.default.bouncebackVelocity;
 			this.sprite.setVelocityX(bounceBackVelocity);
 
 			if (this.health <= 0) {
