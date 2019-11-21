@@ -11,6 +11,7 @@ export class Player {
 			isSliding: false,
 			isIdle: false,
 			isFalling: false,
+			isRunning: false,
 		};
 
 		this.default = {
@@ -216,6 +217,7 @@ export class Player {
 		this.state.isFalling = this.sprite.vel.y > 0 && !this.sprite.body.standing && !this.state.isDashing;
 		this.state.isCrouchingOrCrawling = this.controls.down.isDown && this.sprite.body.standing && !this.state.isDragging && !this.state.isDashing;
 		this.state.isIdle = this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp;
+		this.state.isRunning = this.sprite.vel.x !== 0 && this.sprite.body.standing && (!this.state.isSliding && !this.state.isCrouchingOrCrawling);
 
 		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
 
@@ -302,6 +304,7 @@ export class Player {
 		}
 
 		this.handleCollisionBoxState();
+		this.scene.events.emit("debug", this.state)
 	}
 
 	/*
@@ -321,7 +324,6 @@ export class Player {
 			let slideWidth = 150;
 			let slideHeight = 100;
 			this.changeCollisionBox({ x: (200 - slideWidth) / 2, y: (200 - slideHeight) }, slideWidth, slideHeight);
-
 		}
 
 		if (this.state.isDashing && !this.sprite.body.standing) {
@@ -331,12 +333,11 @@ export class Player {
 
 		}
 
-		if (this.state.isIdle || this.state.isFalling) {
+		if (this.state.isIdle || this.state.isFalling || this.state.isRunning) {
 			let idleWidth = 50;
 			let idleHeight = 160;
 			this.changeCollisionBox({ x: (200 - idleWidth) / 2, y: (200 - idleHeight) }, idleWidth, idleHeight);
 		}
-
 	}
 
 	changeCollisionBox(nextOffset, width, height) {
@@ -344,7 +345,7 @@ export class Player {
 		let differenceY = this.sprite.offset.y - nextOffset.y;
 		this.sprite.body.pos.x = this.sprite.body.pos.x - differenceX;
 		this.sprite.body.pos.y = this.sprite.body.pos.y - differenceY;
-		this.sprite.setOffset(nextOffset.x, nextOffset.y, width, height)
+		this.sprite.setOffset(nextOffset.x, nextOffset.y, width, height);
 	}
 
 	handleMovementTrace(res) {
@@ -416,7 +417,7 @@ export class Player {
 			}
 
 			this.scene.cameras.main.flash(750).on("cameraflashcomplete", function () {
-				this.hurt = false;
+				this.state.hurt = false;
 			}, this);
 		}
 	}

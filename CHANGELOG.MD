@@ -1,3 +1,8 @@
+1.2.1
+- Implemented Dash
+- Implemented Slide
+- Major code refactoring and improvements
+
 1.1.3
 - Code refactoring
 - Added the rest of unused assets to bootscene
