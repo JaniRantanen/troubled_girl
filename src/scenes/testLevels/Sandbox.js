@@ -47,7 +47,7 @@ export class Sandbox extends Phaser.Scene {
             x: 1000,
             y: 500,
             spriteKey: "door",
-            sceneKey: "pushpull",
+            sceneKey: "dash",
             bodySize: {
                 x: 100,
                 y: 200
