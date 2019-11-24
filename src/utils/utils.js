@@ -1,6 +1,5 @@
 export const Pause = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-
 export function setupLevel(scene, levelKey) {
 	var levelMap = scene.make.tilemap({ key: levelKey });
 
