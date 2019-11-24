@@ -174,7 +174,7 @@ export class Player {
 			key: "TG_girl_hit",
 			frames: anims.generateFrameNames("TG_girl_hit"),
 			frameRate: 10,
-			repeat: 1
+			repeat: 0
 		});
 
 		anims.create({
@@ -364,9 +364,13 @@ export class Player {
 	}
 
 	startDrag() {
-		if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
-			this.closestInteraction.drag();
-			this.state.isDragging = true;
+		if (this.scene.registry.get("dragUnlocked")) {
+			if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
+				this.closestInteraction.drag();
+				this.state.isDragging = true;
+			}
+		} else {
+			console.log("Drag skill is not unlocked yet!");
 		}
 	}
 
@@ -410,10 +414,10 @@ export class Player {
 		}
 	}
 
-	takeDamage() {
+	takeDamage(amount = 1) {
 		if (!this.state.isHurt) {
 			this.state.isHurt = true;
-			this.health--;
+			this.health -= amount;
 			let bounceBackVelocityX = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity.x : this.default.bouncebackVelocity.x;
 			let bounceBackVelocityY = this.sprite.vel.y < 0 ? this.default.bouncebackVelocity.y : -this.default.bouncebackVelocity.y;
 			this.sprite.setVelocityX(bounceBackVelocityX);
