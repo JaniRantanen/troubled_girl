@@ -1,6 +1,6 @@
 import { Player } from "../../characters/Player";
 import { SimpleEnemy } from "../../characters/SimpleEnemy";
-import { Box } from "../../items/Box";
+import { DraggableItem } from "../../items/DraggableItem";
 import { Exit } from "../../items/Exit";
 
 export class PushPull extends Phaser.Scene {
@@ -30,19 +30,19 @@ export class PushPull extends Phaser.Scene {
 		this.cameras.main.setBounds(0, 0, worldWidth, 1800);
 		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 
-		let stackTest = [new Box(this, 450, 1700), new Box(this, 450, 1600)]
-		let slopePullTest = new Box(this, 750, 1700);
-		let pushPullTest = new Box(this, 1550, 1600);
+		let stackTest = [new DraggableItem(this, 450, 1700), new DraggableItem(this, 450, 1600)]
+		let slopePullTest = new DraggableItem(this, 750, 1700);
+		let pushPullTest = new DraggableItem(this, 1550, 1600);
 		let enemyAndBoxInteractionTest =
 			[
-				new Box(this, 3250, 1600),
-				new Box(this, 3350, 1600),
-				new Box(this, 3450, 1600),
+				new DraggableItem(this, 3250, 1600),
+				new DraggableItem(this, 3350, 1600),
+				new DraggableItem(this, 3450, 1600),
 
-				new Box(this, 3350, 1500),
-				new Box(this, 3450, 1500),
+				new DraggableItem(this, 3350, 1500),
+				new DraggableItem(this, 3450, 1500),
 
-				new Box(this, 3450, 1400),
+				new DraggableItem(this, 3450, 1400),
 
 				new SimpleEnemy(this, 3700, 1600)
 			];
