@@ -1,4 +1,4 @@
-export class Box {
+export class DraggableItem {
 	constructor(scene, x, y, spriteKey = "box") {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, spriteKey);
