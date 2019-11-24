@@ -45,6 +45,7 @@ export class Boot extends Phaser.Scene {
         this.load.audio("vihollisaanet_3", "sfx/vihollisaanet_3.wav");
 
         // Graphics
+        this.load.image("kansikuva_final", "images/kansikuva_final.png");
         this.load.image("etummaisetpuut", "images/etummaisetpuut.png");
         this.load.image("keskimmaisetpuut", "images/keskimmaisetpuut.png");
         this.load.image("taaimmaisetpuut", "images/Taaimmaisetpuut.png");
@@ -54,10 +55,50 @@ export class Boot extends Phaser.Scene {
         this.load.image("flat_tausta_metsa", "images/metsa_puu.png");
 
         // Art objects
+        this.load.image("koti_jakkara", "images/koti_jakkara.png");
+        this.load.image("koti_laatikko", "images/koti_laatikko.png");
+        this.load.image("koti_lamppu", "images/koti_lamppu.png");
+        this.load.image("koti_tuoli", "images/koti_tuoli.png");
+        this.load.image("koti_tuoli_etu", "images/koti_tuoli_etu.png");
+        this.load.image("koti_tuoli_sivu", "images/koti_tuoli_sivu.png");
+
+        this.load.image("koti_kello", "images/koti_kello.png");
+        this.load.image("koti_nojatuoli", "images/koti_nojatuoli.png");
+        this.load.image("koti_poyta", "images/koti_poyta.png");
+        this.load.image("koti_poytaliinalla", "images/koti_poytaliinalla.png");
+        this.load.image("koti_sanky", "images/koti_sanky.png");
+        this.load.image("koti_sankypeitto", "images/koti_sankypeitto.png");
+        this.load.image("koti_sohva", "images/koti_sohva.png");
+        this.load.image("koti_tv", "images/koti_tv.png");
+
+        this.load.image("leikkikentta_aita", "images/leikkikentta_aita.png");
+        this.load.image("leikkikentta_keinut", "images/leikkikentta_keinut.png");
+        this.load.image("leikkikentta_leikkimokki", "images/leikkikentta_leikkimokki.png");
+        this.load.image("leikkikentta_liukumaki", "images/leikkikentta_liukumaki.png");
+        this.load.image("leikkikentta_poni", "images/leikkikentta_poni.png");
+        this.load.image("leikkikentta_rengas", "images/leikkikentta_rengas.png");
+
         this.load.image("metsa_kanto", "images/metsa_kanto.png");
         this.load.image("metsa_kivi", "images/metsa_kivi.png");
         this.load.image("metsa_pensas", "images/metsa_pensas.png");
         this.load.image("metsa_puu", "images/metsa_puu.png");
+
+        this.load.image("leikkikentta_roskis", "images/leikkikentta_roskis.png");
+
+
+        this.load.image("leikki_ilmapallo_musta", "images/leikki_ilmapallo_musta.png");
+        this.load.image("leikki_ilmapallo_vari", "images/leikki_ilmapallo_vari.png");
+        this.load.image("leikki_nalle_musta", "images/leikki_nalle_musta.png");
+        this.load.image("leikki_nalle_vari", "images/leikki_nalle_vari.png");
+        this.load.image("leikki_tytto_pallo_musta", "images/leikki_tytto_pallo_musta.png");
+        this.load.image("leikki_tytto_pallo_vari", "images/leikki_tytto_pallo_vari.png");
+
+        //Items
+        this.load.image("item_pallo", "sprites/items/item_pallo.png");
+        this.load.image("item_ilmapallo", "sprites/items/item_ilmapallo.png");
+        this.load.image("item_nalle", "sprites/items/item_nalle.png");
+        this.load.image("item_kukka", "sprites/items/item_kukka.png");
+        this.load.image("item_hauta", "sprites/items/item_hauta.png");
 
 
 
@@ -79,8 +120,15 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("TG_girl_pull", "sprites/player/TG_girl_pull.png", "sprites/player/TG_girl_pull.json");
         this.load.atlas("TG_girl_push", "sprites/player/TG_girl_push.png", "sprites/player/TG_girl_push.json");
 
-        // Enemy sprites
+        // Enemy sprites and animations
         this.load.spritesheet("enemy_hum_idle", "sprites/enemy_hum/enemy_hum.png", { frameWidth: 400, frameHeight: 400, spacing: 2 });
+        this.load.atlas("varjo_chase", "sprites/enemy_chaser/varjo_chase.png", "sprites/enemy_chaser/varjo_chase.json");
+        this.load.atlas("varjo_spawn", "sprites/enemy_chaser/varjo_spawn.png", "sprites/enemy_chaser/varjo_spawn.json");
+
+        // Cutscenes
+        this.load.atlas("koti_ikkuna_reveal", "sprites/cutscene/koti_ikkuna_reveal.png", "sprites/cutscene/koti_ikkuna_reveal.json");
+        this.load.atlas("koti_ikkuna_looking", "sprites/cutscene/koti_ikkuna_looking.png", "sprites/cutscene/koti_ikkuna_looking.json");
+        this.load.atlas("koti_tv_uusi", "sprites/cutscene/koti_tv_uusi.png", "sprites/cutscene/koti_tv_uusi.json");
 
         // Placeholders
         this.load.image("item", "placeholders/item.png");
@@ -92,8 +140,15 @@ export class Boot extends Phaser.Scene {
         this.load.image("widebox", "placeholders/widebox.png");
 
         //LEVELS
-        this.load.tilemapImpact("home", "../levels/home.js");
+
+        // Home
+        this.load.tilemapImpact("home", "../levels/koti00.js");
+        this.load.image("tileset_background", "../assets/tilesets/tileset_background.png");
+        this.load.image("tileset_foreground", "../assets/tilesets/tileset_foreground.png");
+
+
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
+        this.load.tilemapImpact("flat", "../levels/flat.js");
         this.load.tilemapImpact("pushpull", "../levels/pushpull.js");
         this.load.tilemapImpact("battleground", "../levels/battleground.js");
         this.load.tilemapImpact("hide", "../levels/hide.js");
@@ -101,6 +156,8 @@ export class Boot extends Phaser.Scene {
 
         this.load.image("tiles", "../assets/tilesets/tileset.png");
         this.load.image("tiles2", "../assets/tilesets/spritesheet.png");
+
+
 
         // Fonts
         webfontloader.load({
@@ -116,7 +173,7 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("sandbox");
+                this.scene.start("home");
             } else {
                 this.scene.start("mainmenu");
             }
