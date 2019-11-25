@@ -9,7 +9,8 @@ export function setupLevel(scene, levelKey) {
 
 		if (tilesetkey.search("foreground") !== -1) {
 			levelMap.createStaticLayer("foreground", tilesetImage, 0, 0).setDepth(2);
-		} else if (tilesetkey.search("background") !== -1) {
+		}
+		if (tilesetkey.search("background") !== -1) {
 			levelMap.createStaticLayer("background", tilesetImage, 0, 0).setDepth(-2);
 		}
 	});

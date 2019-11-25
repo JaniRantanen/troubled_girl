@@ -11,8 +11,8 @@ export class Dialog extends Phaser.Scene {
 	}
 	create() {
 		let xPosition = this.sys.canvas.width / 2;
-		let yPosition = this.sys.canvas.height - 50;
-		this.dialogText = new TextElement(this, xPosition, yPosition, '', { fontSize: "80px", fontFamily: "Montserrat", fill: '#fff', align: "center" });
+		let yPosition = this.sys.canvas.height - 80;
+		this.dialogText = new TextElement(this, xPosition, yPosition, '', { fontSize: "64px", fontFamily: "Montserrat", fill: '#fff', align: "center" });
 		this.add.existing(this.dialogText);
 	}
 
