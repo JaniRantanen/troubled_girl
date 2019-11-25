@@ -100,9 +100,6 @@ export class Boot extends Phaser.Scene {
         this.load.image("item_kukka", "sprites/items/item_kukka.png");
         this.load.image("item_hauta", "sprites/items/item_hauta.png");
 
-
-
-
         // Player sprites and animations
         this.load.image("player", "sprites/player/player.png");
         this.load.atlas("TG_girl_idle", "sprites/player/TG_girl_idle.png", "sprites/player/TG_girl_idle.json");
@@ -119,6 +116,13 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("TG_girl_hit", "sprites/player/TG_girl_hit.png", "sprites/player/TG_girl_hit.json");
         this.load.atlas("TG_girl_pull", "sprites/player/TG_girl_pull.png", "sprites/player/TG_girl_pull.json");
         this.load.atlas("TG_girl_push", "sprites/player/TG_girl_push.png", "sprites/player/TG_girl_push.json");
+
+        // Dad sprites and animations
+        this.load.atlas("isa_idle", "sprites/dad/isa_idle.png", "sprites/dad/isa_idle.json");
+        this.load.atlas("isa_jumptry", "sprites/dad/isa_jumptry.png", "sprites/dad/isa_jumptry.json");
+        this.load.atlas("isa_walk", "sprites/dad/isa_walk.png", "sprites/dad/isa_walk.json");
+        this.load.atlas("varjoisa_idle", "sprites/dad/varjoisa_idle.png", "sprites/dad/varjoisa_idle.json");
+        this.load.atlas("varjoisa_walk", "sprites/dad/varjoisa_walk.png", "sprites/dad/varjoisa_walk.json");
 
         // Enemy sprites and animations
         this.load.spritesheet("enemy_hum_idle", "sprites/enemy_hum/enemy_hum.png", { frameWidth: 400, frameHeight: 400, spacing: 2 });
@@ -143,9 +147,9 @@ export class Boot extends Phaser.Scene {
 
         // Home
         this.load.tilemapImpact("home", "../levels/koti00.js");
-        this.load.image("tileset_background", "../assets/tilesets/tileset_background.png");
-        this.load.image("tileset_foreground", "../assets/tilesets/tileset_foreground.png");
-
+        this.load.image("tileset_background", "../assets/tilesets/tileset_background-extruded.png");
+        this.load.image("tileset_foreground", "../assets/tilesets/tileset_foreground-extruded.png");
+        this.load.image("tileset", "../assets/tilesets/tileset-extruded.png");
 
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
         this.load.tilemapImpact("flat", "../levels/flat.js");
@@ -153,10 +157,6 @@ export class Boot extends Phaser.Scene {
         this.load.tilemapImpact("battleground", "../levels/battleground.js");
         this.load.tilemapImpact("hide", "../levels/hide.js");
         this.load.tilemapImpact("dash", "../levels/dash.js");
-
-        this.load.image("tiles", "../assets/tilesets/tileset.png");
-        this.load.image("tiles2", "../assets/tilesets/spritesheet.png");
-
 
 
         // Fonts
