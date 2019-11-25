@@ -1,14 +1,14 @@
 export class _DEBUG extends Phaser.Scene {
 
 	constructor() {
-		super({ key: '_DEBUG', active: false });
+		super({ key: '_DEBUG', active: true });
 	}
 
 	create() {
-		this.fps = this.add.text(0, 0, '', { font: '12px Arial', fill: '#000000' });
-		this.debugTextLeft = this.add.text(0, 50, '', { font: '12px Arial', fill: '#000000' });
-		this.debugTextCenter = this.add.text(700, 0, '', { font: '12px Arial', fill: '#000000' });
-		this.debugTextRight = this.add.text(1300, 0, '', { font: '12px Arial', fill: '#000000' });
+		this.fps = this.add.text(0, 0, '', { font: '12px Arial', fill: '#fff' });
+		this.debugTextLeft = this.add.text(0, 50, '', { font: '12px Arial', fill: '#fff' });
+		this.debugTextCenter = this.add.text(700, 0, '', { font: '12px Arial', fill: '#fff' });
+		this.debugTextRight = this.add.text(1300, 0, '', { font: '12px Arial', fill: '#fff' });
 
 		let sceneBeingDebugged = this.scene.get('home');
 
