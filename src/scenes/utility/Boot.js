@@ -1,6 +1,6 @@
 
 import webfontloader from "webfontloader";
-import { TextElement } from "../UI/";
+import { TextElement } from "../../UI/";
 
 export class Boot extends Phaser.Scene {
     constructor() {

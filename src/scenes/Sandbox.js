@@ -1,5 +1,7 @@
-import { Player } from "../../characters/Player";
-import { setupLevel } from "../../utils/utils";
+
+
+import { Player } from "../characters/Player";
+import { setupLevel } from "../utils/utils";
 
 export class Sandbox extends Phaser.Scene {
     constructor() {
