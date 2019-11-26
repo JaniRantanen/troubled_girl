@@ -153,10 +153,6 @@ export class Boot extends Phaser.Scene {
 
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
         this.load.tilemapImpact("flat", "../levels/flat.js");
-        this.load.tilemapImpact("pushpull", "../levels/pushpull.js");
-        this.load.tilemapImpact("battleground", "../levels/battleground.js");
-        this.load.tilemapImpact("hide", "../levels/hide.js");
-        this.load.tilemapImpact("dash", "../levels/dash.js");
 
 
         // Fonts
@@ -173,7 +169,7 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("home");
+                this.scene.start("sandbox");
             } else {
                 this.scene.start("mainmenu");
             }
