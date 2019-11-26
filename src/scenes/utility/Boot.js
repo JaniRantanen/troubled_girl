@@ -53,6 +53,11 @@ export class Boot extends Phaser.Scene {
         this.load.image("flat_tausta_hautausmaa", "images/flat_tausta_hautausmaa.png");
         this.load.image("flat_tausta_leikkikentta", "images/flat_tausta_leikkikentta.png");
         this.load.image("flat_tausta_metsa", "images/metsa_puu.png");
+        this.load.image("tausta_metsa", "images/tausta_metsa.png");
+        this.load.image("tausta_leikkikentta", "images/tausta_leikkikentta.png");
+        this.load.image("tausta_kallio", "images/tausta_kallio.png");
+        this.load.image("tausta_hautausmaa", "images/tausta_hautausmaa.png");
+
 
         // Art objects
         this.load.image("koti_jakkara", "images/koti_jakkara.png");
@@ -77,14 +82,12 @@ export class Boot extends Phaser.Scene {
         this.load.image("leikkikentta_liukumaki", "images/leikkikentta_liukumaki.png");
         this.load.image("leikkikentta_poni", "images/leikkikentta_poni.png");
         this.load.image("leikkikentta_rengas", "images/leikkikentta_rengas.png");
+        this.load.image("leikkikentta_roskis", "images/leikkikentta_roskis.png");
 
         this.load.image("metsa_kanto", "images/metsa_kanto.png");
         this.load.image("metsa_kivi", "images/metsa_kivi.png");
         this.load.image("metsa_pensas", "images/metsa_pensas.png");
         this.load.image("metsa_puu", "images/metsa_puu.png");
-
-        this.load.image("leikkikentta_roskis", "images/leikkikentta_roskis.png");
-
 
         this.load.image("leikki_ilmapallo_musta", "images/leikki_ilmapallo_musta.png");
         this.load.image("leikki_ilmapallo_vari", "images/leikki_ilmapallo_vari.png");
@@ -92,6 +95,8 @@ export class Boot extends Phaser.Scene {
         this.load.image("leikki_nalle_vari", "images/leikki_nalle_vari.png");
         this.load.image("leikki_tytto_pallo_musta", "images/leikki_tytto_pallo_musta.png");
         this.load.image("leikki_tytto_pallo_vari", "images/leikki_tytto_pallo_vari.png");
+
+        this.load.image("kuu", "images/kuu.png");
 
         //Items
         this.load.image("item_pallo", "sprites/items/item_pallo.png");
