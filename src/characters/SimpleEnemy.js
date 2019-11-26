@@ -3,6 +3,10 @@ export class SimpleEnemy {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, "enemy_hum_idle");
 
+		this.state = {
+			isAggressive: false,
+		}
+
 		this.patrolArea = {
 			"start": new Phaser.Math.Vector2(x, 0),
 			"end": new Phaser.Math.Vector2(x + 300, 0)
@@ -11,6 +15,15 @@ export class SimpleEnemy {
 		this.senseDistance = 600;
 		this.searchTimeLeft = 0;
 		this.speed = 200;
+
+		this.sounds = {
+			idle: [
+				this.scene.sound.add("vihollisaanet_1"),
+				this.scene.sound.add("vihollisaanet_2"),
+				this.scene.sound.add("vihollisaanet_3")
+			],
+			chase: this.scene.sound.add("jahtausmusiikki", { loop: true, volume: 0 }),
+		};
 
 		this.sprite.setLiteCollision();
 		this.sprite.setTypeB();
@@ -39,6 +52,10 @@ export class SimpleEnemy {
 	}
 
 	update(time, delta) {
+		let distanceToPlayer = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.scene.player.sprite.x, this.scene.player.sprite.y);
+		let volumeLevel = this.senseDistance / distanceToPlayer;
+		this.sounds.chase.volume = volumeLevel > 1 ? 1 : volumeLevel;
+
 		//Handle gravity on slopes
 		if (this.sprite.body.slope) {
 			this.sprite.setGravity(0);
@@ -48,6 +65,13 @@ export class SimpleEnemy {
 
 		this.sprite.flipX = this.sprite.vel.x >= 0;
 
+		if (!this.sounds.idle.some((sound) => sound.isPlaying)) {
+			let nextSound = this.sounds.idle.shift();
+			nextSound.play();
+			this.sounds.idle.push(nextSound);
+		}
+
+
 		if (this.canSeePlayer) {
 			this.searchTimeLeft = 3000;
 		} else {
@@ -55,8 +79,16 @@ export class SimpleEnemy {
 			this.searchTimeLeft = newValue > 0 ? newValue : 0;
 		}
 
-		(this.canSeePlayer || this.searchTimeLeft) > 0 ? this.attack() : this.patrol();
+		(this.canSeePlayer || this.searchTimeLeft > 0) ? this.attack() : this.patrol();
 
+		if (this.state.isAggressive) {
+			if (!this.sounds.chase.isPlaying) {
+				this.sounds.chase.play();
+
+			}
+		} else {
+			this.sounds.chase.stop()
+		}
 	}
 
 	handleMovementTrace(res) {
@@ -75,7 +107,8 @@ export class SimpleEnemy {
 	}
 
 	attack() {
-		this.sprite.setTint("0xFF0000")
+		this.state.isAggressive = true;
+		this.sprite.setTint("0xFF0000");
 		let acceleration = this.scene.player.sprite.x - this.sprite.x > 0 ? this.speed : -this.speed;
 		this.sprite.setAccelerationX(acceleration * 2);
 
@@ -99,6 +132,7 @@ export class SimpleEnemy {
 	}
 
 	patrol() {
+		this.state.isAggressive = false;
 		this.sprite.clearTint();
 		if (this.sprite.x < this.patrolArea.start.x) {
 			this.sprite.setAccelerationX(this.speed);
