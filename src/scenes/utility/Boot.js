@@ -120,7 +120,9 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("TG_girl_doublejump", "sprites/player/TG_girl_doublejump.png", "sprites/player/TG_girl_doublejump.json");
         this.load.atlas("TG_girl_hit", "sprites/player/TG_girl_hit.png", "sprites/player/TG_girl_hit.json");
         this.load.atlas("TG_girl_pull", "sprites/player/TG_girl_pull.png", "sprites/player/TG_girl_pull.json");
-        this.load.atlas("TG_girl_push", "sprites/player/TG_girl_push.png", "sprites/player/TG_girl_push.json");
+        this.load.atlas("TG_girl_lookdown_cry_idle5fps", "sprites/player/TG_girl_lookdown_cry_idle5fps.png", "sprites/player/TG_girl_lookdown_cry_idle5fps.json");
+        this.load.atlas("TG_girl_lookdown_cry5fps", "sprites/player/TG_girl_lookdown_cry5fps.png", "sprites/player/TG_girl_lookdown_cry5fps.json");
+        this.load.atlas("TG_girl_lookup_cry5fps", "sprites/player/TG_girl_lookup_cry5fps.png", "sprites/player/TG_girl_lookup_cry5fps.json");
 
         // Dad sprites and animations
         this.load.atlas("isa_idle", "sprites/dad/isa_idle.png", "sprites/dad/isa_idle.json");
@@ -128,6 +130,11 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("isa_walk", "sprites/dad/isa_walk.png", "sprites/dad/isa_walk.json");
         this.load.atlas("varjoisa_idle", "sprites/dad/varjoisa_idle.png", "sprites/dad/varjoisa_idle.json");
         this.load.atlas("varjoisa_walk", "sprites/dad/varjoisa_walk.png", "sprites/dad/varjoisa_walk.json");
+
+        // Mom sprites and animations
+        this.load.atlas("aiti_enkeli_idle5fps", "sprites/mom/aiti_enkeli_idle5fps.png", "sprites/mom/aiti_enkeli_idle5fps.json");
+        this.load.atlas("aiti_idle5fps", "sprites/mom/aiti_idle5fps.png", "sprites/mom/aiti_idle5fps.json");
+        this.load.atlas("aiti_muutos7fps", "sprites/mom/aiti_muutos7fps.png", "sprites/mom/aiti_muutos7fps.json");
 
         // Enemy sprites and animations
         this.load.spritesheet("enemy_hum_idle", "sprites/enemy_hum/enemy_hum.png", { frameWidth: 400, frameHeight: 400, spacing: 2 });
