@@ -123,6 +123,8 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("TG_girl_lookdown_cry_idle5fps", "sprites/player/TG_girl_lookdown_cry_idle5fps.png", "sprites/player/TG_girl_lookdown_cry_idle5fps.json");
         this.load.atlas("TG_girl_lookdown_cry5fps", "sprites/player/TG_girl_lookdown_cry5fps.png", "sprites/player/TG_girl_lookdown_cry5fps.json");
         this.load.atlas("TG_girl_lookup_cry5fps", "sprites/player/TG_girl_lookup_cry5fps.png", "sprites/player/TG_girl_lookup_cry5fps.json");
+        this.load.atlas("TG_girl_cryonground2fps", "sprites/player/TG_girl_cryonground2fps.png", "sprites/player/TG_girl_cryonground2fps.json");
+        this.load.atlas("TG_girl_twistangle8fps", "sprites/player/TG_girl_twistangle8fps.png", "sprites/player/TG_girl_twistangle8fps.json");
 
         // Dad sprites and animations
         this.load.atlas("isa_idle", "sprites/dad/isa_idle.png", "sprites/dad/isa_idle.json");
