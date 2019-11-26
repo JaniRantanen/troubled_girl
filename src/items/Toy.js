@@ -1,5 +1,5 @@
 export class Toy {
-	constructor(scene, x, y, spriteKey, collisionFunction) {
+	constructor(scene, x, y, spriteKey, collisionFunction = () => { }) {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, spriteKey);
 		this.sprite.setFixedCollision();
