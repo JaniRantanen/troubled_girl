@@ -14,20 +14,17 @@ export class Home extends Phaser.Scene {
 	}
 	preload() {
 		this.ui = this.scene.get("dialog");
-		this.registry.set("dragUnlocked", true);
 	}
 
 	async create() {
+
 		let floor_1_Y = 1600;
 		let floor_2_Y = 1000;
 		let floor_3_Y = 500;
 		this.player = new Player(this, 900, floor_1_Y);
-		console.log(this.player)
 		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
-		this.cameras.main.setZoom(0.5)
 
 		setupLevel(this, "home");
-
 
 		let bear = new Toy(this, 150, floor_1_Y, "item_nalle", this.cutscene_bearPickup.bind(this));
 		let bed = new Crawlspace(this, 500, floor_1_Y, "koti_sanky");
@@ -40,13 +37,10 @@ export class Home extends Phaser.Scene {
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli");
 		this.dadsTv = this.add.sprite(3600, floor_1_Y, "koti_tv_uusi", 0);
 
-		this.cutscene_intro();
-
-
 		//second floor
-		let kitchenTable = this.add.image(800, floor_2_Y, "koti_poytaliinalla");
+		let kitchenTable = this.add.image(800, floor_2_Y, "koti_poytaliinalla").setDepth(-1);
 		let stool = new DraggableItem(this, 500, floor_2_Y, "koti_jakkara");
-		let lamp = new DraggableItem(this, 3600, floor_2_Y, "koti_lamppu");
+		let lamp = new DraggableItem(this, 3600, floor_2_Y - 50, "koti_lamppu");
 
 		//third floor
 		let stackedBoxes = [
@@ -60,6 +54,8 @@ export class Home extends Phaser.Scene {
 
 		let garageEnemy = new SimpleEnemy(this, 5000, floor_1_Y);
 
+
+		this.cutscene_intro();
 	}
 
 	async cutscene_intro() {
@@ -74,6 +70,7 @@ export class Home extends Phaser.Scene {
 	async cutscene_bearPickup() {
 		this.registry.set("dragUnlocked", true);
 
+		await this.cutscene_memoryItem();
 		this.cameras.main.fadeOut(500);
 		await Pause(1000);
 		await this.ui.updateDialog("Mr. Cuddles has given you the strength to push and pull things.", 2000);
@@ -101,10 +98,10 @@ export class Home extends Phaser.Scene {
 			completeDelay: 500,
 			onComplete: async () => {
 				this.player.sprite.anims.play("TG_girl_idle");
-				// await this.ui.updateDialog("Daddy, there’s something outside", 2000);
-				// await this.ui.updateDialog("Daddy...?", 2000);
-				// await this.ui.updateDialog("Are you okay…?", 2000);
-				// await Pause(2000);
+				await this.ui.updateDialog("Daddy, there’s something outside", 2000);
+				await this.ui.updateDialog("Daddy...?", 2000);
+				await this.ui.updateDialog("Are you okay…?", 2000);
+				await Pause(2000);
 
 				this.anims.create({
 					key: "koti_tv_uusi",
@@ -126,5 +123,64 @@ export class Home extends Phaser.Scene {
 	async cutscene_outside() {
 		await this.ui.updateDialog("Mr. Cuddles, we need to find Mommy.", 2000);
 		await this.ui.updateDialog("Mommy will know how to help Daddy!", 2000);
+	}
+
+	cutscene_memoryItem() {
+		return new Promise((resolve, reject) => {
+			let { x, y, flipX } = this.player.sprite;
+
+			let timeline = this.tweens.createTimeline();
+			let memoryItem_black = this.impact.add.sprite(x, y - 100, "leikki_nalle_musta").setGravity(0).setAlpha(0).setDepth(2);
+			let memoryItem_color = this.impact.add.sprite(x, y - 100, "leikki_nalle_vari").setGravity(0).setAlpha(0).setDepth(2);
+			memoryItem_black.flipX = !flipX;
+			memoryItem_color.flipX = !flipX;
+
+
+			let fadeOutPlayer = timeline.add({
+				targets: this.player.sprite,
+				alpha: { from: 1, to: 0 },
+				ease: 'Linear',
+				duration: 500,
+			});
+
+			let fadeInMemory_black = timeline.add({
+				targets: memoryItem_black,
+				alpha: { from: 0, to: 1 },
+				ease: 'Linear',
+				duration: 3000,
+			});
+
+			let fadeInMemory_color = timeline.add({
+				targets: memoryItem_color,
+				alpha: { from: 0, to: 1 },
+				ease: 'Linear',
+				duration: 1500,
+				completeDelay: 3000,
+			});
+
+			let fadeOutMemory_color = timeline.add({
+				targets: memoryItem_color,
+				alpha: { from: 1, to: 0 },
+				ease: 'Linear',
+				duration: 1500,
+			});
+
+			let fadeOutMemory_black = timeline.add({
+				targets: memoryItem_black,
+				alpha: { from: 1, to: 0 },
+				ease: 'Linear',
+				duration: 1500,
+			});
+
+			let fadeInPlayer = timeline.add({
+				targets: this.player.sprite,
+				alpha: { from: 0, to: 1 },
+				ease: 'Linear',
+				duration: 1500,
+			});
+
+			timeline.play();
+			timeline.onComplete = () => resolve(), this;
+		})
 	}
 }
