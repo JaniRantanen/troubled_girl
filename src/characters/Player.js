@@ -13,6 +13,10 @@ export class Player {
 			isFalling: false,
 			isRunning: false,
 		};
+		this.sounds = {
+			hit: this.scene.sound.add("osuma"),
+			jump: this.scene.sound.add("jump"),
+		}
 
 		this.default = {
 			gravity: new Phaser.Math.Vector2(10, 10),
@@ -42,10 +46,12 @@ export class Player {
 			left: "a",
 			right: "d",
 			interact: "e",
+			respawn: "r"
 		});
 
 		this.controls.interact.on("down", this.startDrag, this);
 		this.controls.interact.on("up", this.stopDrag, this);
+		this.controls.respawn.on("down", this.respawn, this);
 
 		// Keycombos
 		let dashLeftCombo = this.scene.input.keyboard.createCombo([this.controls.left.keyCode, this.controls.left.keyCode], { resetOnMatch: true, maxKeyDelay: 500 });
@@ -275,6 +281,7 @@ export class Player {
 		// Jumping
 		if (this.controls.up.isDown && this.sprite.body.standing && !this.state.isDragging) {
 			this.sprite.setVelocityY(-this.sprite.body.jumpSpeed);
+			this.sounds.jump.play();
 			this.sprite.anims.play("TG_girl_jumpup", true);
 		}
 
@@ -416,6 +423,7 @@ export class Player {
 
 	takeDamage(amount = 1) {
 		if (!this.state.isHurt) {
+			this.sounds.hit.play();
 			this.state.isHurt = true;
 			this.health -= amount;
 			let bounceBackVelocityX = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity.x : this.default.bouncebackVelocity.x;
