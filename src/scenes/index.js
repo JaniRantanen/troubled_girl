@@ -1,7 +1,18 @@
-export { Boot } from "./utility/Boot";
-export { MainMenu } from "./MainMenu";
-export { Win } from "./Win";
-export { Home } from "./Home";
+import { Boot } from "./utility/Boot";
+import { _DEBUG } from "./utility/_DEBUG";
+import { Dialog } from "./utility/Dialog";
 
-export { Sandbox } from "./Sandbox";
+import { MainMenu } from "./MainMenu";
+import { Win } from "./Win";
+
+import { Home } from "./Home";
+import { Forest } from "./Forest";
+import { Playground } from "./Playground";
+import { Graveyard } from "./Graveyard";
+import { Cliff } from "./Cliff";
+
+import { Sandbox } from "./Sandbox";
+
+export var scenes = [Boot, MainMenu, Win, Home, Forest, Playground, Graveyard, Cliff, Sandbox, _DEBUG, Dialog,];
+
 

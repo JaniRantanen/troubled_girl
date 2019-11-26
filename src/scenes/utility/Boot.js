@@ -149,15 +149,19 @@ export class Boot extends Phaser.Scene {
         this.load.image("widebox", "placeholders/widebox.png");
 
         //LEVELS
-
-        // Home
         this.load.tilemapImpact("home", "../levels/koti00.js");
+        this.load.tilemapImpact("forest", "../levels/metsa.js");
+        this.load.tilemapImpact("playground", "../levels/leikkikentta.js");
+        this.load.tilemapImpact("graveyard", "../levels/hautausmaa.js");
+        this.load.tilemapImpact("cliff", "../levels/kallio.js");
+
         this.load.image("tileset_background", "../assets/tilesets/tileset_background-extruded.png");
         this.load.image("tileset_foreground", "../assets/tilesets/tileset_foreground-extruded.png");
         this.load.image("tileset", "../assets/tilesets/tileset-extruded.png");
 
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
         this.load.tilemapImpact("flat", "../levels/flat.js");
+
 
 
         // Fonts
@@ -174,7 +178,7 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("home");
+                this.scene.start("sandbox");
             } else {
                 this.scene.start("mainmenu");
             }
