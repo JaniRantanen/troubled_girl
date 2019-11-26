@@ -46,12 +46,10 @@ export class Player {
 			left: "a",
 			right: "d",
 			interact: "e",
-			respawn: "r"
 		});
 
 		this.controls.interact.on("down", this.startDrag, this);
 		this.controls.interact.on("up", this.stopDrag, this);
-		this.controls.respawn.on("down", this.respawn, this);
 
 		// Keycombos
 		let dashLeftCombo = this.scene.input.keyboard.createCombo([this.controls.left.keyCode, this.controls.left.keyCode], { resetOnMatch: true, maxKeyDelay: 500 });
