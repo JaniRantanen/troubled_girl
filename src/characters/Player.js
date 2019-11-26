@@ -59,6 +59,7 @@ export class Player {
 		// MISC EVENTS AND OVERLOADS
 		this.scene.events.on("preupdate", this.update, this);
 		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
+		this.sprite.setCollideCallback(this.collide, this);
 		this.animate();
 	}
 
@@ -368,6 +369,12 @@ export class Player {
 		return true; // Due to some other framework code, this function needs to return true in order to work correctly.
 	}
 
+	collide(bodyA, bodyB, axis) {
+		if (bodyB.name === "bottom") {
+			this.takeDamage(100);
+		}
+	}
+
 	startDrag() {
 		if (this.scene.registry.get("dragUnlocked")) {
 			if (this.closestInteraction && this.closestInteraction.getData("draggable")) {
@@ -387,35 +394,43 @@ export class Player {
 	}
 
 	dash() {
-		if (!this.state.isDashing) {
-			this.state.isDashing = true;
+		if (this.scene.registry.get("dashUnlocked")) {
+			if (!this.state.isDashing) {
+				this.state.isDashing = true;
 
-			let { x, y } = this.default.dashVelocity;
-			this.sprite.setVelocityY(0);
-			this.sprite.setMaxVelocity(x, y);
-			this.sprite.setVelocityX(this.sprite.flipX ? -x : x);
+				let { x, y } = this.default.dashVelocity;
+				this.sprite.setVelocityY(0);
+				this.sprite.setMaxVelocity(x, y);
+				this.sprite.setVelocityX(this.sprite.flipX ? -x : x);
 
-			this.scene.events.on("touchedGround", () => {
-				this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
-				this.state.isDashing = false;
-				this.scene.events.off("touchedGround");
-			}, this);
+				this.scene.events.on("touchedGround", () => {
+					this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+					this.state.isDashing = false;
+					this.scene.events.off("touchedGround");
+				}, this);
+			}
+		} else {
+			console.log("Slide skill is not unlocked yet!");
 		}
 	}
 
 	slide() {
-		if (!this.state.isSliding) {
-			this.state.isSliding = true;
+		if (this.scene.registry.get("slideUnlocked")) {
+			if (!this.state.isSliding) {
+				this.state.isSliding = true;
 
-			let { x, y } = this.default.slideVelocity;
-			this.sprite.setVelocityY(0);
-			this.sprite.setMaxVelocity(x, y);
-			this.sprite.setVelocityX(this.sprite.flipX ? -x : x);
+				let { x, y } = this.default.slideVelocity;
+				this.sprite.setVelocityY(0);
+				this.sprite.setMaxVelocity(x, y);
+				this.sprite.setVelocityX(this.sprite.flipX ? -x : x);
 
-			setTimeout(() => {
-				this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
-				this.state.isSliding = false;
-			}, 500, this);
+				setTimeout(() => {
+					this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+					this.state.isSliding = false;
+				}, 500, this);
+			}
+		} else {
+			console.log("Slide skill is not unlocked yet!");
 		}
 	}
 
