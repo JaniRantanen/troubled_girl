@@ -6,6 +6,9 @@ export class DraggableItem {
 		this.sprite.setData("interactable", true);
 		this.sprite.setData("draggable", true);
 		this.sprite.setData("isBeingMoved", false);
+		this.sounds = {
+			drag: this.scene.sound.add("raahausaani"),
+		}
 
 		this.sprite.setActiveCollision();
 		this.sprite.setGravity(10);
@@ -29,6 +32,12 @@ export class DraggableItem {
 		if (this.sprite.getData("isBeingMoved")) {
 			this.sprite.setVelocityX(this.scene.player.sprite.vel.x);
 			this.sprite.setAccelerationX(this.scene.player.sprite.accel.x);
+		}
+
+		if (!this.sounds.drag.isPlaying && this.sprite.vel.x !== 0) {
+			this.sounds.drag.play();
+		} else if (this.sprite.vel.x === 0) {
+			this.sounds.drag.stop();
 		}
 	}
 	handleMovementTrace(res) {
