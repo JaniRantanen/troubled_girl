@@ -10,9 +10,10 @@ import { Forest } from "./Forest";
 import { Playground } from "./Playground";
 import { Graveyard } from "./Graveyard";
 import { Cliff } from "./Cliff";
+import { Darkness } from "./Darkness";
 
 import { Sandbox } from "./Sandbox";
 
-export var scenes = [Boot, MainMenu, Win, Home, Forest, Playground, Graveyard, Cliff, Sandbox, _DEBUG, Dialog,];
+export var scenes = [Boot, MainMenu, Win, Home, Forest, Playground, Graveyard, Cliff, Darkness, Sandbox, _DEBUG, Dialog,];
 
 

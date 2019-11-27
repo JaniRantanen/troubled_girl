@@ -57,6 +57,9 @@ export class Boot extends Phaser.Scene {
         this.load.image("tausta_leikkikentta", "images/tausta_leikkikentta.png");
         this.load.image("tausta_kallio", "images/tausta_kallio.png");
         this.load.image("tausta_hautausmaa", "images/tausta_hautausmaa.png");
+        this.load.image("tausta_koti", "images/tausta_koti.png");
+        this.load.image("pimeystausta", "images/pimeystausta.png");
+
 
 
         // Art objects
@@ -141,6 +144,8 @@ export class Boot extends Phaser.Scene {
 
         // Enemy sprites and animations
         this.load.spritesheet("enemy_hum_idle", "sprites/enemy_hum/enemy_hum.png", { frameWidth: 400, frameHeight: 400, spacing: 2 });
+        this.load.atlas("enemy_hum_walk", "sprites/enemy_hum/enemy_hum_walk.png", "sprites/enemy_hum/enemy_hum_walk.json");
+        this.load.atlas("enemy_hum_attackALTERNATIVE", "sprites/enemy_hum/enemy_hum_attackALTERNATIVE.png", "sprites/enemy_hum/enemy_hum_attackALTERNATIVE.json");
         this.load.atlas("varjo_chase", "sprites/enemy_chaser/varjo_chase.png", "sprites/enemy_chaser/varjo_chase.json");
         this.load.atlas("varjo_spawn", "sprites/enemy_chaser/varjo_spawn.png", "sprites/enemy_chaser/varjo_spawn.json");
 
@@ -158,21 +163,22 @@ export class Boot extends Phaser.Scene {
         this.load.image("mockbox", "placeholders/mockbox.png");
         this.load.image("widebox", "placeholders/widebox.png");
 
-        //LEVELS
+        // Levels
         this.load.tilemapImpact("home", "../levels/koti00.js");
         this.load.tilemapImpact("forest", "../levels/metsa.js");
         this.load.tilemapImpact("playground", "../levels/leikkikentta.js");
         this.load.tilemapImpact("graveyard", "../levels/hautausmaa.js");
         this.load.tilemapImpact("cliff", "../levels/kallio.js");
-
-        this.load.image("tileset_background", "../assets/tilesets/tileset_background-extruded.png");
-        this.load.image("tileset_foreground", "../assets/tilesets/tileset_foreground-extruded.png");
-        this.load.image("tileset", "../assets/tilesets/tileset-extruded.png");
+        this.load.tilemapImpact("pimeys", "../levels/pimeys.js");
 
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
         this.load.tilemapImpact("flat", "../levels/flat.js");
 
-
+        // Tilesets
+        this.load.image("tileset_background", "../assets/tilesets/tileset_background-extruded.png");
+        this.load.image("tileset_foreground", "../assets/tilesets/tileset_foreground-extruded.png");
+        this.load.image("tileset_tumma", "../assets/tilesets/tileset_tumma-extruded.png");
+        this.load.image("tileset", "../assets/tilesets/tileset-extruded.png");
 
         // Fonts
         webfontloader.load({
