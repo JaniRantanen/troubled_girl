@@ -19,7 +19,7 @@ export class Player {
 		this.sounds = {
 			hit: this.scene.sound.add("osuma"),
 			jump: this.scene.sound.add("jump"),
-		}
+		};
 
 		this.default = {
 			gravity: new Phaser.Math.Vector2(10, 10),
@@ -28,7 +28,7 @@ export class Player {
 			dashVelocity: new Phaser.Math.Vector2(700, 0),
 			slideVelocity: new Phaser.Math.Vector2(1000, 0),
 			bouncebackVelocity: new Phaser.Math.Vector2(1000, 0),
-		}
+		};
 
 		this.sprite.body.accelGround = 1200;
 		this.sprite.body.accelAir = 600;
