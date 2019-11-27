@@ -30,6 +30,8 @@ export class Player {
 			bouncebackVelocity: new Phaser.Math.Vector2(1000, 0),
 		};
 
+		this.latestCheckpointPosition = new Phaser.Math.Vector2(x, y);
+
 		this.sprite.body.accelGround = 1200;
 		this.sprite.body.accelAir = 600;
 		this.sprite.body.jumpSpeed = 700;
@@ -500,7 +502,7 @@ export class Player {
 	}
 
 	respawn() {
-		this.scene.events.off("update");
-		this.scene.scene.restart();
+		this.health = 3;
+		this.sprite.body.pos = this.latestCheckpointPosition;
 	}
 }
