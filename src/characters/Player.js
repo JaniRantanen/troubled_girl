@@ -12,6 +12,9 @@ export class Player {
 			isIdle: false,
 			isFalling: false,
 			isRunning: false,
+			isJumping: false,
+			isDoubleJumping: false,
+			isTouchingGround: false,
 		};
 		this.sounds = {
 			hit: this.scene.sound.add("osuma"),
@@ -47,7 +50,7 @@ export class Player {
 			right: "d",
 			interact: "e",
 		});
-
+		this.controls.up.on("down", () => !this.state.isJumping ? this.jump() : this.doublejump(), this);
 		this.controls.interact.on("down", this.startDrag, this);
 		this.controls.interact.on("up", this.stopDrag, this);
 
@@ -58,6 +61,7 @@ export class Player {
 
 		// MISC EVENTS AND OVERLOADS
 		this.scene.events.on("preupdate", this.update, this);
+		this.scene.events.on("touchedGround", this.groundCollision, this);
 		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
 		this.sprite.setCollideCallback(this.collide, this);
 		this.animate();
@@ -218,6 +222,7 @@ export class Player {
 		});
 	}
 
+	/* LIFECYCLE METHODS */
 	update(time, delta) {
 		this.state.isFalling = this.sprite.vel.y > 0 && !this.sprite.body.standing && !this.state.isDashing;
 		this.state.isCrouchingOrCrawling = this.controls.down.isDown && this.sprite.body.standing && !this.state.isDragging && !this.state.isDashing;
@@ -225,10 +230,6 @@ export class Player {
 		this.state.isRunning = this.sprite.vel.x !== 0 && this.sprite.body.standing && (!this.state.isSliding && !this.state.isCrouchingOrCrawling);
 
 		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
-
-		if (this.sprite.body.standing) {
-			this.scene.events.emit("touchedGround");
-		}
 
 		// Slow down player when dragging items or crawling
 		if (this.state.isDragging || this.state.isCrouchingOrCrawling) {
@@ -277,13 +278,6 @@ export class Player {
 			this.sprite.setAccelerationX(0);
 		}
 
-		// Jumping
-		if (this.controls.up.isDown && this.sprite.body.standing && !this.state.isDragging) {
-			this.sprite.setVelocityY(-this.sprite.body.jumpSpeed);
-			this.sounds.jump.play();
-			this.sprite.anims.play("TG_girl_jumpup", true);
-		}
-
 		// Falling
 		if (this.state.isFalling) {
 			this.sprite.anims.play("TG_girl_jumpdrop", true);
@@ -294,7 +288,7 @@ export class Player {
 			this.sprite.anims.play("TG_girl_crawlidle", true);
 		}
 
-		//Dashing and sliding
+		//Dashing
 		if (this.state.isDashing) {
 			this.sprite.anims.play("TG_girl_dash", true);
 		}
@@ -315,16 +309,21 @@ export class Player {
 		}
 
 		this.handleCollisionBoxState();
-		this.scene.events.emit("debug", this.state)
+
+		this.scene.events.emit("debug", this.state);
 	}
 
-	/*
-		Note: Some of the values in this function have been 'jerryrigged' to work for now.
-		Changing the widths/heights might make the sprite seem 'off-place',
-		due to how they have been placed in the animation sheet.
-		TODO: Improve this
-	*/
+
+	/* COLLISION HANDLING */
+
 	handleCollisionBoxState() {
+		/*
+			Note: Some of the values in this function have been 'jerryrigged' to work for now.
+			Changing the widths/heights might make the sprite seem 'off-place',
+			due to how they have been placed in the animation sheet.
+			TODO: Improve this
+		*/
+
 		if (this.state.isCrouchingOrCrawling) {
 			let crouchWidth = 150;
 			let crouchHeight = 100;
@@ -366,12 +365,49 @@ export class Player {
 			this.sprite.body.slope = false;
 		}
 
+		if (res.tile.y === 1) {
+			this.state.isTouchingGround = true;
+			this.scene.events.emit("touchedGround");
+		} else {
+			this.state.isTouchingGround = false;
+		}
+
 		return true; // Due to some other framework code, this function needs to return true in order to work correctly.
 	}
 
 	collide(bodyA, bodyB, axis) {
 		if (bodyB.name === "bottom") {
 			this.takeDamage(100);
+		}
+	}
+
+	groundCollision() {
+		this.state.isJumping = false;
+		this.state.isDoubleJumping = false;
+	}
+
+
+	/* SKILLS */
+
+	jump() {
+		if (this.state.isTouchingGround && !this.state.isDragging && !this.state.isSliding && !this.state.isCrouchingOrCrawling) {
+			this.state.isJumping = true;
+			this.sprite.setVelocityY(-this.sprite.body.jumpSpeed);
+			this.sounds.jump.play();
+			this.sprite.anims.play("TG_girl_jumpup", true);
+		}
+	}
+
+	doublejump() {
+		if (this.scene.registry.get("doublejumpUnlocked")) {
+			if (this.state.isJumping && !this.state.isDoubleJumping) {
+				this.state.isDoubleJumping = true;
+				this.sprite.setVelocityY(-this.sprite.body.jumpSpeed);
+				this.sounds.jump.play();
+				this.sprite.anims.play("TG_girl_doublejump", true);
+			}
+		} else {
+			console.log("Double jump skill is not unlocked yet!");
 		}
 	}
 
@@ -406,11 +442,10 @@ export class Player {
 				this.scene.events.on("touchedGround", () => {
 					this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
 					this.state.isDashing = false;
-					this.scene.events.off("touchedGround");
 				}, this);
 			}
 		} else {
-			console.log("Slide skill is not unlocked yet!");
+			console.log("Dash skill is not unlocked yet!");
 		}
 	}
 
@@ -433,6 +468,9 @@ export class Player {
 			console.log("Slide skill is not unlocked yet!");
 		}
 	}
+
+
+	/* DAMAGE HANDLING */
 
 	takeDamage(amount = 1) {
 		if (!this.state.isHurt) {
