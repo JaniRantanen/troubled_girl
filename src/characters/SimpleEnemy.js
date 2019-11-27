@@ -48,6 +48,20 @@ export class SimpleEnemy {
 			repeat: -1,
 		});
 
+		this.scene.anims.create({
+			key: "enemy_hum_walk",
+			frames: this.scene.anims.generateFrameNames("enemy_hum_walk"),
+			frameRate: 10,
+			repeat: -1
+		});
+
+		this.scene.anims.create({
+			key: "enemy_hum_attackALTERNATIVE",
+			frames: this.scene.anims.generateFrameNames("enemy_hum_attackALTERNATIVE"),
+			frameRate: 10,
+			repeat: -1
+		});
+
 		this.sprite.anims.play('enemy_hum_idle');
 	}
 
@@ -112,6 +126,10 @@ export class SimpleEnemy {
 		let acceleration = this.scene.player.sprite.x - this.sprite.x > 0 ? this.speed : -this.speed;
 		this.sprite.setAccelerationX(acceleration * 2);
 
+		if (Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.scene.player.sprite.x, this.scene.player.sprite.y) < 300) {
+			this.sprite.anims.play('enemy_hum_attackALTERNATIVE', true);
+		}
+
 		/*
 		TODO: FIX THIS HACK
 			Horrible (temporary..?) hack to make LITE vs LITE collisions happen. 
@@ -134,6 +152,7 @@ export class SimpleEnemy {
 	patrol() {
 		this.state.isAggressive = false;
 		this.sprite.clearTint();
+		this.sprite.anims.play('enemy_hum_walk', true);
 		if (this.sprite.x < this.patrolArea.start.x) {
 			this.sprite.setAccelerationX(this.speed);
 		}
