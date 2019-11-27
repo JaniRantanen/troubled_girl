@@ -25,7 +25,7 @@ export class Player {
 			gravity: new Phaser.Math.Vector2(10, 10),
 			maxVelocity: new Phaser.Math.Vector2(500, 500),
 			friction: new Phaser.Math.Vector2(1000, 100),
-			dashVelocity: new Phaser.Math.Vector2(1000, 0),
+			dashVelocity: new Phaser.Math.Vector2(700, 0),
 			slideVelocity: new Phaser.Math.Vector2(1000, 0),
 			bouncebackVelocity: new Phaser.Math.Vector2(1000, 0),
 		}
