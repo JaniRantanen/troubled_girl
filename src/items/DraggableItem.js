@@ -7,6 +7,7 @@ export class DraggableItem {
 		this.sprite.setData("draggable", true);
 		this.sprite.setData("isBeingMoved", false);
 		this.sprite.setData("isGroundLike", true);
+
 		this.sounds = {
 			drag: this.scene.sound.add("raahausaani"),
 		}
@@ -21,7 +22,7 @@ export class DraggableItem {
 		this.sprite.drop = this.drop.bind(this);
 		this.sprite.setCollideCallback(this.collide, this);
 
-		this.scene.events.on("update", this.update, this);
+		this.scene.events.on("preupdate", this.update, this);
 		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
 	}
 
@@ -57,6 +58,8 @@ export class DraggableItem {
 
 	drop() {
 		this.sprite.setData("isBeingMoved", false);
+		this.scene.player.state.isDragging = false;
+		this.scene.player.sprite.setVelocity(0, 0);
 		this.sprite.clearTint();
 		this.sprite.setVelocity(0, 0);
 		this.sprite.setAcceleration(0, 0);
@@ -65,14 +68,12 @@ export class DraggableItem {
 	collide(bodyA, bodyB, axis) {
 		//What happens when this is being moved and it collides with the same type on the X axis?
 		if (this.sprite.getData("isBeingMoved") && bodyB.type === 0 && axis === "x") {
-			this.sprite.setVelocity(0, 0);
-			this.sprite.setAcceleration(0, 0);
-			this.scene.player.sprite.setVelocity(0, 0);
+			this.drop();
 		}
 
 		//What happens when this is being moved and it collides with an enemy?
 		if (this.sprite.getData("isBeingMoved") && bodyB.type === 2) {
-			this.scene.player.sprite.setVelocity(0, 0);
+			this.drop();
 		}
 	}
 }
