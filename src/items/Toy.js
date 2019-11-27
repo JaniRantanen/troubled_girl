@@ -3,7 +3,7 @@ export class Toy {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, spriteKey);
 		this.sprite.setFixedCollision();
-		this.sprite.setGravity(0);
+		this.sprite.setGravity(10);
 		this.sprite.setBounce(0, 0);
 		this.sprite.setCollideCallback(this.collide, this);
 		this.collisionFunction = collisionFunction;
