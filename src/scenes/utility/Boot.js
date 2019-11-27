@@ -120,6 +120,7 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("TG_girl_doublejump", "sprites/player/TG_girl_doublejump.png", "sprites/player/TG_girl_doublejump.json");
         this.load.atlas("TG_girl_hit", "sprites/player/TG_girl_hit.png", "sprites/player/TG_girl_hit.json");
         this.load.atlas("TG_girl_pull", "sprites/player/TG_girl_pull.png", "sprites/player/TG_girl_pull.json");
+        this.load.atlas("TG_girl_push", "sprites/player/TG_girl_push.png", "sprites/player/TG_girl_push.json");
         this.load.atlas("TG_girl_lookdown_cry_idle5fps", "sprites/player/TG_girl_lookdown_cry_idle5fps.png", "sprites/player/TG_girl_lookdown_cry_idle5fps.json");
         this.load.atlas("TG_girl_lookdown_cry5fps", "sprites/player/TG_girl_lookdown_cry5fps.png", "sprites/player/TG_girl_lookdown_cry5fps.json");
         this.load.atlas("TG_girl_lookup_cry5fps", "sprites/player/TG_girl_lookup_cry5fps.png", "sprites/player/TG_girl_lookup_cry5fps.json");
