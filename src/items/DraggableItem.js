@@ -6,6 +6,7 @@ export class DraggableItem {
 		this.sprite.setData("interactable", true);
 		this.sprite.setData("draggable", true);
 		this.sprite.setData("isBeingMoved", false);
+		this.sprite.setData("isGroundLike", true);
 		this.sounds = {
 			drag: this.scene.sound.add("raahausaani"),
 		}

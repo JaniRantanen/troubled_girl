@@ -379,6 +379,11 @@ export class Player {
 		if (bodyB.name === "bottom") {
 			this.takeDamage(100);
 		}
+		if (bodyB.gameObject && bodyB.gameObject.getData("isGroundLike") && axis === "y") {
+			this.state.isTouchingGround = true;
+			this.scene.events.emit("touchedGround");
+		}
+
 	}
 
 	groundCollision() {
