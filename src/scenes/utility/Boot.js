@@ -33,10 +33,11 @@ export class Boot extends Phaser.Scene {
         // Music
         this.load.audio("alkuvalikkopiisi_1", "music/alkuvalikkopiisi_1.wav");
         this.load.audio("alkuvalikkopiisi_2", "music/alkuvalikkopiisi_2.wav");
+        this.load.audio("jahtausmusiikki", "music/jahtausmusiikki.wav");
         this.load.audio("metsamusiikki", "music/metsamusiikki.wav");
 
+
         // SFX
-        this.load.audio("jahtausmusiikki", "sfx/jahtausmusiikki.wav");
         this.load.audio("jump", "sfx/jump.wav");
         this.load.audio("osuma", "sfx/osuma.wav");
         this.load.audio("raahausaani", "sfx/raahausaani.wav");

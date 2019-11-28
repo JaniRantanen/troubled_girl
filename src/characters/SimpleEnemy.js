@@ -2,6 +2,7 @@ export class SimpleEnemy {
 	constructor(scene, x, y) {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, "enemy_hum_idle");
+		this.sprite.setData("enemy", true);
 
 		this.state = {
 			isAggressive: false,
@@ -22,7 +23,6 @@ export class SimpleEnemy {
 				this.scene.sound.add("vihollisaanet_2"),
 				this.scene.sound.add("vihollisaanet_3")
 			],
-			chase: this.scene.sound.add("jahtausmusiikki", { loop: true, volume: 0 }),
 		};
 
 		this.sprite.setLiteCollision();
@@ -66,10 +66,6 @@ export class SimpleEnemy {
 	}
 
 	update(time, delta) {
-		let distanceToPlayer = Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.scene.player.sprite.x, this.scene.player.sprite.y);
-		let volumeLevel = this.senseDistance / distanceToPlayer;
-		this.sounds.chase.volume = volumeLevel > 1 ? 1 : volumeLevel;
-
 		//Handle gravity on slopes
 		if (this.sprite.body.slope) {
 			this.sprite.setGravity(0);
@@ -77,6 +73,7 @@ export class SimpleEnemy {
 			this.sprite.setGravity(10);
 		}
 
+		this.sprite.setData("isAgressive", this.state.isAggressive);
 		this.sprite.flipX = this.sprite.vel.x >= 0;
 
 		if (!this.sounds.idle.some((sound) => sound.isPlaying)) {
@@ -94,15 +91,6 @@ export class SimpleEnemy {
 		}
 
 		(this.canSeePlayer || this.searchTimeLeft > 0) ? this.attack() : this.patrol();
-
-		if (this.state.isAggressive) {
-			if (!this.sounds.chase.isPlaying) {
-				this.sounds.chase.play();
-
-			}
-		} else {
-			this.sounds.chase.stop()
-		}
 	}
 
 	handleMovementTrace(res) {
@@ -126,26 +114,12 @@ export class SimpleEnemy {
 		let acceleration = this.scene.player.sprite.x - this.sprite.x > 0 ? this.speed : -this.speed;
 		this.sprite.setAccelerationX(acceleration * 2);
 
-		if (Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, this.scene.player.sprite.x, this.scene.player.sprite.y) < 300) {
-			this.sprite.anims.play('enemy_hum_attackALTERNATIVE', true);
-		}
-
-		/*
-		TODO: FIX THIS HACK
-			Horrible (temporary..?) hack to make LITE vs LITE collisions happen. 
-
-			Normally LITE entities will not collide with other LITE entities: See https://impactjs.com/documentation/collision.
-			The workaround is described here: https://impactjs.com/forums/help/fixed-entities-collision/page/1
-
-			In order to make ends meet on other specs (ie. the pushable/draggable items), all player and enemy entities need to be set to LITE.
-			
-			This does not change the fact that the enemies must be able to hit  the player and cause damage
-
-			These next lines are the quick hack that should be fixed!
-		*/
 		let playerWithinReach = this.sprite.getBounds().contains(this.scene.player.sprite.x, this.scene.player.sprite.y);
 		if (playerWithinReach && !this.scene.player.isHiding) {
+			this.sprite.anims.play('enemy_hum_attackALTERNATIVE', true);
 			this.scene.player.takeDamage();
+		} else {
+			this.sprite.anims.play('enemy_hum_walk', true);
 		}
 	}
 
