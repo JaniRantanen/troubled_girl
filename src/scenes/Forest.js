@@ -13,7 +13,7 @@ export class Forest extends Phaser.Scene {
 
 	async create() {
 		this.cameras.main.setBackgroundColor(0xb9b9b9);
-		this.player = new Player(this, 300, 1000);
+		this.player = new Player(this, 300, 1300);
 		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 		setupLevel(this, "forest");
 	}
