@@ -1,6 +1,7 @@
 import { Boot } from "./utility/Boot";
 import { _DEBUG } from "./utility/_DEBUG";
 import { Dialog } from "./utility/Dialog";
+import { Music } from "./utility/Music";
 
 import { MainMenu } from "./MainMenu";
 import { Win } from "./Win";
@@ -14,6 +15,6 @@ import { Darkness } from "./Darkness";
 
 import { Sandbox } from "./Sandbox";
 
-export var scenes = [Boot, MainMenu, Win, Home, Forest, Playground, Graveyard, Cliff, Darkness, Sandbox, _DEBUG, Dialog,];
+export var scenes = [Boot, MainMenu, Win, Home, Forest, Playground, Graveyard, Cliff, Darkness, Sandbox, _DEBUG, Dialog, Music];
 
 
