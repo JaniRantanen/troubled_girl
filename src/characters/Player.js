@@ -2,8 +2,9 @@ export class Player {
 	constructor(scene, x, y) {
 		this.scene = scene;
 		this.sprite = scene.impact.add.sprite(x, y, "player");
-		this.health = 3;
+
 		this.state = {
+			health: 3,
 			isHurt: false,
 			isCrouchingOrCrawling: false,
 			isDragging: false,
@@ -489,13 +490,13 @@ export class Player {
 		if (!this.state.isHurt) {
 			this.sounds.hit.play();
 			this.state.isHurt = true;
-			this.health -= amount;
+			this.state.health -= amount;
 			let bounceBackVelocityX = this.sprite.vel.x > 0 ? -this.default.bouncebackVelocity.x : this.default.bouncebackVelocity.x;
 			let bounceBackVelocityY = this.sprite.vel.y < 0 ? this.default.bouncebackVelocity.y : -this.default.bouncebackVelocity.y;
 			this.sprite.setVelocityX(bounceBackVelocityX);
 			this.sprite.setVelocityY(bounceBackVelocityY);
 
-			if (this.health <= 0) {
+			if (this.state.health <= 0) {
 				this.respawn();
 			}
 
@@ -508,7 +509,8 @@ export class Player {
 	}
 
 	respawn() {
-		this.health = 3;
-		this.sprite.body.pos = this.latestCheckpointPosition;
+		this.state.health = 3;
+		this.sprite.body.pos.x = this.latestCheckpointPosition.x;
+		this.sprite.body.pos.y = this.latestCheckpointPosition.y;
 	}
 }
