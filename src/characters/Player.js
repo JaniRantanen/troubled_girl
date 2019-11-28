@@ -29,6 +29,7 @@ export class Player {
 			dashVelocity: new Phaser.Math.Vector2(700, 0),
 			slideVelocity: new Phaser.Math.Vector2(1000, 0),
 			bouncebackVelocity: new Phaser.Math.Vector2(1000, 0),
+			dragAndCrouchVelocity: new Phaser.Math.Vector2(125, 125),
 		};
 
 		this.latestCheckpointPosition = new Phaser.Math.Vector2(x, y);
@@ -238,6 +239,9 @@ export class Player {
 		// Slow down player when dragging items or crawling
 		if (this.state.isDragging || this.state.isCrouchingOrCrawling) {
 			acceleration = acceleration / 8;
+			this.sprite.setMaxVelocity(this.default.dragAndCrouchVelocity.x, this.default.dragAndCrouchVelocity.y);
+		} else {
+			this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
 		}
 
 		// Handle gravity on slopes
