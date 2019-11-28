@@ -53,6 +53,8 @@ export class Player {
 			interact: "e",
 		});
 		this.controls.up.on("down", () => !this.state.isJumping ? this.jump() : this.doublejump(), this);
+		this.controls.down.on("down", () => this.state.isCrouchingOrCrawling = true, this);
+		this.controls.down.on("up", () => this.state.isCrouchingOrCrawling = false, this);
 		this.controls.interact.on("down", this.startDrag, this);
 		this.controls.interact.on("up", this.stopDrag, this);
 
@@ -113,7 +115,6 @@ export class Player {
 			return false;
 		}
 	}
-
 
 	animate() {
 		let { anims } = this.scene;
@@ -227,7 +228,7 @@ export class Player {
 	/* LIFECYCLE METHODS */
 	update(time, delta) {
 		this.state.isFalling = this.sprite.vel.y > 0 && !this.sprite.body.standing && !this.state.isDashing;
-		this.state.isCrouchingOrCrawling = this.controls.down.isDown && this.sprite.body.standing && !this.state.isDragging && !this.state.isDashing;
+		this.state.isCrouchingOrCrawling = this.controls.down.isDown || !this.canStandUp();
 		this.state.isIdle = this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp;
 		this.state.isRunning = this.sprite.vel.x !== 0 && this.sprite.body.standing && (!this.state.isSliding && !this.state.isCrouchingOrCrawling);
 
@@ -301,7 +302,7 @@ export class Player {
 		}
 
 		// Idle
-		if (this.state.isIdle) {
+		if (this.state.isIdle && !this.state.isCrouchingOrCrawling) {
 			this.sprite.anims.play("TG_girl_idle", true);
 		}
 
@@ -311,8 +312,6 @@ export class Player {
 		}
 
 		this.handleCollisionBoxState();
-
-		this.scene.events.emit("debug", this.state);
 	}
 
 
@@ -344,12 +343,19 @@ export class Player {
 			this.changeCollisionBox({ x: (200 - dashWidth) / 2, y: ((200 - dashHeight) / 2) }, dashWidth, dashHeight);
 
 		}
-
-		if (this.state.isIdle || this.state.isFalling || this.state.isRunning) {
+		if ((this.state.isIdle || this.state.isFalling || this.state.isRunning) && !this.state.isCrouchingOrCrawling) {
 			let idleWidth = 50;
 			let idleHeight = 160;
 			this.changeCollisionBox({ x: (200 - idleWidth) / 2, y: (200 - idleHeight) }, idleWidth, idleHeight);
 		}
+	}
+
+	canStandUp() {
+		let { body } = this.sprite;
+		let { collisionMap } = this.scene.impact.world;
+		let requiredHeadRoom = 25;
+		let theoreticalCollision = collisionMap.trace(body.pos.x, body.pos.y, 0, -requiredHeadRoom, body.size.x, body.size.y);
+		return theoreticalCollision.tile.y !== 1;
 	}
 
 	changeCollisionBox(nextOffset, width, height) {
