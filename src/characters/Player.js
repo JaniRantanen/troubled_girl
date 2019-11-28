@@ -229,7 +229,7 @@ export class Player {
 	/* LIFECYCLE METHODS */
 	update(time, delta) {
 		this.state.isFalling = this.sprite.vel.y > 0 && !this.sprite.body.standing && !this.state.isDashing;
-		this.state.isCrouchingOrCrawling = this.controls.down.isDown || !this.canStandUp();
+		this.state.isCrouchingOrCrawling = this.controls.down.isDown || (!this.canStandUp() && this.sprite.vel.y === 0);
 		this.state.isIdle = this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp;
 		this.state.isRunning = this.sprite.vel.x !== 0 && this.sprite.body.standing && (!this.state.isSliding && !this.state.isCrouchingOrCrawling);
 
@@ -374,7 +374,7 @@ export class Player {
 			this.sprite.body.slope = false;
 		}
 
-		if (res.tile.y === 1) {
+		if (res.collision.y || res.tile.y === 1) {
 			this.state.isTouchingGround = true;
 			this.scene.events.emit("touchedGround");
 		} else {
@@ -392,7 +392,6 @@ export class Player {
 			this.state.isTouchingGround = true;
 			this.scene.events.emit("touchedGround");
 		}
-
 	}
 
 	groundCollision() {

@@ -5,17 +5,13 @@ export class Crawlspace {
 		this.sprite.setFixedCollision();
 		this.sprite.setGravity(0);
 		this.sprite.setCollideCallback(this.collide, this);
-		this.setupBody();
-	}
-
-	setupBody() {
 		this.sprite.setBodySize(this.sprite.width, this.sprite.height - 150);
+		this.createTileCollision();
 	}
 
-	collide(bodyA, bodyB, axis) {
-		//What happens when player stands up inside a crawlspace?
-		if (bodyB.name === "player" && axis === "y") {
-			//TODO: Add code for handling this situation
-		}
+	createTileCollision() {
+		console.log(this.scene.impact.world.collisionMap);
+
 	}
+
 }

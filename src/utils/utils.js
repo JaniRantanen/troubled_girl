@@ -21,3 +21,12 @@ export function setupLevel(scene, levelKey) {
 
 	return levelMap;
 }
+
+export function disableControls(scene) {
+	scene.input.keyboard.enabled = false;
+	scene.input.keyboard.resetKeys();
+}
+
+export function enableControls(scene) {
+	scene.input.keyboard.enabled = true;
+}

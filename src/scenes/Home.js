@@ -2,7 +2,7 @@ import { Player } from "../characters/Player";
 import { Toy } from "../items/Toy";
 import { DraggableItem } from "../items/DraggableItem";
 import { Crawlspace } from "../items/Crawlspace";
-import { Pause, setupLevel } from "../utils/utils";
+import { Pause, setupLevel, disableControls, enableControls } from "../utils/utils";
 import { TriggerObject } from "../items/TriggerObject";
 import { ShadowEnemy } from "../characters/ShadowEnemy";
 import { SimpleEnemy } from "../characters/SimpleEnemy";
@@ -10,10 +10,10 @@ export class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "home" });
 		this.player = null;
-		this.ui = null;
+		this.dialogScene = null;
 	}
 	preload() {
-		this.ui = this.scene.get("dialog");
+		this.dialogScene = this.scene.get("dialog");
 	}
 
 	async create() {
@@ -26,12 +26,12 @@ export class Home extends Phaser.Scene {
 
 		setupLevel(this, "home");
 
-		let bear = new Toy(this, 150, floor_1_Y, "item_nalle", this.cutscene_bearPickup.bind(this));
-		let bed = new Crawlspace(this, 500, floor_1_Y, "koti_sanky");
-		let box = new DraggableItem(this, 1100, floor_1_Y, "koti_laatikko");
+		// let bear = new Toy(this, 150, floor_1_Y, "item_nalle", this.cutscene_bearPickup.bind(this));
+		// //let bed = new Crawlspace(this, 500, floor_1_Y, "koti_sanky");
+		// let box = new DraggableItem(this, 1100, floor_1_Y, "koti_laatikko");
 
-		let chair = new DraggableItem(this, 1300, floor_1_Y, "koti_tuoli_sivu");
-		chair.sprite.flipX = true;
+		// let chair = new DraggableItem(this, 1300, floor_1_Y, "koti_tuoli_sivu");
+		// chair.sprite.flipX = true;
 
 		this.firstFloorWindow = new TriggerObject(this, 1700, floor_1_Y - 150, "koti_ikkuna_reveal", this.cutscene_monster.bind(this));
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli");
@@ -55,30 +55,33 @@ export class Home extends Phaser.Scene {
 		let garageEnemy = new SimpleEnemy(this, 5000, floor_1_Y);
 
 
-		this.cutscene_intro();
+		//this.cutscene_intro();
 	}
 
 	async cutscene_intro() {
 		this.cameras.main.setAlpha(0);
-		await this.ui.updateDialog("Daddy’s sad…", 2000);
-		await this.ui.updateDialog("He’s been sad for a while now…", 2000);
-		await this.ui.updateDialog("Maybe Mr. Cuddles could help?", 2000);
+		await this.dialogScene.updateDialog("Daddy’s sad…", 2000);
+		await this.dialogScene.updateDialog("He’s been sad for a while now…", 2000);
+		await this.dialogScene.updateDialog("Maybe Mr. Cuddles could help?", 2000);
 		this.cameras.main.setAlpha(1);
 		this.cameras.main.fadeIn(4000);
 	}
 
 	async cutscene_bearPickup() {
 		this.registry.set("dragUnlocked", true);
-
-		await this.cutscene_memoryItem();
+		disableControls(this);
+		//await this.cutscene_memoryItem();
 		this.cameras.main.fadeOut(500);
 		await Pause(1000);
-		await this.ui.updateDialog("Mr. Cuddles has given you the strength to push and pull things.", 2000);
+		await this.dialogScene.updateDialog("Mr. Cuddles has given you the strength to push and pull things.", 2000);
 		await Pause(1000);
 		this.cameras.main.fadeIn(500);
+		enableControls(this);
+
 	}
 
 	async cutscene_monster() {
+		disableControls(this);
 		this.player.sprite.anims.play("TG_girl_idle");
 		this.player.sprite.body.enabled = false;
 
@@ -86,21 +89,22 @@ export class Home extends Phaser.Scene {
 
 		await Pause(1000);
 
-		await this.ui.updateDialog("I’m scared. I need to find Daddy!", 2000);
+		await this.dialogScene.updateDialog("I’m scared. I need to find Daddy!", 2000);
 
 		this.player.sprite.anims.play("TG_girl_run", true);
 
+		let stopPositionX = this.dadsRecliner.x - 200;
 		this.tweens.add({
 			targets: this.player.sprite,
-			x: this.dadsRecliner.x - 200,
+			x: stopPositionX,
 			duration: 5000,
 			ease: 'Power2',
 			completeDelay: 500,
 			onComplete: async () => {
 				this.player.sprite.anims.play("TG_girl_idle");
-				await this.ui.updateDialog("Daddy, there’s something outside", 2000);
-				await this.ui.updateDialog("Daddy...?", 2000);
-				await this.ui.updateDialog("Are you okay…?", 2000);
+				await this.dialogScene.updateDialog("Daddy, there’s something outside", 2000);
+				await this.dialogScene.updateDialog("Daddy...?", 2000);
+				await this.dialogScene.updateDialog("Are you okay…?", 2000);
 				await Pause(2000);
 
 				this.anims.create({
@@ -112,17 +116,18 @@ export class Home extends Phaser.Scene {
 
 				this.dadsTv.anims.play("koti_tv_uusi").on("animationcomplete", () => {
 					let enemy = new ShadowEnemy(this, this.dadsTv.x, this.dadsTv.y - 100);
-					this.player.sprite.body.pos.x = this.player.sprite.x - this.player.sprite.size.x;
+					this.player.sprite.body.pos.x = stopPositionX - this.player.sprite.width;
 					this.player.sprite.body.enabled = true;
 					enemy.spawn();
 				});
 			}
 		});
+		enableControls(this);
 	}
 
 	async cutscene_outside() {
-		await this.ui.updateDialog("Mr. Cuddles, we need to find Mommy.", 2000);
-		await this.ui.updateDialog("Mommy will know how to help Daddy!", 2000);
+		await this.dialogScene.updateDialog("Mr. Cuddles, we need to find Mommy.", 2000);
+		await this.dialogScene.updateDialog("Mommy will know how to help Daddy!", 2000);
 	}
 
 	cutscene_memoryItem() {
