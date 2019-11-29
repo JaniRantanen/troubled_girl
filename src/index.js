@@ -14,5 +14,5 @@ var game = new Phaser.Game({
         }
     },
 
-    backgroundColor: "#000000",
+    backgroundColor: "#000009",
 });
