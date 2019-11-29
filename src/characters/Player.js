@@ -519,5 +519,6 @@ export class Player {
 		this.state.health = 3;
 		this.sprite.body.pos.x = this.latestCheckpointPosition.x;
 		this.sprite.body.pos.y = this.latestCheckpointPosition.y;
+		this.sprite.setVelocity(0, 0);
 	}
 }
