@@ -54,3 +54,8 @@ export function nothingIsPressed(controlsObject) {
 	return true;
 }
 
+export function getImpactBodyBounds(impactBody) {
+	return new Phaser.Geom.Rectangle(impactBody.pos.x, impactBody.pos.y, impactBody.size.x, impactBody.size.y);
+}
+
+
