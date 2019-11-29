@@ -7,9 +7,9 @@ export class MainMenu extends Phaser.Scene {
     }
 
     create() {
-        let introMusic = this.sound.add("alkuvalikkopiisi_1");
+        let introMusic = this.sound.add("alkuvalikkomusikki_1_tausta");
         introMusic.play()
-        introMusic.once("complete", () => this.sound.play("alkuvalikkopiisi_2", { loop: true }), this);
+        introMusic.once("complete", () => this.sound.play("alkuvalikkomusiikki_2_tausta", { loop: true }), this);
 
         this.createMenu();
 

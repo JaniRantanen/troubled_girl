@@ -8,7 +8,11 @@ export class Music extends Phaser.Scene {
 
 	handleMusicUpdate(scene) {
 		if (this.chaseMusic === null) {
-			this.chaseMusic = this.sound.add("jahtausmusiikki", { loop: true });
+			this.chaseMusic = this.sound.add("jahtausmusiikki_tausta", { loop: true });
+		}
+
+		if (this.backgroundMusic === null) {
+			this.backgroundMusic = this.sound.add("metsamusiikki_tausta", { loop: true });
 		}
 
 		let enemies = scene.children.getChildren().filter((gameobject) => gameobject.getData("enemy"));
