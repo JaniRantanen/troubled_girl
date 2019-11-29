@@ -31,19 +31,20 @@ export class Boot extends Phaser.Scene {
         this.load.setPath("assets/");
 
         // Music
-        this.load.audio("alkuvalikkopiisi_1", "music/alkuvalikkopiisi_1.wav");
-        this.load.audio("alkuvalikkopiisi_2", "music/alkuvalikkopiisi_2.wav");
-        this.load.audio("jahtausmusiikki", "music/jahtausmusiikki.wav");
-        this.load.audio("metsamusiikki", "music/metsamusiikki.wav");
-
+        this.load.audio("alkuvalikkomusikki_1_tausta", "music/alkuvalikkomusikki_1_tausta.mp3");
+        this.load.audio("alkuvalikkomusiikki_2_tausta", "music/alkuvalikkomusiikki_2_tausta.mp3");
+        this.load.audio("jahtausmusiikki_tausta", "music/jahtausmusiikki_tausta.mp3");
+        this.load.audio("metsamusiikki_tausta", "music/metsamusiikki_tausta.mp3");
+        this.load.audio("hautausmaamusiikki_tausta", "music/hautausmaamusiikki_tausta.mp3");
+        this.load.audio("loppumusiikki_tausta", "music/loppumusiikki_tausta.mp3");
 
         // SFX
-        this.load.audio("jump", "sfx/jump.wav");
-        this.load.audio("osuma", "sfx/osuma.wav");
-        this.load.audio("raahausaani", "sfx/raahausaani.wav");
-        this.load.audio("vihollisaanet_1", "sfx/vihollisaanet_1.wav");
-        this.load.audio("vihollisaanet_2", "sfx/vihollisaanet_2.wav");
-        this.load.audio("vihollisaanet_3", "sfx/vihollisaanet_3.wav");
+        this.load.audio("hyppy", "sfx/hyppy.mp3");
+        this.load.audio("osuma", "sfx/osuma.mp3");
+        this.load.audio("raahausaani", "sfx/raahausaani.mp3");
+        this.load.audio("vihollisaanet_1", "sfx/vihollisaanet_1.mp3");
+        this.load.audio("vihollisaanet_2", "sfx/vihollisaanet_2.mp3");
+        this.load.audio("vihollisaanet_3", "sfx/vihollisaanet_3.mp3");
 
         // Graphics
         this.load.image("kansikuva_final", "images/kansikuva_final.png");

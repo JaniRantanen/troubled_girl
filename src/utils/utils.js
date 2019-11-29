@@ -26,6 +26,7 @@ export function setupLevel(scene, levelKey) {
 export function setupScene(scene, level, backgroundKey, startPosition) {
 	scene.dialogScene = scene.scene.get("dialog");
 	scene.musicScene = scene.scene.get("music");
+	scene.events.on("preupdate", () => scene.musicScene.handleMusicUpdate(scene));
 
 	for (let i = 0; i < level.widthInPixels; i = i + 1600) {
 		scene.add.image(i, -100, backgroundKey).setOrigin(0, 0).setDepth(-10);

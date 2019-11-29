@@ -19,7 +19,7 @@ export class Player {
 		};
 		this.sounds = {
 			hit: this.scene.sound.add("osuma"),
-			jump: this.scene.sound.add("jump"),
+			jump: this.scene.sound.add("hyppy"),
 		};
 
 		this.default = {
