@@ -4,28 +4,20 @@ import { Hideout } from "../items/Hideout";
 import { DraggableItem } from "../items/DraggableItem";
 import { Toy } from "../items/Toy";
 import { Checkpoint } from "../items/Checkpoint";
-import { setupLevel } from "../utils/utils";
+import { setupLevel, setupScene } from "../utils/utils";
 import { dashSlideUnlock } from "../cutscenes/abilityUnlock";
 
 export class Playground extends Phaser.Scene {
 	constructor() {
 		super({ key: "playground" });
-		this.player = null;
-		this.dialogScene = null;
 	}
-	preload() {
-		this.dialogScene = this.scene.get("dialog");
-	}
+
 
 	async create() {
-		this.cameras.main.setBackgroundColor(0xb9b9b9);
-		this.player = new Player(this, 1000, 1600);
-		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
-		setupLevel(this, "playground");
-
 		let groundLevel = 1600;
+		let level = setupLevel(this, "playground");
+		setupScene(this, level, "tausta_leikkikentta", { x: 2400, y: groundLevel })
 
-		//this.cameras.main.setZoom(0.1);
 		let objects = [
 			new SimpleEnemy(this, 3000, groundLevel),
 			new Hideout(this, 4000, groundLevel, "metsa_pensas"),

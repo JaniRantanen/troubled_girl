@@ -1,7 +1,7 @@
 
 
 import { Player } from "../characters/Player";
-import { setupLevel, Pause } from "../utils/utils";
+import { setupLevel, Pause, setupScene } from "../utils/utils";
 import { SimpleEnemy } from "../characters/SimpleEnemy";
 import { ShadowEnemy } from "../characters/ShadowEnemy";
 import { DraggableItem } from "../items/DraggableItem";
@@ -26,9 +26,11 @@ export class Sandbox extends Phaser.Scene {
     async create() {
         this.cameras.main.setBackgroundColor(0xb9b9b9);
         let floor_1_y = 1300;
-        this.player = new Player(this, 6500, floor_1_y);
-        let level = setupLevel(this, "sandbox");
-        this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
+
+        this.level = setupLevel(this, "sandbox");
+
+
+        setupScene(this, this.level, "tausta_metsa", { x: 11000, y: floor_1_y });
 
         let bear = new Toy(this, 350, floor_1_y, "item_nalle", dragUnlock.bind(this, this));
         let box = new DraggableItem(this, 600, floor_1_y, "koti_laatikko");

@@ -7,7 +7,7 @@ export class TriggerObject {
 		this.sprite.setGravity(0);
 		this.triggerFunction = triggerFunction;
 		this.singleFire = singleFire;
-		this._hasFired = false;
+		this.hasFired = false;
 
 		this.scene.events.on("preupdate", this.update, this);
 		this.animate();
@@ -15,9 +15,9 @@ export class TriggerObject {
 
 	update() {
 		let playerOverlapsTrigger = Phaser.Geom.Rectangle.Overlaps(this.scene.player.sprite.getBounds(), this.sprite.getBounds());
-		if (playerOverlapsTrigger && (!this._hasFired && this.singleFire)) {
+		if (playerOverlapsTrigger && (!this.hasFired && this.singleFire)) {
 			this.triggerFunction();
-			this._hasFired = true;
+			this.hasFired = true;
 		}
 	}
 

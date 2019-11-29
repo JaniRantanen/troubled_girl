@@ -1,37 +1,29 @@
-import { Player } from "../characters/Player";
 import { Toy } from "../items/Toy";
 import { DraggableItem } from "../items/DraggableItem";
 import { Crawlspace } from "../items/Crawlspace";
-import { Pause, setupLevel, disableControls, enableControls } from "../utils/utils";
+import { Pause, setupLevel, disableControls, enableControls, setupScene } from "../utils/utils";
 import { TriggerObject } from "../items/TriggerObject";
 import { ShadowEnemy } from "../characters/ShadowEnemy";
 import { SimpleEnemy } from "../characters/SimpleEnemy";
+import { dragUnlock } from "../cutscenes/abilityUnlock";
 export class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "home" });
-		this.player = null;
-		this.dialogScene = null;
 	}
-	preload() {
-		this.dialogScene = this.scene.get("dialog");
-	}
-
 	async create() {
 
 		let floor_1_Y = 1600;
 		let floor_2_Y = 1000;
 		let floor_3_Y = 500;
-		this.player = new Player(this, 900, floor_1_Y);
-		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 
-		setupLevel(this, "home");
+		let level = setupLevel(this, "home");
+		setupScene(this, level, "tausta_koti", { x: 800, y: floor_1_Y });
 
-		// let bear = new Toy(this, 150, floor_1_Y, "item_nalle", this.cutscene_bearPickup.bind(this));
-		// //let bed = new Crawlspace(this, 500, floor_1_Y, "koti_sanky");
-		// let box = new DraggableItem(this, 1100, floor_1_Y, "koti_laatikko");
+		let bear = new Toy(this, 150, floor_1_Y, "item_nalle", dragUnlock.bind(this, this));
+		//let bed = new Crawlspace(this, 500, floor_1_Y, "koti_sanky");
+		let box = new DraggableItem(this, 1100, floor_1_Y, "koti_laatikko");
 
-		// let chair = new DraggableItem(this, 1300, floor_1_Y, "koti_tuoli_sivu");
-		// chair.sprite.flipX = true;
+		//let chair = new DraggableItem(this, 1300, floor_1_Y, "koti_tuoli_sivu");
 
 		this.firstFloorWindow = new TriggerObject(this, 1700, floor_1_Y - 150, "koti_ikkuna_reveal", this.cutscene_monster.bind(this));
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli");
@@ -53,11 +45,9 @@ export class Home extends Phaser.Scene {
 		let dialogTrigger = new TriggerObject(this, 4500, floor_1_Y - 1000, "widebox", this.cutscene_outside.bind(this));
 
 		let garageEnemy = new SimpleEnemy(this, 5000, floor_1_Y);
-
-
 		//this.cutscene_intro();
-	}
 
+	}
 	async cutscene_intro() {
 		this.cameras.main.setAlpha(0);
 		await this.dialogScene.updateDialog("Daddy’s sad…", 2000);
@@ -65,19 +55,6 @@ export class Home extends Phaser.Scene {
 		await this.dialogScene.updateDialog("Maybe Mr. Cuddles could help?", 2000);
 		this.cameras.main.setAlpha(1);
 		this.cameras.main.fadeIn(4000);
-	}
-
-	async cutscene_bearPickup() {
-		this.registry.set("dragUnlocked", true);
-		disableControls(this);
-		//await this.cutscene_memoryItem();
-		this.cameras.main.fadeOut(500);
-		await Pause(1000);
-		await this.dialogScene.updateDialog("Mr. Cuddles has given you the strength to push and pull things.", 2000);
-		await Pause(1000);
-		this.cameras.main.fadeIn(500);
-		enableControls(this);
-
 	}
 
 	async cutscene_monster() {
@@ -94,6 +71,7 @@ export class Home extends Phaser.Scene {
 		this.player.sprite.anims.play("TG_girl_run", true);
 
 		let stopPositionX = this.dadsRecliner.x - 200;
+
 		this.tweens.add({
 			targets: this.player.sprite,
 			x: stopPositionX,
@@ -128,64 +106,5 @@ export class Home extends Phaser.Scene {
 	async cutscene_outside() {
 		await this.dialogScene.updateDialog("Mr. Cuddles, we need to find Mommy.", 2000);
 		await this.dialogScene.updateDialog("Mommy will know how to help Daddy!", 2000);
-	}
-
-	cutscene_memoryItem() {
-		return new Promise((resolve, reject) => {
-			let { x, y, flipX } = this.player.sprite;
-
-			let timeline = this.tweens.createTimeline();
-			let memoryItem_black = this.impact.add.sprite(x, y - 100, "leikki_nalle_musta").setGravity(0).setAlpha(0).setDepth(2);
-			let memoryItem_color = this.impact.add.sprite(x, y - 100, "leikki_nalle_vari").setGravity(0).setAlpha(0).setDepth(2);
-			memoryItem_black.flipX = !flipX;
-			memoryItem_color.flipX = !flipX;
-
-
-			let fadeOutPlayer = timeline.add({
-				targets: this.player.sprite,
-				alpha: { from: 1, to: 0 },
-				ease: 'Linear',
-				duration: 500,
-			});
-
-			let fadeInMemory_black = timeline.add({
-				targets: memoryItem_black,
-				alpha: { from: 0, to: 1 },
-				ease: 'Linear',
-				duration: 3000,
-			});
-
-			let fadeInMemory_color = timeline.add({
-				targets: memoryItem_color,
-				alpha: { from: 0, to: 1 },
-				ease: 'Linear',
-				duration: 1500,
-				completeDelay: 3000,
-			});
-
-			let fadeOutMemory_color = timeline.add({
-				targets: memoryItem_color,
-				alpha: { from: 1, to: 0 },
-				ease: 'Linear',
-				duration: 1500,
-			});
-
-			let fadeOutMemory_black = timeline.add({
-				targets: memoryItem_black,
-				alpha: { from: 1, to: 0 },
-				ease: 'Linear',
-				duration: 1500,
-			});
-
-			let fadeInPlayer = timeline.add({
-				targets: this.player.sprite,
-				alpha: { from: 0, to: 1 },
-				ease: 'Linear',
-				duration: 1500,
-			});
-
-			timeline.play();
-			timeline.onComplete = () => resolve(), this;
-		})
 	}
 }

@@ -57,10 +57,11 @@ export class Boot extends Phaser.Scene {
         this.load.image("tausta_metsa", "images/tausta_metsa.png");
         this.load.image("tausta_leikkikentta", "images/tausta_leikkikentta.png");
         this.load.image("tausta_kallio", "images/tausta_kallio.png");
+        this.load.image("tausta_kallio1", "images/tausta_kallio1.png");
         this.load.image("tausta_hautausmaa", "images/tausta_hautausmaa.png");
         this.load.image("tausta_koti", "images/tausta_koti.png");
         this.load.image("pimeystausta", "images/pimeystausta.png");
-
+        this.load.image("spotlight", "images/spotlight.png");
 
 
         // Art objects
@@ -73,6 +74,7 @@ export class Boot extends Phaser.Scene {
 
         this.load.image("koti_kello", "images/koti_kello.png");
         this.load.image("koti_nojatuoli", "images/koti_nojatuoli.png");
+        this.load.image("koti_nojatuoli_isalla", "images/koti_nojatuoli_isalla.png");
         this.load.image("koti_poyta", "images/koti_poyta.png");
         this.load.image("koti_poytaliinalla", "images/koti_poytaliinalla.png");
         this.load.image("koti_sanky", "images/koti_sanky.png");
@@ -137,6 +139,8 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("isa_walk", "sprites/dad/isa_walk.png", "sprites/dad/isa_walk.json");
         this.load.atlas("varjoisa_idle", "sprites/dad/varjoisa_idle.png", "sprites/dad/varjoisa_idle.json");
         this.load.atlas("varjoisa_walk", "sprites/dad/varjoisa_walk.png", "sprites/dad/varjoisa_walk.json");
+        this.load.atlas("isa_jumpsuccess", "sprites/dad/isa_jumpsuccess.png", "sprites/dad/isa_jumpsuccess.json");
+        this.load.atlas("isa_jumpsuccess_onair", "sprites/dad/isa_jumpsuccess_onair.png", "sprites/dad/isa_jumpsuccess_onair.json");
 
         // Mom sprites and animations
         this.load.atlas("aiti_enkeli_idle5fps", "sprites/mom/aiti_enkeli_idle5fps.png", "sprites/mom/aiti_enkeli_idle5fps.json");
@@ -195,7 +199,7 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("forest");
+                this.scene.start("home");
             } else {
                 this.scene.start("mainmenu");
             }

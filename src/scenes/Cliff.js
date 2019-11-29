@@ -16,5 +16,9 @@ export class Cliff extends Phaser.Scene {
 		this.player = new Player(this, 300, 1000);
 		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 		setupLevel(this, "cliff");
+
+		//kallio1
+
+		//Reuna on kolme vikaa tileä
 	}
 }

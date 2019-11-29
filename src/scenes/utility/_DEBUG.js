@@ -11,7 +11,7 @@ export class _DEBUG extends Phaser.Scene {
 		this.debugTextBottomCenter = this.add.text(700, 650, '', { font: '12px Arial', fill: '#fff' });
 		this.debugTextRight = this.add.text(1300, 0, '', { font: '12px Arial', fill: '#fff' });
 
-		let sceneBeingDebugged = this.scene.get('playground');
+		let sceneBeingDebugged = this.scene.get('home');
 
 		sceneBeingDebugged.events.on('update', function () {
 			this.fps.setText(`FPS: ${sceneBeingDebugged.sys.game.loop.actualFps}`);

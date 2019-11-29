@@ -145,7 +145,6 @@ export class SimpleEnemy {
 		this.state.isAggressive = false;
 		this.sprite.clearTint();
 		this.sprite.anims.play('enemy_hum_walk', true);
-
 		if (this.sprite.x < this.patrolArea.start.x) {
 			this.sprite.setAccelerationX(this.speed);
 		}
@@ -153,5 +152,6 @@ export class SimpleEnemy {
 		if (this.sprite.x > this.patrolArea.end.x) {
 			this.sprite.setAccelerationX(-this.speed);
 		}
+
 	}
 }
