@@ -37,7 +37,6 @@ export class ShadowEnemy {
 	}
 
 	spawn() {
-		console.log("spawning");
 		this.sprite.anims.play("varjo_spawn", true).on("animationcomplete", () => {
 			this.hasSpawned = true;
 		}, this);
@@ -45,7 +44,6 @@ export class ShadowEnemy {
 	}
 
 	despawn() {
-		console.log("despawning");
 		this.scene.events.off("preupdate", this.update, this);
 		this.sprite.anims.playReverse("varjo_spawn", true).on("animationcomplete", () => {
 			this.sprite.destroy();
@@ -53,8 +51,6 @@ export class ShadowEnemy {
 	}
 
 	update(time, delta) {
-
-
 		if (this.hasSpawned) {
 			this.sprite.anims.play("varjo_chase", true);
 
