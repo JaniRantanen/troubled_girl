@@ -1,25 +1,14 @@
 import { Player } from "../characters/Player";
-import { setupLevel } from "../utils/utils";
-
+import { setupLevel, setupScene } from "../utils/utils";
+import { Trigger } from "../items/Trigger";
 export class Graveyard extends Phaser.Scene {
 	constructor() {
 		super({ key: "graveyard" });
-		this.player = null;
-		this.ui = null;
 	}
-	preload() {
-		this.ui = this.scene.get("dialog");
-	}
-
 	async create() {
-		this.cameras.main.setBackgroundColor(0xb9b9b9);
-		//alussa gameplaytä, pelaajalta otetaan kontrolli -> Cutscene
+		this.level = setupLevel(this, "graveyard");
+		setupScene(this, this.level, "tausta_hautausmaa", { x: 300, y: 1600 });
 
-		let level = setupLevel(this, "graveyard");
-
-		for (let i = 0; i < level.widthInPixels; i = i + 1600) {
-			this.add.image(i, -100, "tausta_hautausmaa").setOrigin(0, 0).setDepth(-10);
-		}
 		this.mom = this.impact.add.sprite(6250, 1500, "aiti_enkeli_idle5fps", 0);
 		let grave = this.impact.add.sprite(6500, 1500, "item_hauta")
 		// tyttö pysähtyy 5900
@@ -33,6 +22,16 @@ export class Graveyard extends Phaser.Scene {
 		this.impact.add.sprite(5400, 1500, "varjo_chase", 0);
 		this.impact.add.sprite(5700, 1500, "varjo_chase", 0);
 		//spawn animaatioon pieni offset, että ei ole identtinen
+
+
+
+		let exitTrigger = new Trigger(this, this.level.widthInPixels - 300, 0, 300, this.level.heightInPixels, () => {
+			this.scene.transition({
+				target: "darkness",
+				remove: true,
+				duration: 1000
+			});
+		});
 
 	}
 	graveyardCutscene() {

@@ -1,20 +1,22 @@
 import { Player } from "../characters/Player";
-import { setupLevel } from "../utils/utils";
+import { setupLevel, setupScene } from "../utils/utils";
+import { Trigger } from "../items/Trigger";
 
 export class Forest extends Phaser.Scene {
 	constructor() {
 		super({ key: "forest" });
-		this.player = null;
-		this.ui = null;
-	}
-	preload() {
-		this.ui = this.scene.get("dialog");
 	}
 
 	async create() {
-		this.cameras.main.setBackgroundColor(0xb9b9b9);
-		this.player = new Player(this, 300, 1300);
-		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
-		setupLevel(this, "forest");
+		this.level = setupLevel(this, "forest");
+		setupScene(this, this.level, "tausta_metsa", { x: 300, y: 1300 });
+
+		let exitTrigger = new Trigger(this, this.level.widthInPixels - 300, 0, 300, this.level.heightInPixels, () => {
+			this.scene.transition({
+				target: "graveyard",
+				remove: true,
+				duration: 1000
+			});
+		});
 	}
 }

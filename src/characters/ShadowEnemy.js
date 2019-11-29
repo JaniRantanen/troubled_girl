@@ -1,3 +1,5 @@
+import { getImpactBodyBounds } from "../utils/utils";
+
 export class ShadowEnemy {
 	constructor(scene, x, y) {
 		this.scene = scene;
@@ -73,7 +75,7 @@ export class ShadowEnemy {
 			(this.canSeePlayer || this.chaseTimeLeft) > 0 ? this.chase() : this.despawn();
 		}
 
-		let playerIsNear = Phaser.Geom.Rectangle.Overlaps(this.scene.player.sprite.getBounds(), this.sprite.getBounds());
+		let playerIsNear = Phaser.Geom.Rectangle.Overlaps(getImpactBodyBounds(this.scene.player.sprite.body), this.sprite.getBounds());
 		if (playerIsNear && !this.hasSpawned) {
 			this.spawn();
 		}
@@ -99,7 +101,7 @@ export class ShadowEnemy {
 		let acceleration = this.scene.player.sprite.x - this.sprite.x > 0 ? this.speed : -this.speed;
 		this.sprite.setAccelerationX(acceleration);
 
-		let playerWithinReach = this.sprite.getBounds().contains(this.scene.player.sprite.x, this.scene.player.sprite.y);
+		let playerWithinReach = Phaser.Geom.Rectangle.Overlaps(getImpactBodyBounds(this.scene.player.sprite.body), this.sprite.getBounds());
 		if (playerWithinReach && !this.scene.player.isHiding) {
 			this.scene.player.takeDamage(this.scene.player.health);
 		}

@@ -1,18 +1,14 @@
-export class Checkpoint {
-	constructor(scene, x, y) {
+import { Trigger } from "./Trigger";
+
+export class Checkpoint extends Trigger {
+	constructor(scene, x, y, width = 100, height = 1000) {
+		super(scene, x, y, width, height, null, true);
 		this.scene = scene;
-		this.sprite = scene.add.rectangle(x, y, 100, 1600, "0xff0000");
-		this.sprite.setData("isActivated", false);
-		this.sprite.setAlpha(0);
-		this.scene.events.on("preupdate", this.update, this);
+		super.triggerFunction = this.onCheckpointPassed;
 	}
 
-	update() {
-		let playerOverlapsTrigger = Phaser.Geom.Rectangle.Overlaps(this.scene.player.sprite.getBounds(), this.sprite.getBounds());
-		if (playerOverlapsTrigger && !this.sprite.getData("isActivated")) {
-			console.log(`CHECKPOINT PASSED AT x:${this.sprite.x} and y:${this.sprite.y}`);
-			this.scene.player.latestCheckpointPosition = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y)
-			this.sprite.setData("isActivated", true);
-		}
+	onCheckpointPassed() {
+		console.log(`CHECKPOINT PASSED AT x:${this.shape.x} and y:${this.shape.y}`);
+		this.scene.player.latestCheckpointPosition = new Phaser.Math.Vector2(this.shape.x, this.shape.y)
 	}
 }

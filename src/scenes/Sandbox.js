@@ -8,6 +8,7 @@ import { DraggableItem } from "../items/DraggableItem";
 import { Toy } from "../items/Toy";
 import { Checkpoint } from "../items/Checkpoint";
 import { dragUnlock, dashSlideUnlock, doublejumpUnlock } from "../cutscenes/abilityUnlock";
+import { Trigger } from "../items/Trigger";
 
 export class Sandbox extends Phaser.Scene {
     constructor() {
@@ -15,36 +16,18 @@ export class Sandbox extends Phaser.Scene {
         this.player = null;
         this.dialogScene = null;
         this.musicScene = null;
+        this.level = null;
     }
 
     preload() {
-        this.dialogScene = this.scene.get("dialog");
-        this.musicScene = this.scene.get("music");
-        this.musicScene.backgroundMusic = this.sound.add("metsamusiikki", { loop: true, volume: 0.2 });
+
     }
 
     async create() {
-        this.cameras.main.setBackgroundColor(0xb9b9b9);
         let floor_1_y = 1300;
-
         this.level = setupLevel(this, "sandbox");
-
-
-        setupScene(this, this.level, "tausta_metsa", { x: 11000, y: floor_1_y });
-
-        let bear = new Toy(this, 350, floor_1_y, "item_nalle", dragUnlock.bind(this, this));
-        let box = new DraggableItem(this, 600, floor_1_y, "koti_laatikko");
-        let box2 = new DraggableItem(this, 1000, floor_1_y, "koti_laatikko");
-
-        let balloon = new Toy(this, 3000, floor_1_y, "item_ilmapallo", doublejumpUnlock.bind(this, this));
-
-        let ball = new Toy(this, 5000, floor_1_y, "item_pallo", dashSlideUnlock.bind(this, this));
-
-        let checkpoint = new Checkpoint(this, 6500, floor_1_y)
-        let basicEnemy = new SimpleEnemy(this, 7400, floor_1_y);
-        let basicEnemy_2 = new SimpleEnemy(this, 7700, floor_1_y);
-
-        let chaser = new ShadowEnemy(this, 9000, floor_1_y);
+        setupScene(this, this.level, "tausta_metsa", { x: 10880, y: floor_1_y });
+        this.musicScene.backgroundMusic = this.sound.add("metsamusiikki", { loop: true, volume: 0.2 });
     }
 
     update() {

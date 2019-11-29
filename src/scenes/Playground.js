@@ -6,6 +6,7 @@ import { Toy } from "../items/Toy";
 import { Checkpoint } from "../items/Checkpoint";
 import { setupLevel, setupScene } from "../utils/utils";
 import { dashSlideUnlock } from "../cutscenes/abilityUnlock";
+import { Trigger } from "../items/Trigger";
 
 export class Playground extends Phaser.Scene {
 	constructor() {
@@ -15,8 +16,8 @@ export class Playground extends Phaser.Scene {
 
 	async create() {
 		let groundLevel = 1600;
-		let level = setupLevel(this, "playground");
-		setupScene(this, level, "tausta_leikkikentta", { x: 2400, y: groundLevel })
+		this.level = setupLevel(this, "playground");
+		setupScene(this, this.level, "tausta_leikkikentta", { x: 150, y: groundLevel })
 
 		let objects = [
 			new SimpleEnemy(this, 3000, groundLevel),
@@ -36,7 +37,14 @@ export class Playground extends Phaser.Scene {
 			new Toy(this, 18700, groundLevel, "item_pallo", dashSlideUnlock.bind(this, this)),
 			new SimpleEnemy(this, 25000, groundLevel),
 			new SimpleEnemy(this, 28000, groundLevel)
-
 		];
+
+		let exitTrigger = new Trigger(this, this.level.widthInPixels - 300, 0, 300, this.level.heightInPixels, () => {
+			this.scene.transition({
+				target: "forest",
+				remove: true,
+				duration: 1000
+			});
+		});
 	}
 }

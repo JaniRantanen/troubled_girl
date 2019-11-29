@@ -1,21 +1,28 @@
 import { Player } from "../characters/Player";
-import { setupLevel } from "../utils/utils";
+import { setupLevel, setupScene } from "../utils/utils";
+import { Trigger } from "../items/Trigger";
 
 export class Darkness extends Phaser.Scene {
 	constructor() {
 		super({ key: "darkness" });
-		this.player = null;
-		this.ui = null;
 	}
-	preload() {
-		this.ui = this.scene.get("dialog");
-	}
-
 	async create() {
+		this.level = setupLevel(this, "pimeys");
+		setupScene(this, this.level, "pimeystausta", { x: 200, y: 1600 });
 		this.cameras.main.setBackgroundColor(0x000);
-		this.player = new Player(this, 300, 1000);
-		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
-		setupLevel(this, "pimeys");
+
 		this.cameras.main.setZoom(0.2);
+
+
+		let exitTrigger = new Trigger(this, this.level.widthInPixels - 300, 0, 300, this.level.heightInPixels, () => {
+
+			//Tähän animaatioita, tweenauksia yms. (kts käsis)
+
+			this.scene.transition({
+				target: "isaskenennimi",
+				remove: true,
+				duration: 1000
+			});
+		});
 	}
 }
