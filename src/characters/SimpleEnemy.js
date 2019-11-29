@@ -28,10 +28,10 @@ export class SimpleEnemy {
 		this.sprite.setLiteCollision();
 		this.sprite.setTypeB();
 		this.sprite.setGravity(10);
-		this.sprite.setMaxVelocity(500)
+		this.sprite.setMaxVelocity(400)
 		this.sprite.setFriction(500, 50)
-		this.sprite.setBodySize(250, 350);
-		this.sprite.setOffset(75, 50);
+		this.sprite.setBodySize(200, 300);
+		this.sprite.setOffset(100, 100);
 
 		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
 		this.scene.events.on("preupdate", this.update, this);
@@ -109,12 +109,30 @@ export class SimpleEnemy {
 	}
 
 	attack() {
-		this.state.isAggressive = true;
-		this.sprite.setTint("0xFF0000");
 		let acceleration = this.scene.player.sprite.x - this.sprite.x > 0 ? this.speed : -this.speed;
 		this.sprite.setAccelerationX(acceleration * 2);
 
-		let playerWithinReach = this.sprite.getBounds().contains(this.scene.player.sprite.x, this.scene.player.sprite.y);
+		this.state.isAggressive = true;
+		this.sprite.setTint("0xFF0000");
+
+		let enemyBody = this.sprite.body;
+		let playerBody = this.scene.player.sprite.body;
+
+		let playerWithinReach = Phaser.Geom.Rectangle.Overlaps(
+			new Phaser.Geom.Rectangle(
+				enemyBody.pos.x,
+				enemyBody.pos.y,
+				enemyBody.size.x,
+				enemyBody.size.y
+			),
+			new Phaser.Geom.Rectangle(
+				playerBody.pos.x,
+				playerBody.pos.y,
+				playerBody.size.x,
+				playerBody.size.y
+			)
+		);
+
 		if (playerWithinReach && !this.scene.player.isHiding) {
 			this.sprite.anims.play('enemy_hum_attackALTERNATIVE', true);
 			this.scene.player.takeDamage();
@@ -127,6 +145,7 @@ export class SimpleEnemy {
 		this.state.isAggressive = false;
 		this.sprite.clearTint();
 		this.sprite.anims.play('enemy_hum_walk', true);
+
 		if (this.sprite.x < this.patrolArea.start.x) {
 			this.sprite.setAccelerationX(this.speed);
 		}
@@ -134,6 +153,5 @@ export class SimpleEnemy {
 		if (this.sprite.x > this.patrolArea.end.x) {
 			this.sprite.setAccelerationX(-this.speed);
 		}
-
 	}
 }
