@@ -226,6 +226,43 @@ export class Player {
 			frameRate: 10,
 			repeat: -1
 		});
+
+
+		anims.create({
+			key: "TG_girl_lookdown_cry_idle5fps",
+			frames: anims.generateFrameNames("TG_girl_lookdown_cry_idle5fps"),
+			frameRate: 5,
+			repeat: -1
+		});
+
+		anims.create({
+			key: "TG_girl_lookdown_cry5fps",
+			frames: anims.generateFrameNames("TG_girl_lookdown_cry5fps"),
+			frameRate: 5,
+			repeat: 0
+		});
+
+		anims.create({
+			key: "TG_girl_lookup_cry5fps",
+			frames: anims.generateFrameNames("TG_girl_lookup_cry5fps"),
+			frameRate: 5,
+			repeat: -1
+		});
+
+		anims.create({
+			key: "TG_girl_twistangle8fps",
+			frames: anims.generateFrameNames("TG_girl_twistangle8fps"),
+			frameRate: 8,
+			repeat: -1
+		});
+
+		anims.create({
+			key: "TG_girl_cryonground2fps",
+			frames: anims.generateFrameNames("TG_girl_cryonground2fps"),
+			frameRate: 2,
+			repeat: -1
+		});
+
 	}
 
 	/* LIFECYCLE METHODS */
