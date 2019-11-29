@@ -243,7 +243,9 @@ export class Player {
 			acceleration = acceleration / 8;
 			this.sprite.setMaxVelocity(this.default.dragAndCrouchVelocity.x, this.default.dragAndCrouchVelocity.y);
 		} else {
-			this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+			if (!this.state.isDashing && !this.state.isSliding) {
+				this.sprite.setMaxVelocity(this.default.maxVelocity.x, this.default.maxVelocity.y);
+			}
 		}
 
 		// Handle gravity on slopes
