@@ -38,6 +38,7 @@ export class Player {
 		this.sprite.body.accelAir = 600;
 		this.sprite.body.jumpSpeed = 700;
 		this.sprite.body.name = "player";
+		this.sprite.body.slopeStanding = { min: Phaser.Math.DegToRad(0), max: Phaser.Math.DegToRad(180) }
 
 		this.sprite.setLiteCollision();
 		this.sprite.setTypeA();
@@ -233,6 +234,7 @@ export class Player {
 		this.state.isCrouchingOrCrawling = this.controls.down.isDown || (!this.canStandUp() && this.sprite.vel.y === 0);
 		this.state.isIdle = this.sprite.vel.x === 0 && this.sprite.vel.y === 0 && this.sprite.body.standing && this.controls.down.isUp;
 		this.state.isRunning = this.sprite.vel.x !== 0 && this.sprite.body.standing && (!this.state.isSliding && !this.state.isCrouchingOrCrawling);
+		this.state.isStanding = this.sprite.body.standing;
 
 		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
 
