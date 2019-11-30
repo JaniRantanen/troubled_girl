@@ -103,7 +103,7 @@ export class ShadowEnemy {
 
 		let playerWithinReach = Phaser.Geom.Rectangle.Overlaps(getImpactBodyBounds(this.scene.player.sprite.body), this.sprite.getBounds());
 		if (playerWithinReach && !this.scene.player.isHiding) {
-			this.scene.player.takeDamage(this.scene.player.health);
+			this.scene.player.takeDamage(this.scene.player.state.health);
 		}
 	}
 }
