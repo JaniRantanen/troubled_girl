@@ -17,29 +17,38 @@ export class Playground extends Phaser.Scene {
 	async create() {
 		let groundLevel = 1600;
 		this.level = setupLevel(this, "playground");
-		setupScene(this, this.level, "tausta_leikkikentta", { x: 22000, y: groundLevel })
+		setupScene(this, this.level, "tausta_leikkikentta", { x: 200, y: groundLevel })
+		this.cameras.main.setZoom(0.75);
 		let objects = [
 			new SimpleEnemy(this, 3000, groundLevel),
 			new Hideout(this, 2600, groundLevel, "metsa_pensas"),
-			new Hideout(this, 4000, groundLevel, "metsa_pensas"),
+			new Hideout(this, 2800, groundLevel, "metsa_pensas"),
+			new Hideout(this, 4100, groundLevel, "metsa_pensas"),
 
-			new Checkpoint(this, 6000, groundLevel),
+			new Checkpoint(this, 6000, 1200),
+			new Hideout(this, 7800, groundLevel, "metsa_pensas"),
 			new SimpleEnemy(this, 8000, groundLevel),
 			new Hideout(this, 8000, groundLevel, "metsa_pensas"),
 			new Checkpoint(this, 6000, groundLevel),
+			new Hideout(this, 9500, groundLevel, "metsa_pensas"),
 			new SimpleEnemy(this, 10500, groundLevel),
+			new Hideout(this, 10500, groundLevel, "metsa_pensas"),
 
-			new Checkpoint(this, 12500, 1300),
+			new Checkpoint(this, 12100, 1100),
+			new Hideout(this, 13150, groundLevel, "metsa_pensas"),
+			new Hideout(this, 13350, groundLevel, "metsa_pensas"),
 			new SimpleEnemy(this, 13500, groundLevel),
 			new DraggableItem(this, 15500, groundLevel, "leikkikentta_roskis"),
 
 		
 			new Toy(this, 18700, groundLevel, "item_pallo", dashSlideUnlock.bind(this, this)),
-			new Checkpoint(this, 22600, groundLevel, 150, 1700),
+			new Checkpoint(this, 22600, 400, 150, 1700),
 			new Hideout(this, 24450, groundLevel, "metsa_pensas"),
+			new Hideout(this, 24600, groundLevel, "metsa_pensas"),
+			new Hideout(this, 24700, groundLevel, "metsa_pensas"),
 			new SimpleEnemy(this, 25000, groundLevel),
 			new Hideout(this, 26200, groundLevel, "metsa_pensas"),
-			new Hideout(this, 27400, groundLevel, "metsa_pensas"),
+			new Hideout(this, 27100, groundLevel, "metsa_pensas"),
 			new SimpleEnemy(this, 27100, groundLevel)
 		];
 
