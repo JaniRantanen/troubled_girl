@@ -64,6 +64,16 @@ export class Boot extends Phaser.Scene {
         this.load.image("pimeystausta", "images/pimeystausta.png");
         this.load.image("spotlight", "images/spotlight.png");
 
+        this.load.image("loppu00", "images/loppu00.png");
+        this.load.image("loppu01", "images/loppu01.png");
+        this.load.image("loppu02", "images/loppu02.png");
+        this.load.image("loppu03a", "images/loppu03a.png");
+        this.load.image("loppu03b", "images/loppu03b.png");
+        this.load.image("loppu04", "images/loppu04.png");
+        this.load.image("loppu05", "images/loppu05.png");
+        this.load.image("loppu06", "images/loppu06.png");
+        this.load.image("loppu06valahdys", "images/loppu06valahdys.png");
+
 
         // Art objects
         this.load.image("koti_jakkara", "images/koti_jakkara.png");
@@ -176,6 +186,7 @@ export class Boot extends Phaser.Scene {
         this.load.tilemapImpact("graveyard", "../levels/hautausmaa.js");
         this.load.tilemapImpact("cliff", "../levels/kallio.js");
         this.load.tilemapImpact("pimeys", "../levels/pimeys.js");
+        this.load.tilemapImpact("dadjourney", "../levels/dadjourney.js");
 
         this.load.tilemapImpact("sandbox", "../levels/sandbox.js");
         this.load.tilemapImpact("flat", "../levels/flat.js");
@@ -200,7 +211,7 @@ export class Boot extends Phaser.Scene {
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("home");
+                this.scene.start("cliff");
             } else {
                 this.scene.start("mainmenu");
             }

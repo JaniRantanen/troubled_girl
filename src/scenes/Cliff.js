@@ -1,24 +1,82 @@
-import { Player } from "../characters/Player";
+import { Trigger } from "../items/Trigger";
 import { setupLevel } from "../utils/utils";
-
+import { Dad } from "../characters/Dad";
 export class Cliff extends Phaser.Scene {
 	constructor() {
 		super({ key: "cliff" });
-		this.player = null;
-		this.ui = null;
+
+		this.backgroundChatter = [
+			"Mommy… Why did you leave me?",
+			"I’m scared",
+			"I dont’t want to be alone…"
+		];
 	}
+
 	preload() {
-		this.ui = this.scene.get("dialog");
+		this.dialogScene = this.scene.get("dialog");
+
+		this.anims.create({
+			key: "TG_girl_cryonground2fps",
+			frames: this.anims.generateFrameNames("TG_girl_cryonground2fps"),
+			frameRate: 2,
+			repeat: -1
+		});
 	}
 
 	async create() {
-		this.cameras.main.setBackgroundColor(0xb9b9b9);
-		this.player = new Player(this, 300, 1000);
-		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 		setupLevel(this, "cliff");
+		this.add.image(0, 0, "tausta_kallio1").setOrigin(0, 0).setDepth(-2);
 
-		//kallio1
+		this.player = new Dad(this, 300, 500);
+		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 
-		//Reuna on kolme vikaa tileä
+		this.girl = this.add.sprite(1200, 600, "TG_girl_cryonground2fps", 0);
+		this.girl.anims.play("TG_girl_cryonground2fps", true);
+
+		this.dialogLoop = setInterval(async () => {
+			let next = this.backgroundChatter.shift();
+			await this.dialogScene.updateDialog(next, 2500);
+			this.backgroundChatter.push(next);
+		}, 5000);
+
+		this.customTrigger = new Trigger(this, 200, 400, 300, 300, this.triggerLogic.bind(this), false);
+		this.cutSceneHasFired = false;
+	}
+
+	async triggerLogic() {
+		if (this.player.controls.up.isDown && !this.cutSceneHasFired) {
+			this.cutSceneHasFired = true;
+			clearInterval(this.dialogLoop);
+			await this.cutscene();
+		}
+	}
+
+	async cutscene() {
+		this.player.sprite.setAlpha(0);
+		this.player.sprite.body.enabled = false;
+		let cutsceneDad = this.add.sprite(this.player.sprite.x, this.player.sprite.y, "isa_idle", 0);
+
+		let { width, height } = this.sys.canvas;
+		let screenCenter = this.cameras.main.getWorldPoint(width / 2, height / 2);
+
+		cutsceneDad.anims.play("isa_jumptry", true)
+		cutsceneDad.anims.chain("isa_jumpsuccess");
+		cutsceneDad.anims.chain("isa_jumpsuccess_onair")
+			.on("animationstart", () => {
+				this.tweens.add({
+					targets: cutsceneDad,
+					x: screenCenter.x - (cutsceneDad.width / 3),
+					y: screenCenter.y,
+					duration: 500,
+					ease: "linear",
+					onStart: () => {
+						this.cameras.main.fadeOut(500);
+						this.scene.transition({
+							target: "ending",
+							remove: true
+						});
+					},
+				});
+			});
 	}
 }
