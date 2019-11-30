@@ -62,7 +62,7 @@
 			"height": 40,
 			"linkWithCollision": false,
 			"visible": 1,
-			"tilesetName": "src/assets/tilesets/tileset_foreground.png",
+			"tilesetName": "src/assets/tilesets/tileset_tumma.png",
 			"repeat": false,
 			"preRender": false,
 			"distance": "1",

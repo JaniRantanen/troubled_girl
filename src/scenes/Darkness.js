@@ -1,5 +1,5 @@
 import { Player } from "../characters/Player";
-import { setupLevel, setupScene } from "../utils/utils";
+import { setupLevel, setupScene, disableControls } from "../utils/utils";
 import { Trigger } from "../items/Trigger";
 
 export class Darkness extends Phaser.Scene {
@@ -8,21 +8,29 @@ export class Darkness extends Phaser.Scene {
 	}
 	async create() {
 		this.level = setupLevel(this, "pimeys");
-		setupScene(this, this.level, "pimeystausta", { x: 200, y: 1600 });
-		this.cameras.main.setBackgroundColor(0x000);
+		setupScene(this, this.level, "pimeystausta", { x: 300, y: 3400 });
 
-		this.cameras.main.setZoom(0.2);
+		let cutsceneTrigger = new Trigger(this, 6800, 0, 1000, 900, () => this.events.once("touchedGround", this.cutscene.bind(this)));
+	}
 
+	cutscene() {
+		disableControls(this);
+		this.player.sprite.body.enabled = false;
 
-		let exitTrigger = new Trigger(this, this.level.widthInPixels - 300, 0, 300, this.level.heightInPixels, () => {
-
-			//Tähän animaatioita, tweenauksia yms. (kts käsis)
-
-			this.scene.transition({
-				target: "isaskenennimi",
-				remove: true,
-				duration: 1000
+		this.player.sprite.anims.play("TG_girl_twistangle8fps", true)
+			.on("animationcomplete", () => {
+				this.player.sprite.anims.play("TG_girl_cryonground2fps", true)
+			})
+			.on("animationcomplete", () => {
+				setTimeout(() => {
+					let fade = this.cameras.main.fadeOut(500)
+						.once("camerafadeoutcomplete", () => {
+							// this.scene.transition({
+							// 	target: "isaskenennimi",
+							// 	remove: true,
+							// });
+						})
+				}, 3000);
 			});
-		});
 	}
 }

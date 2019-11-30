@@ -8,11 +8,11 @@ export function setupLevel(scene, levelKey) {
 	levelMap.tilesets.forEach((tileset) => {
 		let tilesetkey = tileset.name.split("/").pop().split(".").shift(); // Grabs the filename without the extension
 		let tilesetImage = levelMap.addTilesetImage(tileset.name, tilesetkey, 100, 100, 1, 2);
-		if (tilesetkey.search("foreground") !== -1) {
-			levelMap.createStaticLayer("foreground", tilesetImage, 0, 0).setDepth(2);
+		if (tilesetkey.search("foreground") !== -1 || tilesetkey.search("tumma") !== -1) {
+			levelMap.createDynamicLayer("foreground", tilesetImage, 0, 0).setDepth(2);
 		}
 		if (tilesetkey.search("background") !== -1) {
-			levelMap.createStaticLayer("background", tilesetImage, 0, 0).setDepth(-2);
+			levelMap.createDynamicLayer("background", tilesetImage, 0, 0).setDepth(-2);
 		}
 	});
 

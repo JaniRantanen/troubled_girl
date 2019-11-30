@@ -253,7 +253,7 @@ export class Player {
 			key: "TG_girl_twistangle8fps",
 			frames: anims.generateFrameNames("TG_girl_twistangle8fps"),
 			frameRate: 8,
-			repeat: -1
+			repeat: 0
 		});
 
 		anims.create({
