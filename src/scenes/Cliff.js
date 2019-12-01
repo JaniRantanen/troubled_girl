@@ -11,20 +11,14 @@ export class Cliff extends Phaser.Scene {
 			"I don't want to be alone..."
 		];
 	}
-
 	preload() {
 		this.dialogScene = this.scene.get("dialog");
-
-		this.anims.create({
-			key: "TG_girl_cryonground2fps",
-			frames: this.anims.generateFrameNames("TG_girl_cryonground2fps"),
-			frameRate: 2,
-			repeat: -1
-		});
+		this.musicScene = this.scene.get("music");
+		this.musicScene.stopAll(this);
 	}
 
 	async create() {
-		setupLevel(this, "cliff");
+		this.level = setupLevel(this, "cliff");
 		this.add.image(0, 0, "tausta_kallio1").setOrigin(0, 0).setDepth(-2);
 
 		this.player = new Dad(this, 300, 700);

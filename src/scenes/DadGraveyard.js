@@ -9,9 +9,7 @@ export class DadGraveyard extends Phaser.Scene {
 	preload() {
 		this.dialogScene = this.scene.get("dialog");
 		this.musicScene = this.scene.get("music");
-		this.events.on("preupdate", () => this.musicScene.handleMusicUpdate(this));
-		this.musicScene.backgroundMusic = this.sound.add("hautausmaamusiikki_tausta", { loop: true, volume: 1, });
-		this.musicScene.backgroundMusic.play();
+		this.musicScene.changeTrack("hautausmaamusiikki_tausta");
 	}
 	async create() {
 		this.level = setupLevel(this, "graveyard");
@@ -69,15 +67,15 @@ export class DadGraveyard extends Phaser.Scene {
 
 		timeline.on("complete", async () => {
 			await Pause(500);
-			await this.dialogScene.updateDialog("She must feel so alone", 2000);
+			await this.dialogScene.updateDialog("She must feel so alone.", 3000);
 			await Pause(1000);
-			await this.dialogScene.updateDialog("... and scared", 2000);
+			await this.dialogScene.updateDialog("... and scared.", 2000);
 			await Pause(1000);
-			await this.dialogScene.updateDialog("Of course she'd get spooked", 2000);
+			await this.dialogScene.updateDialog("Of course she would get spooked", 3000);
 			await Pause(1000);
-			await this.dialogScene.updateDialog("She needs me", 2000);
+			await this.dialogScene.updateDialog("She needs me...", 2500);
 			await Pause(1000);
-			await this.dialogScene.updateDialog("...needs me to be strong…", 2000);
+			await this.dialogScene.updateDialog("...needs me to be strong.", 3000);
 			await Pause(1000);
 
 			this.cameras.main.fadeOut(1000);

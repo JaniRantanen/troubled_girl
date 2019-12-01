@@ -1,18 +1,27 @@
-import { Player } from "../characters/Player";
-import { setupLevel, setupScene, disableControls } from "../utils/utils";
+import { setupLevel, disableControls, createBackground, enableCameraFollow } from "../utils/utils";
 import { Trigger } from "../items/Trigger";
 import { ShadowEnemy } from "../characters/ShadowEnemy";
 import { Checkpoint } from "../items/Checkpoint";
+import { Player } from "../characters/Player";
 
 export class Darkness extends Phaser.Scene {
 	constructor() {
 		super({ key: "darkness" });
 	}
+
+	preload() {
+		this.dialogScene = this.scene.get("dialog");
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("jahtausmusiikki_tausta");
+	}
+
 	async create() {
 		this.level = setupLevel(this, "pimeys");
-		setupScene(this, this.level, "pimeystausta", { x: 180, y: 3200 });
-		this.cameras.main.setZoom(0.7);
+		this.player = new Player(this, 180, 3200);
+		createBackground(this, this.level, "pimeystausta")
+		enableCameraFollow(this, this.player.sprite);
 
+		this.cameras.main.setZoom(0.7);
 
 		new Checkpoint(this, 3700, 400);
 		new ShadowEnemy(this, 750, 3200);

@@ -1,5 +1,5 @@
 import { Player } from "../characters/Player";
-import { setupLevel, setupScene } from "../utils/utils";
+import { setupLevel, createBackground, enableCameraFollow } from "../utils/utils";
 import { Trigger } from "../items/Trigger";
 import { DraggableItem } from "../items/DraggableItem";
 import { Hideout } from "../items/Hideout";
@@ -14,9 +14,18 @@ export class Forest extends Phaser.Scene {
 		super({ key: "forest" });
 	}
 
+	preload() {
+		this.dialogScene = this.scene.get("dialog");
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("metsamusiikki_tausta");
+	}
+
 	async create() {
 		this.level = setupLevel(this, "forest");
-		setupScene(this, this.level, "tausta_metsa", { x: 200, y: 900 });
+		this.player = new Player(this, 200, 900);
+		createBackground(this, this.level, "tausta_metsa")
+		enableCameraFollow(this, this.player.sprite);
+
 		this.cameras.main.setZoom(0.75);
 
 		let objects = [
@@ -48,6 +57,7 @@ export class Forest extends Phaser.Scene {
 			new Checkpoint(this, 32830, 800),
 			new SimpleEnemy(this, 34200, 1600),
 			new DraggableItem(this, 35950, 1650, "metsa_kivi"),
+			new DraggableItem(this, 36170, 1650, "metsa_kivi"),
 			new SimpleEnemy(this, 38550, 1600),
 			new Checkpoint(this, 40200, 800),
 			new Hideout(this, 40750, 1600, "metsa_puu"),
@@ -58,7 +68,7 @@ export class Forest extends Phaser.Scene {
 			new Hideout(this, 45000, 1600, "metsa_puu"),
 			new Hideout(this, 45200, 1600, "metsa_puu"),
 			new Hideout(this, 45350, 1600, "metsa_puu"),
-			new SimpleEnemy(this, 47600, 1600),
+			new SimpleEnemy(this, 47300, 1600),
 
 
 			//new SimpleEnemy(this, 3750, 1200),

@@ -23,17 +23,10 @@ export function setupLevel(scene, levelKey) {
 	return levelMap;
 }
 
-export function setupScene(scene, level, backgroundKey, startPosition) {
-	scene.dialogScene = scene.scene.get("dialog");
-	scene.musicScene = scene.scene.get("music");
-	scene.events.on("preupdate", () => scene.musicScene.handleMusicUpdate(scene));
-
+export function createBackground(scene, level, backgroundKey) {
 	for (let i = 0; i < level.widthInPixels; i = i + 1600) {
 		scene.add.image(i, -100, backgroundKey).setOrigin(0, 0).setDepth(-10);
 	}
-
-	scene.player = new Player(scene, startPosition.x, startPosition.y);
-	scene.cameras.main.startFollow(scene.player.sprite, true, 0.1, 0.1);
 }
 
 export function disableControls(scene) {

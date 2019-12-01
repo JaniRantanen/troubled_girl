@@ -1,10 +1,17 @@
-import { Pause, setupLevel, disableControls, enableControls, setupScene } from "../utils/utils";
+import { setupLevel } from "../utils/utils";
 import { Dad } from "../characters/Dad";
 import { Trigger } from "../items/Trigger";
 export class DadJourney extends Phaser.Scene {
 	constructor() {
 		super({ key: "dadjourney" });
 	}
+
+	preload() {
+		this.dialogScene = this.scene.get("dialog");
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("metsamusiikki_tausta");
+	}
+
 	async create(data) {
 		this.level = setupLevel(this, "dadjourney");
 		this.player = new Dad(this, 100, 1500);

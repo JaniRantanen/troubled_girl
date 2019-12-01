@@ -200,10 +200,11 @@ export class Boot extends Phaser.Scene {
 
     create() {
         this.loadAnimations();
+        this.scene.launch("music");
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("sandbox")
+                this.scene.start("forest")
             } else {
                 this.scene.start("mainmenu");
             }
@@ -243,7 +244,7 @@ export class Boot extends Phaser.Scene {
             key: "TG_girl_slide",
             frames: anims.generateFrameNames("TG_girl_slide"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
@@ -257,28 +258,28 @@ export class Boot extends Phaser.Scene {
             key: "TG_girl_jumpup",
             frames: anims.generateFrameNames("TG_girl_jumpup"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "TG_girl_jumpdrop",
             frames: anims.generateFrameNames("TG_girl_jumpdrop"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "TG_girl_jumpdrop_end",
             frames: anims.generateFrameNames("TG_girl_jumpdrop_end"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "TG_girl_doublejump",
             frames: anims.generateFrameNames("TG_girl_doublejump"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
@@ -306,7 +307,7 @@ export class Boot extends Phaser.Scene {
             key: "TG_girl_dash",
             frames: anims.generateFrameNames("TG_girl_dash"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
@@ -385,49 +386,49 @@ export class Boot extends Phaser.Scene {
         this.anims.create({
             key: "varjoisa_idle",
             frames: this.anims.generateFrameNames("varjoisa_idle"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1
         });
 
         this.anims.create({
             key: "varjoisa_walk",
             frames: this.anims.generateFrameNames("varjoisa_walk"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
         anims.create({
             key: "isa_idle",
             frames: anims.generateFrameNames("isa_idle"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1
         });
 
         anims.create({
             key: "isa_walk",
             frames: anims.generateFrameNames("isa_walk"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1
         });
 
         anims.create({
             key: "isa_jumptry",
             frames: anims.generateFrameNames("isa_jumptry"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
         anims.create({
             key: "isa_jumpsuccess",
             frames: anims.generateFrameNames("isa_jumpsuccess"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
         anims.create({
             key: "isa_jumpsuccess_onair",
             frames: anims.generateFrameNames("isa_jumpsuccess_onair"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
@@ -436,14 +437,14 @@ export class Boot extends Phaser.Scene {
             key: "koti_ikkuna_reveal",
             frames: anims.generateFrameNames("koti_ikkuna_reveal"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "koti_ikkuna_looking",
             frames: anims.generateFrameNames("koti_ikkuna_looking"),
             frameRate: 10,
-            repeat: 1
+            repeat: -1
         });
 
         //TV

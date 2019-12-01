@@ -5,11 +5,15 @@ export class DadHome extends Phaser.Scene {
 	constructor() {
 		super({ key: "dadhome" });
 	}
-	async create() {
+	preload() {
 		this.dialogScene = this.scene.get("dialog");
-
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("metsamusiikki_tausta");
+	}
+	async create() {
 		let floor_1_Y = 1600;
 		this.level = setupLevel(this, "home");
+
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli_isalla");
 		this.dadsTv = this.add.sprite(3600, floor_1_Y, "koti_tv_uusi", 0);
 		this.livingroomWindow = this.add.sprite(1700, floor_1_Y - 150, "koti_ikkuna_reveal");
@@ -26,13 +30,13 @@ export class DadHome extends Phaser.Scene {
 	}
 	async cutscene() {
 		this.cameras.main.fadeIn(1000);
-		await this.dialogScene.updateDialog("I must have fallen asleep.", 2000);
+		await this.dialogScene.updateDialog("I must have fallen asleep.", 3000);
 		await Pause(1000);
-		await this.dialogScene.updateDialog("Haven't slept for weeks now.", 2000);
+		await this.dialogScene.updateDialog("Haven't slept for weeks now.", 3000);
 		await Pause(2000);
-		await this.dialogScene.updateDialog("Nothing makes sense.", 2000);
+		await this.dialogScene.updateDialog("Nothing makes sense.", 2500);
 		await Pause(1000);
-		await this.dialogScene.updateDialog("...wait where is she?", 2000);
+		await this.dialogScene.updateDialog("...wait where is she?", 2500);
 
 		// Appear and change chair sprite
 		this.tweens.add({
@@ -47,7 +51,7 @@ export class DadHome extends Phaser.Scene {
 		await Pause(1000);
 
 		// Move near girls room
-		let timespanForMovement = 5000;
+		let timespanForMovement = 6200;
 		this.tweens.add({
 			targets: this.dad,
 			x: 1500,
@@ -67,7 +71,7 @@ export class DadHome extends Phaser.Scene {
 		await Pause(timespanForMovement);
 
 		await this.dialogScene.updateDialog("Where has she gone?", 2000);
-		await this.dialogScene.updateDialog("Where is my daughter?", 2000);
+		await this.dialogScene.updateDialog("Where is my daughter?", 3000);
 
 		this.cameras.main.fadeOut(1000).on("camerafadeoutcomplete", () => {
 			this.scene.transition({
