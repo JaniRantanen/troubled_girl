@@ -13,7 +13,7 @@ export class Darkness extends Phaser.Scene {
 		setupScene(this, this.level, "pimeystausta", { x: 180, y: 3200 });
 		this.cameras.main.setZoom(0.7);
 
-		
+
 		new Checkpoint(this, 3700, 400);
 		new ShadowEnemy(this, 750, 3200);
 		new ShadowEnemy(this, 1000, 3200);
@@ -46,10 +46,10 @@ export class Darkness extends Phaser.Scene {
 				setTimeout(() => {
 					let fade = this.cameras.main.fadeOut(500)
 						.once("camerafadeoutcomplete", () => {
-							// this.scene.transition({
-							// 	target: "isaskenennimi",
-							// 	remove: true,
-							// });
+							this.scene.transition({
+								target: "dadhome",
+								remove: true,
+							});
 						})
 				}, 3000);
 			});
