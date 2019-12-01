@@ -90,7 +90,7 @@ export class Graveyard extends Phaser.Scene {
 			alpha: { from: 1, to: 1 }, // "empty param"
 			duration: 3000,
 			onStart: async () => {
-				await this.dialogScene.updateDialog("Mommy, you’re so pretty!", 3000);
+				await this.dialogScene.updateDialog("Mommy, you're so pretty!", 3000);
 			}
 		});
 
@@ -101,7 +101,7 @@ export class Graveyard extends Phaser.Scene {
 			duration: 1000,
 			ease: 'linear',
 			onStart: async () => {
-				await this.dialogScene.updateDialog("Mommy, you’re…", 1000);
+				await this.dialogScene.updateDialog("Mommy, you're…", 1000);
 			},
 			onComplete: async () => {
 				this.player.sprite.anims.play("TG_girl_lookdown_cry5fps", true);

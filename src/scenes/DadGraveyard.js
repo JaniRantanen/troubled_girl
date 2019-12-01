@@ -77,7 +77,7 @@ export class DadGraveyard extends Phaser.Scene {
 			await Pause(1000);
 			await this.dialogScene.updateDialog("... and scared", 2000);
 			await Pause(1000);
-			await this.dialogScene.updateDialog("Of course she’d get spooked", 2000);
+			await this.dialogScene.updateDialog("Of course she'd get spooked", 2000);
 			await Pause(1000);
 			await this.dialogScene.updateDialog("She needs me", 2000);
 			await Pause(1000);

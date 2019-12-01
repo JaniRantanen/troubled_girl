@@ -7,8 +7,8 @@ export class Cliff extends Phaser.Scene {
 
 		this.backgroundChatter = [
 			"Mommy... Why did you leave me?",
-			"I’m scared...",
-			"I don’t want to be alone..."
+			"I'm scared...",
+			"I don't want to be alone..."
 		];
 	}
 

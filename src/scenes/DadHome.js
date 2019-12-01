@@ -29,7 +29,7 @@ export class DadHome extends Phaser.Scene {
 		await Pause(500);
 		await this.dialogScene.updateDialog("I must have fallen asleep.", 2000);
 		await Pause(1000);
-		await this.dialogScene.updateDialog("Haven’t slept for weeks now.", 2000);
+		await this.dialogScene.updateDialog("Haven't slept for weeks now.", 2000);
 		await Pause(1000);
 		await this.dialogScene.updateDialog("Nothing makes sense.", 2000);
 		await Pause(1000);
