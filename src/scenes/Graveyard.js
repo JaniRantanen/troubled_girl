@@ -1,15 +1,19 @@
 
-import { setupLevel, setupScene, disableControls, enableControls, Pause } from "../utils/utils";
+import { setupLevel, disableControls, enableControls, Pause, createBackground, enableCameraFollow } from "../utils/utils";
 import { Trigger } from "../items/Trigger";
+import { Player } from "../characters/Player";
 export class Graveyard extends Phaser.Scene {
 	constructor() {
 		super({ key: "graveyard" });
 	}
-	async create() {
+	create() {
+		this.dialogScene = this.scene.get("dialog");
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("hautausmaamusiikki_tausta");
 		this.level = setupLevel(this, "graveyard");
-		setupScene(this, this.level, "tausta_hautausmaa", { x: 4000, y: 1600 });
-		let backgroundMusic = this.sound.add("hautausmaamusiikki_tausta", { loop: true, volume: 1, });
-		this.musicScene.changeBackroundTrack(backgroundMusic);
+		this.player = new Player(this, 4000, 1600);
+		createBackground(this, this.level, "tausta_hautausmaa")
+		enableCameraFollow(this, this.player.sprite);
 
 		this.mom = this.add.sprite(6250, 1500, "aiti_idle5fps", 0);
 		this.dad = this.add.sprite(5200, 1500, "varjoisa_walk", 0).setAlpha(0);
@@ -156,10 +160,10 @@ export class Graveyard extends Phaser.Scene {
 
 		timeline.add({
 			targets: [this.firstMonster, this.secondMonster],
-			x: this.level.widthInPixels,
+			x: this.level.widthInPixels - 1000,
 			duration: 1000,
 			offset: "-=1000",
-			ease: 'Power2',
+			ease: 'Linear',
 			onStart: () => {
 				this.cameras.main.fadeOut(1000);
 				this.firstMonster.setTint("0xFF0000");

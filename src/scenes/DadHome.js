@@ -5,11 +5,15 @@ export class DadHome extends Phaser.Scene {
 	constructor() {
 		super({ key: "dadhome" });
 	}
-	async create() {
+	preload() {
 		this.dialogScene = this.scene.get("dialog");
-
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("metsamusiikki_tausta");
+	}
+	async create() {
 		let floor_1_Y = 1600;
 		this.level = setupLevel(this, "home");
+
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli_isalla");
 		this.dadsTv = this.add.sprite(3600, floor_1_Y, "koti_tv_uusi", 0);
 		this.livingroomWindow = this.add.sprite(1700, floor_1_Y - 150, "koti_ikkuna_reveal");

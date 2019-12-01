@@ -1,5 +1,5 @@
 import { Player } from "../characters/Player";
-import { setupLevel, setupScene } from "../utils/utils";
+import { setupLevel, createBackground, enableCameraFollow } from "../utils/utils";
 import { Trigger } from "../items/Trigger";
 import { DraggableItem } from "../items/DraggableItem";
 import { Hideout } from "../items/Hideout";
@@ -14,9 +14,18 @@ export class Forest extends Phaser.Scene {
 		super({ key: "forest" });
 	}
 
+	preload() {
+		this.dialogScene = this.scene.get("dialog");
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("metsamusiikki_tausta");
+	}
+
 	async create() {
 		this.level = setupLevel(this, "forest");
-		setupScene(this, this.level, "tausta_metsa", { x: 47000, y: 900 });
+		this.player = new Player(this, 200, 900);
+		createBackground(this, this.level, "tausta_metsa")
+		enableCameraFollow(this, this.player.sprite);
+
 		this.cameras.main.setZoom(0.75);
 
 		let objects = [
