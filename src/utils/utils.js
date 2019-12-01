@@ -45,6 +45,18 @@ export function enableControls(scene) {
 	scene.input.keyboard.enabled = true;
 }
 
+export function enableCameraFollow(scene, targetSprite = null) {
+	if (targetSprite === null) {
+		targetSprite = scene.player.sprite;
+	}
+	scene.cameras.main.startFollow(targetSprite, true, 0.1, 0.1);
+}
+export function disableCameraFollow(scene) {
+	scene.cameras.main.stopFollow();
+}
+
+
+
 
 export function nothingIsPressed(controlsObject) {
 	for (let [key, value] of Object.entries(controlsObject)) {
