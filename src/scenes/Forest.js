@@ -48,6 +48,7 @@ export class Forest extends Phaser.Scene {
 			new Checkpoint(this, 32830, 800),
 			new SimpleEnemy(this, 34200, 1600),
 			new DraggableItem(this, 35950, 1650, "metsa_kivi"),
+			new DraggableItem(this, 36170, 1650, "metsa_kivi"),
 			new SimpleEnemy(this, 38550, 1600),
 			new Checkpoint(this, 40200, 800),
 			new Hideout(this, 40750, 1600, "metsa_puu"),
