@@ -156,6 +156,8 @@ export class Player {
 				this.sprite.flipX = true;
 				if (this.state.isCrouchingOrCrawling) {
 					this.sprite.anims.play("TG_girl_crawlmove", true);
+				} else if (this.state.isDashing) {
+					this.sprite.anims.play("TG_girl_dash", true);
 				} else {
 					this.sprite.anims.play("TG_girl_run", true);
 				}
@@ -171,6 +173,8 @@ export class Player {
 				this.sprite.flipX = false;
 				if (this.state.isCrouchingOrCrawling) {
 					this.sprite.anims.play("TG_girl_crawlmove", true);
+				} else if (this.state.isDashing) {
+					this.sprite.anims.play("TG_girl_dash", true);
 				} else {
 					this.sprite.anims.play("TG_girl_run", true);
 				}
@@ -190,12 +194,7 @@ export class Player {
 			this.sprite.anims.play("TG_girl_crawlidle", true);
 		}
 
-		//Dashing
-		if (this.state.isDashing) {
-			this.sprite.anims.play("TG_girl_dash", true);
-		}
-
-		//Sliding
+		// Sliding
 		if (this.state.isSliding) {
 			this.sprite.anims.play("TG_girl_slide", true);
 		}

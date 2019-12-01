@@ -243,7 +243,7 @@ export class Boot extends Phaser.Scene {
             key: "TG_girl_slide",
             frames: anims.generateFrameNames("TG_girl_slide"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
@@ -257,28 +257,28 @@ export class Boot extends Phaser.Scene {
             key: "TG_girl_jumpup",
             frames: anims.generateFrameNames("TG_girl_jumpup"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "TG_girl_jumpdrop",
             frames: anims.generateFrameNames("TG_girl_jumpdrop"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "TG_girl_jumpdrop_end",
             frames: anims.generateFrameNames("TG_girl_jumpdrop_end"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "TG_girl_doublejump",
             frames: anims.generateFrameNames("TG_girl_doublejump"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
@@ -306,7 +306,7 @@ export class Boot extends Phaser.Scene {
             key: "TG_girl_dash",
             frames: anims.generateFrameNames("TG_girl_dash"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
@@ -436,14 +436,14 @@ export class Boot extends Phaser.Scene {
             key: "koti_ikkuna_reveal",
             frames: anims.generateFrameNames("koti_ikkuna_reveal"),
             frameRate: 10,
-            repeat: 1
+            repeat: 0
         });
 
         anims.create({
             key: "koti_ikkuna_looking",
             frames: anims.generateFrameNames("koti_ikkuna_looking"),
             frameRate: 10,
-            repeat: 1
+            repeat: -1
         });
 
         //TV
