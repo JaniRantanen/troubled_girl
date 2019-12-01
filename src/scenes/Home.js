@@ -89,7 +89,7 @@ export class Home extends Phaser.Scene {
 	async cutscene_intro() {
 		disableControls(this);
 		this.cameras.main.setAlpha(0);
-		await this.dialogScene.updateDialog("Daddy’s sad…", 2000);
+		await this.dialogScene.updateDialog("Daddy is sad…", 2000);
 		await this.dialogScene.updateDialog("He’s been sad for a while now…", 2000);
 		await this.dialogScene.updateDialog("Maybe Mr. Cuddles could help?", 2000);
 		this.cameras.main.setAlpha(1);
@@ -116,7 +116,7 @@ export class Home extends Phaser.Scene {
 					.on('animationcomplete', () => window_monster.anims.play("koti_ikkuna_looking", true));
 			},
 			onComplete: async () => {
-				await this.dialogScene.updateDialog("I’m scared. I need to find Daddy!", 2000);
+				await this.dialogScene.updateDialog("I’m scared... I need to find Daddy!", 2000);
 			}
 		});
 
@@ -139,11 +139,11 @@ export class Home extends Phaser.Scene {
 			duration: 8000,
 			onStart: async () => {
 				this.player.sprite.anims.play("TG_girl_idle", true);
-				await this.dialogScene.updateDialog("Daddy, there’s something outside", 2000);
+				await this.dialogScene.updateDialog("Daddy, there’s something outside.", 2000);
 				await Pause(1000)
 				await this.dialogScene.updateDialog("Daddy...?", 2000);
 				await Pause(1000)
-				await this.dialogScene.updateDialog("Are you okay…?", 2000);
+				await this.dialogScene.updateDialog("Are you okay...?", 2000);
 			}
 		});
 

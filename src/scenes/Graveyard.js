@@ -69,7 +69,6 @@ export class Graveyard extends Phaser.Scene {
 			alpha: { from: 1, to: 1 }, // "empty param"
 			duration: 2000,
 			onComplete: () => {
-				console.log("CHANGE END");
 				this.mom.anims.play("aiti_muutos7fps", true)
 					.on("animationcomplete", () => this.mom.anims.play("aiti_enkeli_idle5fps", true))
 					.on("animationcomplete", () => this.player.sprite.anims.play("TG_girl_lookup_cry5fps", true));
@@ -102,11 +101,11 @@ export class Graveyard extends Phaser.Scene {
 			duration: 1000,
 			ease: 'linear',
 			onStart: async () => {
-				await this.dialogScene.updateDialog("You’re…", 1000);
+				await this.dialogScene.updateDialog("Mommy, you’re…", 1000);
 			},
 			onComplete: async () => {
 				this.player.sprite.anims.play("TG_girl_lookdown_cry5fps", true);
-				await this.dialogScene.updateDialog("…gone", 2000)
+				await this.dialogScene.updateDialog("…gone.", 2000)
 				this.player.sprite.anims.play("TG_girl_lookdown_cry_idle5fps", true);
 			},
 		});
