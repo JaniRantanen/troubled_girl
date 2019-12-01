@@ -1,7 +1,7 @@
-export class DEBUG extends Phaser.Scene {
+export class Debug extends Phaser.Scene {
 
 	constructor() {
-		super({ key: '_DEBUG', active: false });
+		super({ key: 'debug', active: true });
 	}
 
 	create() {
@@ -11,7 +11,7 @@ export class DEBUG extends Phaser.Scene {
 		this.debugTextBottomCenter = this.add.text(700, 650, '', { font: '12px Arial', fill: '#fff' });
 		this.debugTextRight = this.add.text(1300, 0, '', { font: '12px Arial', fill: '#fff' });
 
-		let sceneBeingDebugged = this.scene.get('home');
+		let sceneBeingDebugged = this.scene.get('sandbox');
 
 		sceneBeingDebugged.events.on('update', function () {
 			this.fps.setText(`FPS: ${sceneBeingDebugged.sys.game.loop.actualFps}`);

@@ -13,10 +13,6 @@ import { Trigger } from "../items/Trigger";
 export class Sandbox extends Phaser.Scene {
     constructor() {
         super({ key: "sandbox" });
-        this.player = null;
-        this.dialogScene = null;
-        this.musicScene = null;
-        this.level = null;
     }
 
     preload() {
@@ -24,13 +20,15 @@ export class Sandbox extends Phaser.Scene {
     }
 
     async create() {
-        let floor_1_y = 1300;
         this.level = setupLevel(this, "sandbox");
-        setupScene(this, this.level, "tausta_metsa", { x: 10880, y: floor_1_y });
-        this.musicScene.backgroundMusic = this.sound.add("metsamusiikki", { loop: true, volume: 0.2 });
+        setupScene(this, this.level, "tausta_metsa", { x: 500, y: 1200 });
+
+        this.cameras.main.setZoom(0.5)
+
+        new Toy(this, 1300, 1200, "item_pallo", dashSlideUnlock.bind(this, this));
     }
 
     update() {
-        this.musicScene.handleMusicUpdate(this);
+
     }
 }
