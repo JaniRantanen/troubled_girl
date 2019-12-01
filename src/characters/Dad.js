@@ -16,7 +16,7 @@ export class Dad {
 		this.sprite.setOffset(150, -25, 100, 400);
 
 		this.sprite.setLiteCollision();
-		this.sprite.setMaxVelocity(500);
+		this.sprite.setMaxVelocity(250);
 		this.sprite.setFriction(1000, 100);
 		this.sprite.setGravity(10);
 
