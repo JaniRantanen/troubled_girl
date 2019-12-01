@@ -1,23 +1,33 @@
 import { Toy } from "../items/Toy";
 import { DraggableItem } from "../items/DraggableItem";
 import { Hideout } from "../items/Hideout";
-import { Pause, setupLevel, disableControls, enableControls, setupScene } from "../utils/utils";
+import { Pause, setupLevel, disableControls, enableControls, setupScene, createBackground, enableCameraFollow } from "../utils/utils";
 import { SimpleEnemy } from "../characters/SimpleEnemy";
 import { dragUnlock } from "../cutscenes/abilityUnlock";
 import { Trigger } from "../items/Trigger";
 import { Checkpoint } from "../items/Checkpoint";
+import { Player } from "../characters/Player";
+
 export class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "home" });
 	}
+
+	preload() {
+		this.dialogScene = this.scene.get("dialog");
+		this.musicScene = this.scene.get("music");
+		this.musicScene.changeTrack("metsamusiikki_tausta");
+	}
+
 	async create() {
+		this.level = setupLevel(this, "home");
+		this.player = new Player(this, 1000, 1600);
+		createBackground(this, this.level, "tausta_koti")
+		enableCameraFollow(this, this.player.sprite);
 
 		let floor_1_Y = 1600;
 		let floor_2_Y = 1000;
 		let floor_3_Y = 500;
-
-		this.level = setupLevel(this, "home");
-		setupScene(this, this.level, "tausta_koti", { x: 1000, y: floor_1_Y });
 
 		// Girls room
 		let bear = new Toy(this, 150, floor_1_Y, "item_nalle", dragUnlock.bind(this, this));

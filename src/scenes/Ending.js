@@ -3,10 +3,9 @@ export class Ending extends Phaser.Scene {
 		super({ key: "ending" });
 	}
 
-	async create() {
+	create() {
 		this.musicScene = this.scene.get("music");
-		this.musicScene.backgroundMusic = this.sound.add("loppumusiikki_tausta", { loop: true });
-		this.musicScene.backgroundMusic.play();
+		this.musicScene.changeTrack("loppumusiikki_tausta");
 
 		let timeline = this.tweens.createTimeline();
 

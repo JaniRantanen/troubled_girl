@@ -9,9 +9,7 @@ export class DadGraveyard extends Phaser.Scene {
 	preload() {
 		this.dialogScene = this.scene.get("dialog");
 		this.musicScene = this.scene.get("music");
-		this.events.on("preupdate", () => this.musicScene.handleMusicUpdate(this));
-		this.musicScene.backgroundMusic = this.sound.add("hautausmaamusiikki_tausta", { loop: true, volume: 1, });
-		this.musicScene.backgroundMusic.play();
+		this.musicScene.changeTrack("hautausmaamusiikki_tausta");
 	}
 	async create() {
 		this.level = setupLevel(this, "graveyard");

@@ -1,43 +1,59 @@
 export class Music extends Phaser.Scene {
 
 	constructor() {
-		super({ key: 'music', active: true });
+		super({ key: 'music' });
 		this.backgroundMusic = null;
 		this.chaseMusic = null;
+
 	}
 
-	handleMusicUpdate(scene) {
-		if (this.chaseMusic === null) {
-			this.chaseMusic = this.sound.add("jahtausmusiikki_tausta", { loop: true });
+	preload() {
+		this.chaseMusic = this.sound.add("jahtausmusiikki_tausta", { loop: true });
+		this.backgroundMusic = this.sound.add("metsamusiikki_tausta", { loop: true });
+	}
+
+	update() {
+		let activeScenes = this.game.scene.getScenes();
+		activeScenes.forEach((activeScene) => {
+			let enemiesInScene = this.getEnemiesInScene(activeScene)
+			if (enemiesInScene.length > 0) {
+				this.handleMusicState(enemiesInScene);
+			}
+		});
+	}
+
+	getEnemiesInScene(scene) {
+		return scene.children.getChildren().filter((gameobject) => gameobject.getData("enemy"));
+	}
+
+	handleMusicState(enemyList) {
+		if (enemyList.some((val) => val.getData("isAgressive"))) {
+			this.backgroundMusic.stop();
+			this.playIfNotAlreadyPlaying(this.chaseMusic)
+
+		} else {
+			this.chaseMusic.stop();
+			this.playIfNotAlreadyPlaying(this.backgroundMusic)
 		}
 
-		if (this.backgroundMusic === null) {
-			this.backgroundMusic = this.sound.add("metsamusiikki_tausta", { loop: true });
-		}
+	}
 
-		let enemies = scene.children.getChildren().filter((gameobject) => gameobject.getData("enemy"));
-
-		if (enemies.length > 0) {
-			let anyoneIsAggressive = enemies.some((val) => val.getData("isAgressive"));
-			if (anyoneIsAggressive) {
-				this.backgroundMusic.stop();
-				if (!this.chaseMusic.isPlaying) {
-					this.chaseMusic.play();
-				}
-			} else {
-				if (!this.backgroundMusic.isPlaying) {
-					this.backgroundMusic.play();
-				}
-				this.chaseMusic.stop();
+	playIfNotAlreadyPlaying(track) {
+		if (track) {
+			if (!track.isPlaying) {
+				track.play();
 			}
 		}
 	}
 
-	changeBackroundTrack(sound) {
-		if (this.backgroundMusic !== null) {
-			this.backgroundMusic.stop();
-		}
-		this.backgroundMusic = sound;
+	changeTrack(trackKey) {
+		this.resetMusic();
+		this.backgroundMusic = this.sound.add(trackKey, { loop: true });
 		this.backgroundMusic.play();
+	}
+
+	stopAll(scene) {
+		this.sound.stopAll();
+		scene.sound.stopAll();
 	}
 }
