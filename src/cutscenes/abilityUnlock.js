@@ -2,12 +2,10 @@ import { Pause, disableControls, enableControls } from "../utils/utils";
 
 function createAbilityUnlockTimeline(scene, colorlessSpriteKey, colorSpriteKey) {
 	let timeline = scene.tweens.createTimeline();
-	let { width, height } = scene.sys.canvas;
-	let screenCenter = scene.cameras.main.getWorldPoint(width / 2, height / 2);
-
-	let backgroundImage = scene.add.image(screenCenter.x, screenCenter.y, "spotlight").setDepth(3).setAlpha(0);
-	let memoryItem_black = scene.impact.add.sprite(screenCenter.x, screenCenter.y, colorlessSpriteKey).setGravity(0).setAlpha(0).setDepth(4);
-	let memoryItem_color = scene.impact.add.sprite(screenCenter.x, screenCenter.y, colorSpriteKey).setGravity(0).setAlpha(0).setDepth(4);
+	let { width, height, centerX, centerY } = scene.cameras.main.worldView;
+	let backgroundImage = scene.add.image(centerX, centerY, "spotlight").setAlpha(0).setDepth(3).setDisplaySize(width, height);
+	let memoryItem_black = scene.add.image(centerX, centerY, colorlessSpriteKey).setAlpha(0).setDepth(4).setDisplaySize(width / 2, height / 2);
+	let memoryItem_color = scene.add.image(centerX, centerY, colorSpriteKey).setAlpha(0).setDepth(4).setDisplaySize(width / 2, height / 2);
 
 	memoryItem_black.flipX = !scene.player.sprite.flipX;
 	memoryItem_color.flipX = !scene.player.sprite.flipX;
