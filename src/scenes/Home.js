@@ -84,7 +84,7 @@ export class Home extends Phaser.Scene {
 	async cutscene_intro() {
 		disableControls(this);
 		this.cameras.main.setAlpha(0);
-		await this.dialogScene.updateDialog("Daddy’s sad…", 2000);
+		await this.dialogScene.updateDialog("Daddy is sad…", 2000);
 		await this.dialogScene.updateDialog("He’s been sad for a while now…", 2000);
 		await this.dialogScene.updateDialog("Maybe Mr. Cuddles could help?", 2000);
 		this.cameras.main.setAlpha(1);
@@ -101,7 +101,7 @@ export class Home extends Phaser.Scene {
 
 		await Pause(1000);
 
-		await this.dialogScene.updateDialog("I’m scared. I need to find Daddy!", 2000);
+		await this.dialogScene.updateDialog("I’m scared... I need to find Daddy!", 2000);
 
 		this.player.sprite.anims.play("TG_girl_run", true);
 
@@ -115,9 +115,9 @@ export class Home extends Phaser.Scene {
 			completeDelay: 500,
 			onComplete: async () => {
 				this.player.sprite.anims.play("TG_girl_idle");
-				await this.dialogScene.updateDialog("Daddy, there’s something outside", 2000);
+				await this.dialogScene.updateDialog("Daddy, there’s something outside.", 2000);
 				await this.dialogScene.updateDialog("Daddy...?", 2000);
-				await this.dialogScene.updateDialog("Are you okay…?", 2000);
+				await this.dialogScene.updateDialog("Are you okay...?", 2000);
 				await Pause(2000);
 
 				this.anims.create({

@@ -173,12 +173,12 @@ export class Graveyard extends Phaser.Scene {
 			ease: 'linear',
 			onStart: async () => {
 				console.log("DISAPPEAR START");
-				await this.dialogScene.updateDialog("You’re…", 1000);
+				await this.dialogScene.updateDialog("Mommy, you’re…", 1000);
 			},
 			onComplete: async () => {
 				console.log("DISAPPEAR END");
 				this.player.sprite.anims.play("TG_girl_lookdown_cry5fps", true);
-				await this.dialogScene.updateDialog("…gone", 2000)
+				await this.dialogScene.updateDialog("…gone.", 2000)
 				this.player.sprite.anims.play("TG_girl_lookdown_cry_idle5fps", true);
 			},
 		});
