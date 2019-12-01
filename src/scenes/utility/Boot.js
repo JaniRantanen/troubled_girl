@@ -192,7 +192,7 @@ export class Boot extends Phaser.Scene {
         // Fonts
         webfontloader.load({
             google: {
-                families: ["Montserrat", "Cinzel Decorative"]
+                families: ["Montserrat", "Cinzel Decorative", "Bookman"]
             }
         });
 
