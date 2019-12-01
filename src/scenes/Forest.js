@@ -16,7 +16,7 @@ export class Forest extends Phaser.Scene {
 
 	async create() {
 		this.level = setupLevel(this, "forest");
-		setupScene(this, this.level, "tausta_metsa", { x: 200, y: 900 });
+		setupScene(this, this.level, "tausta_metsa", { x: 47000, y: 900 });
 		this.cameras.main.setZoom(0.75);
 
 		let objects = [
@@ -59,7 +59,7 @@ export class Forest extends Phaser.Scene {
 			new Hideout(this, 45000, 1600, "metsa_puu"),
 			new Hideout(this, 45200, 1600, "metsa_puu"),
 			new Hideout(this, 45350, 1600, "metsa_puu"),
-			new SimpleEnemy(this, 47600, 1600),
+			new SimpleEnemy(this, 47300, 1600),
 
 
 			//new SimpleEnemy(this, 3750, 1200),
