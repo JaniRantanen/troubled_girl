@@ -47,7 +47,7 @@ export class DadHome extends Phaser.Scene {
 		await Pause(1000);
 
 		// Move near girls room
-		let timespanForMovement = 5000;
+		let timespanForMovement = 6200;
 		this.tweens.add({
 			targets: this.dad,
 			x: 1500,
