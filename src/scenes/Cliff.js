@@ -27,7 +27,7 @@ export class Cliff extends Phaser.Scene {
 		setupLevel(this, "cliff");
 		this.add.image(0, 0, "tausta_kallio1").setOrigin(0, 0).setDepth(-2);
 
-		this.player = new Dad(this, 300, 500);
+		this.player = new Dad(this, 300, 700);
 		this.player.sprite.setScale(0.5);
 		this.player.sprite.setOffset(150 / 2, -25 / 2, 100 / 2, 400 / 2);
 		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
