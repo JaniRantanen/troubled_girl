@@ -28,9 +28,11 @@ export class Cliff extends Phaser.Scene {
 		this.add.image(0, 0, "tausta_kallio1").setOrigin(0, 0).setDepth(-2);
 
 		this.player = new Dad(this, 300, 500);
+		this.player.sprite.setScale(0.5);
+		this.player.sprite.setOffset(150 / 2, -25 / 2, 100 / 2, 400 / 2);
 		this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 
-		this.girl = this.add.sprite(1200, 600, "TG_girl_cryonground2fps", 0);
+		this.girl = this.add.sprite(1200, 650, "TG_girl_cryonground2fps", 0).setScale(0.5);
 		this.girl.anims.play("TG_girl_cryonground2fps", true);
 
 		this.dialogLoop = setInterval(async () => {
@@ -39,7 +41,7 @@ export class Cliff extends Phaser.Scene {
 			this.backgroundChatter.push(next);
 		}, 5000);
 
-		this.customTrigger = new Trigger(this, 200, 400, 300, 300, this.triggerLogic.bind(this), false);
+		this.customTrigger = new Trigger(this, 400, 400, 300, 300, this.triggerLogic.bind(this), false);
 		this.cutSceneHasFired = false;
 	}
 
@@ -55,6 +57,7 @@ export class Cliff extends Phaser.Scene {
 		this.player.sprite.setAlpha(0);
 		this.player.sprite.body.enabled = false;
 		let cutsceneDad = this.add.sprite(this.player.sprite.x, this.player.sprite.y, "isa_idle", 0);
+		cutsceneDad.setScale(0.5);
 
 		let { width, height } = this.sys.canvas;
 		let screenCenter = this.cameras.main.getWorldPoint(width / 2, height / 2);
