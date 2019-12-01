@@ -107,6 +107,10 @@ export class DadHome extends Phaser.Scene {
 		this.cameras.main.fadeOut(1000).on("camerafadeoutcomplete", () => {
 			this.scene.transition({
 				target: "dadjourney",
+				data: {
+					backgrounds: ["tausta_leikkikentta", "tausta_metsa"],
+					nextSceneKey: "dadgraveyard"
+				},
 				remove: true
 			});
 		});
