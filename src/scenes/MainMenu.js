@@ -19,7 +19,7 @@ export class MainMenu extends Phaser.Scene {
     createMenu() {
         let backgroundImage = this.add.image(0, 0, "kansikuva_final").setOrigin(0, 0).setDepth(-2);
         let { width, height } = this.sys.game.canvas;
-        let startGameButton = this.add.existing(new InteractiveButton(this, (width / 2), 600, "Start", { font: "64px Montserrat" }, "button"));
+        let startGameButton = this.add.existing(new InteractiveButton(this, (width / 2), 600, "Start", { font: "64px Montserrat" }));
         startGameButton.onClick = this.startGame.bind(this);
         let versionData = this.add.existing(new TextElement(this, (width / 2), (height / 3) + 500, `V. ${version}`, { font: "20px Montserrat" }));
     }

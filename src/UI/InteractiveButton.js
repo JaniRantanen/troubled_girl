@@ -2,23 +2,23 @@ import Phaser from "phaser";
 import { TextElement } from "./";
 
 export class InteractiveButton extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, textContent, styleOptions, spriteName) {
+    constructor(scene, x, y, textContent, styleOptions) {
         super(scene, x, y)
 
-        this.backgroundImage = new Phaser.GameObjects.Image(scene, 0, 0, spriteName);
+        this.backgroundGraphic = new Phaser.GameObjects.Rectangle(scene, 0, 0, 250, 100, 0x555555);
         this.buttonText = new TextElement(scene, 0, 0, textContent, styleOptions);
 
-        this.add([this.backgroundImage, this.buttonText]);
-        this.setSize(this.backgroundImage.width, this.backgroundImage.height);
+        this.add([this.backgroundGraphic, this.buttonText]);
+        this.setSize(this.backgroundGraphic.width, this.backgroundGraphic.height);
         this.setInteractive({ useHandCursor: true });
 
         this.on('pointerover', () => {
-            this.backgroundImage.setAlpha(0.75)
+            this.backgroundGraphic.setAlpha(0.75)
             this.onHoverIn();
         });
 
         this.on('pointerout', () => {
-            this.backgroundImage.setAlpha(1);
+            this.backgroundGraphic.setAlpha(1);
             this.onHoverOut();
         })
 
