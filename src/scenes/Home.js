@@ -57,8 +57,8 @@ export class Home extends Phaser.Scene {
 
 		//Outside
 		let dialogTrigger = new Trigger(this, 3900, 800, 1200, 300, async () => {
-			await this.dialogScene.updateDialog("Mr. Cuddles, we need to find Mommy.", 2000);
-			await this.dialogScene.updateDialog("Mommy will know how to help Daddy!", 2000);
+			await this.dialogScene.updateDialog("Mr. Cuddles, we need to find Mommy.", 3000);
+			await this.dialogScene.updateDialog("Mommy will know how to help Daddy!", 3000);
 		});
 		let secondCheckpoint = new Checkpoint(this, 3900, 800, 1200, 300);
 		let garageEnemy = new SimpleEnemy(this, 5000, floor_1_Y);
@@ -90,9 +90,9 @@ export class Home extends Phaser.Scene {
 	async cutscene_intro() {
 		disableControls(this);
 		this.cameras.main.setAlpha(0);
-		await this.dialogScene.updateDialog("Daddy is sad...", 2000);
-		await this.dialogScene.updateDialog("He's been sad for a while now...", 2000);
-		await this.dialogScene.updateDialog("Maybe Mr. Cuddles could help?", 2000);
+		await this.dialogScene.updateDialog("Daddy is sad...", 3000);
+		await this.dialogScene.updateDialog("He's been sad for a while now...", 3000);
+		await this.dialogScene.updateDialog("Maybe Mr. Cuddles could help?", 3000);
 		this.cameras.main.setAlpha(1);
 		this.cameras.main.fadeIn(4000);
 		enableControls(this);
@@ -117,7 +117,7 @@ export class Home extends Phaser.Scene {
 					.on('animationcomplete', () => window_monster.anims.play("koti_ikkuna_looking", true));
 			},
 			onComplete: async () => {
-				await this.dialogScene.updateDialog("I'm scared... I need to find Daddy!", 2000);
+				await this.dialogScene.updateDialog("I'm scared... I need to find Daddy!", 2500);
 			}
 		});
 
@@ -140,7 +140,7 @@ export class Home extends Phaser.Scene {
 			duration: 8000,
 			onStart: async () => {
 				this.player.sprite.anims.play("TG_girl_idle", true);
-				await this.dialogScene.updateDialog("Daddy, there's something outside.", 2000);
+				await this.dialogScene.updateDialog("Daddy, there's something outside.", 3000);
 				await Pause(1000)
 				await this.dialogScene.updateDialog("Daddy...?", 2000);
 				await Pause(1000)

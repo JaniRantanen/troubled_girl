@@ -80,7 +80,7 @@ export class Graveyard extends Phaser.Scene {
 		// Mom floats upwards
 		timeline.add({
 			targets: this.mom,
-			y: this.mom.y - 200,
+			y: this.mom.y - 70,
 			duration: 3000,
 			ease: 'linear',
 		})
