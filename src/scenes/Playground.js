@@ -1,4 +1,3 @@
-import { Player } from "../characters/Player";
 import { SimpleEnemy } from "../characters/SimpleEnemy";
 import { Hideout } from "../items/Hideout";
 import { DraggableItem } from "../items/DraggableItem";
@@ -40,7 +39,7 @@ export class Playground extends Phaser.Scene {
 			new SimpleEnemy(this, 13500, groundLevel),
 			new DraggableItem(this, 15500, groundLevel, "leikkikentta_roskis"),
 
-		
+
 			new Toy(this, 18700, groundLevel, "item_pallo", dashSlideUnlock.bind(this, this)),
 			new Checkpoint(this, 22600, 400, 150, 1700),
 			new Hideout(this, 24450, groundLevel, "metsa_pensas"),

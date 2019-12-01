@@ -51,12 +51,12 @@ export class Dad {
 		let acceleration = this.sprite.standing ? this.sprite.body.accelGround : this.sprite.body.accelAir;
 
 		// Handle moving left, right and stopping
-		if (this.controls.left.isDown) {
+		if (this.controls.left.isDown && !this.state.isJumping) {
 			this.sprite.setAccelerationX(-acceleration);
 			this.sprite.flipX = true;
 			this.sprite.anims.play("isa_walk", true);
 		}
-		else if (this.controls.right.isDown) {
+		else if (this.controls.right.isDown && !this.state.isJumping) {
 			this.sprite.setAccelerationX(acceleration);
 			this.sprite.flipX = false;
 			this.sprite.anims.play("isa_walk", true);

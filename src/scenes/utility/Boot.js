@@ -385,49 +385,49 @@ export class Boot extends Phaser.Scene {
         this.anims.create({
             key: "varjoisa_idle",
             frames: this.anims.generateFrameNames("varjoisa_idle"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1
         });
 
         this.anims.create({
             key: "varjoisa_walk",
             frames: this.anims.generateFrameNames("varjoisa_walk"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
         anims.create({
             key: "isa_idle",
             frames: anims.generateFrameNames("isa_idle"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1
         });
 
         anims.create({
             key: "isa_walk",
             frames: anims.generateFrameNames("isa_walk"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: -1
         });
 
         anims.create({
             key: "isa_jumptry",
             frames: anims.generateFrameNames("isa_jumptry"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
         anims.create({
             key: "isa_jumpsuccess",
             frames: anims.generateFrameNames("isa_jumpsuccess"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
         anims.create({
             key: "isa_jumpsuccess_onair",
             frames: anims.generateFrameNames("isa_jumpsuccess_onair"),
-            frameRate: 10,
+            frameRate: 6,
             repeat: 0
         });
 
