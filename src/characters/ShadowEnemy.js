@@ -17,25 +17,6 @@ export class ShadowEnemy {
 
 		this.sprite.body.handleMovementTrace = this.handleMovementTrace.bind(this);
 		this.scene.events.on("preupdate", this.update, this);
-
-		this.animate();
-
-	}
-
-	animate() {
-		this.scene.anims.create({
-			key: 'varjo_spawn',
-			frames: this.scene.anims.generateFrameNames('varjo_spawn'),
-			frameRate: 7,
-			repeat: 0,
-		});
-
-		this.scene.anims.create({
-			key: 'varjo_chase',
-			frames: this.scene.anims.generateFrameNames('varjo_chase'),
-			frameRate: 10,
-			repeat: -1,
-		});
 	}
 
 	spawn() {

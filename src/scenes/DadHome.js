@@ -16,7 +16,6 @@ export class DadHome extends Phaser.Scene {
 
 		this.dad = this.add.sprite(3300, floor_1_Y - 100, "isa_idle", 0).setAlpha(0);
 		this.cameras.main.startFollow(this.dad, true, 0.1, 0.1);
-		this.animate();
 
 		// Girls room
 		let box = new DraggableItem(this, 900, floor_1_Y, "koti_laatikko");
@@ -25,39 +24,6 @@ export class DadHome extends Phaser.Scene {
 		await this.cutscene();
 
 	}
-
-	animate() {
-		let { anims } = this.scene;
-
-		this.anims.create({
-			key: "isa_idle",
-			frames: this.anims.generateFrameNames("isa_idle"),
-			frameRate: 10,
-			repeat: -1
-		});
-
-		this.anims.create({
-			key: "isa_walk",
-			frames: this.anims.generateFrameNames("isa_walk"),
-			frameRate: 10,
-			repeat: -1
-		});
-
-		this.anims.create({
-			key: "isa_jumptry",
-			frames: this.anims.generateFrameNames("isa_jumptry"),
-			frameRate: 10,
-			repeat: 0
-		});
-
-		this.anims.create({
-			key: "isa_jumpsuccess_onair",
-			frames: this.anims.generateFrameNames("isa_jumpsuccess_onair"),
-			frameRate: 10,
-			repeat: 0
-		});
-	}
-
 	async cutscene() {
 
 		await Pause(500);

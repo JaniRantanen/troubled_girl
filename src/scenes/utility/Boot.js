@@ -170,14 +170,6 @@ export class Boot extends Phaser.Scene {
         this.load.atlas("koti_ikkuna_looking", "sprites/cutscene/koti_ikkuna_looking.png", "sprites/cutscene/koti_ikkuna_looking.json");
         this.load.atlas("koti_tv_uusi", "sprites/cutscene/koti_tv_uusi.png", "sprites/cutscene/koti_tv_uusi.json");
 
-        // Placeholders
-        this.load.image("item", "placeholders/item.png");
-        this.load.image("button", "placeholders/button.png");
-        this.load.image("oldman", "placeholders/oldman.png");
-        this.load.image("box", "placeholders/box.png");
-        this.load.image("door", "placeholders/door.png");
-        this.load.image("mockbox", "placeholders/mockbox.png");
-        this.load.image("widebox", "placeholders/widebox.png");
 
         // Levels
         this.load.tilemapImpact("home", "../levels/koti00.js");
@@ -207,11 +199,11 @@ export class Boot extends Phaser.Scene {
     };
 
     create() {
-
+        this.loadAnimations();
         this.cameras.main.once("camerafadeoutcomplete", function (camera) {
 
             if (process.env.NODE_ENV === "development") {
-                this.scene.start("cliff");
+                this.scene.start("home");
             } else {
                 this.scene.start("mainmenu");
             }
@@ -222,4 +214,259 @@ export class Boot extends Phaser.Scene {
 
     }
 
+    loadAnimations() {
+        let { anims } = this;
+
+        //Girl
+        anims.create({
+            key: "TG_girl_idle",
+            frames: anims.generateFrameNames("TG_girl_idle"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_eyes_stare",
+            frames: anims.generateFrameNames("TG_girl_eyes_stare"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_eyes_turn",
+            frames: anims.generateFrameNames("TG_girl_eyes_turn"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_slide",
+            frames: anims.generateFrameNames("TG_girl_slide"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "TG_girl_run",
+            frames: anims.generateFrameNames("TG_girl_run"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_jumpup",
+            frames: anims.generateFrameNames("TG_girl_jumpup"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "TG_girl_jumpdrop",
+            frames: anims.generateFrameNames("TG_girl_jumpdrop"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "TG_girl_jumpdrop_end",
+            frames: anims.generateFrameNames("TG_girl_jumpdrop_end"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "TG_girl_doublejump",
+            frames: anims.generateFrameNames("TG_girl_doublejump"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "TG_girl_hit",
+            frames: anims.generateFrameNames("TG_girl_hit"),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        anims.create({
+            key: "TG_girl_pull",
+            frames: anims.generateFrameNames("TG_girl_pull"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_push",
+            frames: anims.generateFrameNames("TG_girl_push"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_dash",
+            frames: anims.generateFrameNames("TG_girl_dash"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "TG_girl_crawlmove",
+            frames: anims.generateFrameNames("TG_girl_crawlmove"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_crawlidle",
+            frames: anims.generateFrameNames("TG_girl_crawlidle"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+
+        anims.create({
+            key: "TG_girl_lookdown_cry_idle5fps",
+            frames: anims.generateFrameNames("TG_girl_lookdown_cry_idle5fps"),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_lookdown_cry5fps",
+            frames: anims.generateFrameNames("TG_girl_lookdown_cry5fps"),
+            frameRate: 5,
+            repeat: 0
+        });
+
+        anims.create({
+            key: "TG_girl_lookup_cry5fps",
+            frames: anims.generateFrameNames("TG_girl_lookup_cry5fps"),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "TG_girl_twistangle8fps",
+            frames: anims.generateFrameNames("TG_girl_twistangle8fps"),
+            frameRate: 8,
+            repeat: 0
+        });
+
+        anims.create({
+            key: "TG_girl_cryonground2fps",
+            frames: anims.generateFrameNames("TG_girl_cryonground2fps"),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        //Mom
+        this.anims.create({
+            key: "aiti_idle5fps",
+            frames: this.anims.generateFrameNames("aiti_idle5fps"),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "aiti_muutos7fps",
+            frames: this.anims.generateFrameNames("aiti_muutos7fps"),
+            frameRate: 7,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "aiti_enkeli_idle5fps",
+            frames: this.anims.generateFrameNames("aiti_enkeli_idle5fps"),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        //Dad
+        this.anims.create({
+            key: "varjoisa_idle",
+            frames: this.anims.generateFrameNames("varjoisa_idle"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "varjoisa_walk",
+            frames: this.anims.generateFrameNames("varjoisa_walk"),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        anims.create({
+            key: "isa_idle",
+            frames: anims.generateFrameNames("isa_idle"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "isa_walk",
+            frames: anims.generateFrameNames("isa_walk"),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        anims.create({
+            key: "isa_jumptry",
+            frames: anims.generateFrameNames("isa_jumptry"),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        anims.create({
+            key: "isa_jumpsuccess",
+            frames: anims.generateFrameNames("isa_jumpsuccess"),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        anims.create({
+            key: "isa_jumpsuccess_onair",
+            frames: anims.generateFrameNames("isa_jumpsuccess_onair"),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        //Window monster
+        anims.create({
+            key: "koti_ikkuna_reveal",
+            frames: anims.generateFrameNames("koti_ikkuna_reveal"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        anims.create({
+            key: "koti_ikkuna_looking",
+            frames: anims.generateFrameNames("koti_ikkuna_looking"),
+            frameRate: 10,
+            repeat: 1
+        });
+
+        //TV
+        anims.create({
+            key: "koti_tv_uusi",
+            frames: anims.generateFrameNames("koti_tv_uusi"),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        //Shadow enemy
+        anims.create({
+            key: 'varjo_spawn',
+            frames: anims.generateFrameNames('varjo_spawn'),
+            frameRate: 7,
+            repeat: 0,
+        });
+
+        anims.create({
+            key: 'varjo_chase',
+            frames: anims.generateFrameNames('varjo_chase'),
+            frameRate: 10,
+            repeat: -1,
+        });
+    }
 }

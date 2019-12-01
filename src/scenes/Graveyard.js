@@ -10,8 +10,6 @@ export class Graveyard extends Phaser.Scene {
 		setupScene(this, this.level, "tausta_hautausmaa", { x: 4000, y: 1600 });
 		this.musicScene.backgroundMusic = this.sound.add("hautausmaamusiikki_tausta", { loop: true, volume: 1, });
 		this.musicScene.backgroundMusic.play();
-		this.animate();
-
 		this.mom = this.add.sprite(6250, 1500, "aiti_idle5fps", 0);
 		this.dad = this.add.sprite(5200, 1500, "varjoisa_walk", 0).setAlpha(0);
 		this.firstMonster = this.add.sprite(5550, 1500, "varjo_spawn", 0).setFlipX(true).setAlpha(0);
@@ -27,56 +25,6 @@ export class Graveyard extends Phaser.Scene {
 			});
 		});
 	}
-
-	animate() {
-		let { anims } = this.scene;
-
-		//Mom
-		this.anims.create({
-			key: "aiti_idle5fps",
-			frames: this.anims.generateFrameNames("aiti_idle5fps"),
-			frameRate: 5,
-			repeat: -1
-		});
-
-		this.anims.create({
-			key: "aiti_muutos7fps",
-			frames: this.anims.generateFrameNames("aiti_muutos7fps"),
-			frameRate: 7,
-			repeat: 0
-		});
-
-		this.anims.create({
-			key: "aiti_enkeli_idle5fps",
-			frames: this.anims.generateFrameNames("aiti_enkeli_idle5fps"),
-			frameRate: 5,
-			repeat: -1
-		});
-
-		//Dad
-		this.anims.create({
-			key: "varjoisa_walk",
-			frames: this.anims.generateFrameNames("varjoisa_walk"),
-			frameRate: 10,
-			repeat: 0
-		});
-
-		this.anims.create({
-			key: "varjoisa_idle",
-			frames: this.anims.generateFrameNames("varjoisa_idle"),
-			frameRate: 10,
-			repeat: -1
-		});
-
-
-		// Monsters
-		this.anims.create({
-			key: 'varjo_spawn',
-			frames: this.anims.generateFrameNames('varjo_spawn'),
-			frameRate: 7,
-			repeat: 0,
-		});
-	};
 
 	async graveyardCutscene() {
 		disableControls(this);
@@ -96,11 +44,9 @@ export class Graveyard extends Phaser.Scene {
 			delay: 2000,
 			duration: 2000,
 			onStart: () => {
-				console.log("STARTED MOVE");
 				this.player.sprite.anims.play("TG_girl_run", true)
 			},
 			onComplete: () => {
-				console.log("ENDED MOVE");
 				this.player.sprite.anims.play("TG_girl_idle");
 			}
 		});
@@ -111,10 +57,8 @@ export class Graveyard extends Phaser.Scene {
 			alpha: { from: 1, to: 1 }, // "empty param"
 			duration: 500,
 			onStart: () => {
-				console.log("MOM TURN START")
 			},
 			onComplete: () => {
-				console.log("MOM TURN END");
 				this.mom.flipX = true;
 			}
 		});
@@ -124,9 +68,6 @@ export class Graveyard extends Phaser.Scene {
 			targets: this.mom,
 			alpha: { from: 1, to: 1 }, // "empty param"
 			duration: 2000,
-			onStart: () => {
-				console.log("CHANGE START")
-			},
 			onComplete: () => {
 				console.log("CHANGE END");
 				this.mom.anims.play("aiti_muutos7fps", true)
@@ -142,12 +83,6 @@ export class Graveyard extends Phaser.Scene {
 			y: this.mom.y - 200,
 			duration: 3000,
 			ease: 'linear',
-			onStart: () => {
-				console.log("FLOAT START")
-			},
-			onComplete: () => {
-				console.log("FLOAT END");
-			},
 		})
 
 		// GIRL COMMENT
@@ -156,13 +91,8 @@ export class Graveyard extends Phaser.Scene {
 			alpha: { from: 1, to: 1 }, // "empty param"
 			duration: 3000,
 			onStart: async () => {
-				console.log("WATCH START")
 				await this.dialogScene.updateDialog("Mommy, you’re so pretty!", 3000);
-			},
-			onComplete: async () => {
-				console.log("WATCH END");
-
-			},
+			}
 		});
 
 		// MOM DISAPPEARS
@@ -172,11 +102,9 @@ export class Graveyard extends Phaser.Scene {
 			duration: 1000,
 			ease: 'linear',
 			onStart: async () => {
-				console.log("DISAPPEAR START");
 				await this.dialogScene.updateDialog("You’re…", 1000);
 			},
 			onComplete: async () => {
-				console.log("DISAPPEAR END");
 				this.player.sprite.anims.play("TG_girl_lookdown_cry5fps", true);
 				await this.dialogScene.updateDialog("…gone", 2000)
 				this.player.sprite.anims.play("TG_girl_lookdown_cry_idle5fps", true);
@@ -192,11 +120,9 @@ export class Graveyard extends Phaser.Scene {
 			duration: 2000,
 			delay: 4000, //The pause
 			onStart: () => {
-				console.log("DAD APPEAR START");
 				this.dad.anims.play("varjoisa_walk", true);
 			},
 			onComplete: () => {
-				console.log("DAD APPEAR END");
 				this.dad.anims.play("varjoisa_idle", true);
 			},
 		});
@@ -206,11 +132,9 @@ export class Graveyard extends Phaser.Scene {
 			alpha: { from: 0, to: 1 },
 			duration: 500,
 			onStart: () => {
-				console.log("MONSTERS START");
 				this.firstMonster.anims.play("varjo_spawn", true);
 			},
 			onComplete: () => {
-				console.log("MONSTERS END");
 				this.secondMonster.anims.play("varjo_spawn", true);
 			},
 		});
@@ -222,20 +146,14 @@ export class Graveyard extends Phaser.Scene {
 			delay: 2000,
 			ease: 'linear',
 			onStart: () => {
-				console.log("GIRL RUN START");
 				this.player.sprite.anims.play("TG_girl_run", true);
 			},
 			onComplete: () => {
-				console.log("GIRL RUN END");
 			},
 		});
 
 		timeline.play();
 		timeline.on("complete", () => {
-			console.log("COMPLETE");
-			console.log(this);
-			console.log(this.player.sprite);
-			console.log(this.player.sprite.body);
 			this.player.sprite.body.pos.x = this.level.widthInPixels - this.player.sprite.width;
 			this.player.sprite.body.enabled = true;
 			enableControls(this);

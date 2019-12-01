@@ -1,10 +1,7 @@
 import { Toy } from "../items/Toy";
 import { DraggableItem } from "../items/DraggableItem";
-import { Crawlspace } from "../items/Crawlspace";
 import { Hideout } from "../items/Hideout";
 import { Pause, setupLevel, disableControls, enableControls, setupScene } from "../utils/utils";
-import { MonsterWindow } from "../items/MonsterWindow";
-import { ShadowEnemy } from "../characters/ShadowEnemy";
 import { SimpleEnemy } from "../characters/SimpleEnemy";
 import { dragUnlock } from "../cutscenes/abilityUnlock";
 import { Trigger } from "../items/Trigger";
@@ -20,18 +17,25 @@ export class Home extends Phaser.Scene {
 		let floor_3_Y = 500;
 
 		this.level = setupLevel(this, "home");
-		setupScene(this, this.level, "tausta_koti", { x: 1400, y: floor_1_Y });
+		setupScene(this, this.level, "tausta_koti", { x: 1000, y: floor_1_Y });
 
 		// Girls room
 		let bear = new Toy(this, 150, floor_1_Y, "item_nalle", dragUnlock.bind(this, this));
-		//let bed = new Crawlspace(this, 500, floor_1_Y, "koti_sanky");
-		let box = new DraggableItem(this, 800, floor_1_Y, "koti_laatikko");
+		let bed = this.add.sprite(400, floor_1_Y, "koti_sanky").setDepth(-1);
+		let box = new DraggableItem(this, 800, floor_1_Y - 100, "koti_laatikko");
 		let chair = new DraggableItem(this, 1300, floor_1_Y, "koti_tuoli_sivu");
 
-		// Living room
-		this.livingroomWindow = new MonsterWindow(this, 1700, floor_1_Y - 150, "koti_ikkuna_reveal");
-		let windowBounds = this.livingroomWindow.sprite.getBounds();
-		this.windowTrigger = new Trigger(this, windowBounds.x, windowBounds.y, windowBounds.width, windowBounds.height, this.cutscene_monster.bind(this));
+		// Living room 
+		this.livingroomWindow = this.add.sprite(1700, floor_1_Y - 150, "koti_ikkuna_reveal", 0).setDepth(-1);
+		this.windowTrigger = new Trigger(
+			this,
+			this.livingroomWindow.getTopLeft().x,
+			this.livingroomWindow.getTopLeft().y,
+			this.livingroomWindow.width,
+			this.livingroomWindow.height,
+			this.cutscene_monster.bind(this)
+		);
+
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli_isalla");
 		this.dadsTv = this.add.sprite(3600, floor_1_Y, "koti_tv_uusi", 0);
 
@@ -40,8 +44,9 @@ export class Home extends Phaser.Scene {
 		let kitchenTable = this.add.image(800, floor_2_Y, "koti_poytaliinalla").setDepth(-1);
 		let stool = new DraggableItem(this, 500, floor_2_Y, "koti_jakkara");
 		let window = this.add.image(3000, floor_2_Y - 100, "koti_ikkuna_reveal").setDepth(-1);
-		let clock = this.add.image(3400, floor_2_Y - 200, "koti_kello").setDisplaySize(100, 100);
+		let clock = this.add.image(3400, floor_2_Y - 200, "koti_kello").setDisplaySize(100, 100).setDepth(-1);
 		let lamp = new DraggableItem(this, 3600, floor_2_Y, "koti_lamppu");
+		lamp.sprite.setBodyScale(1.15, 1.15);
 
 		//Third floor
 		let stackedBoxes = [
@@ -91,52 +96,131 @@ export class Home extends Phaser.Scene {
 		this.cameras.main.fadeIn(4000);
 		enableControls(this);
 	}
+
 	async cutscene_monster() {
 		disableControls(this);
-
-		await this.livingroomWindow.enter();
-
-		this.player.sprite.anims.play("TG_girl_idle");
+		let timeline = this.tweens.createTimeline();
 		this.player.sprite.body.enabled = false;
 
-		await Pause(1000);
+		let window_monster = this.add.sprite(this.livingroomWindow.x, this.livingroomWindow.y, "koti_ikkuna_reveal", 0).setDepth(-1);
+		let tv_monster = this.add.sprite(this.dadsTv.x, this.dadsTv.y - 100, "varjo_spawn", 0).setAlpha(0);
 
-		await this.dialogScene.updateDialog("I’m scared. I need to find Daddy!", 2000);
-
-		this.player.sprite.anims.play("TG_girl_run", true);
-
-		let stopPositionX = this.dadsRecliner.x - 200;
-
-		this.tweens.add({
-			targets: this.player.sprite,
-			x: stopPositionX,
-			duration: 5000,
-			ease: 'Power2',
-			completeDelay: 500,
+		//Window animation
+		timeline.add({
+			targets: window_monster,
+			alpha: { from: 0, to: 1 },
+			duration: 2000,
+			onStart: () => {
+				this.player.sprite.anims.play("TG_girl_idle", true);
+				window_monster.anims.play("koti_ikkuna_reveal", true)
+					.on('animationcomplete', () => window_monster.anims.play("koti_ikkuna_looking", true));
+			},
 			onComplete: async () => {
-				this.player.sprite.anims.play("TG_girl_idle");
-				await this.dialogScene.updateDialog("Daddy, there’s something outside", 2000);
-				await this.dialogScene.updateDialog("Daddy...?", 2000);
-				await this.dialogScene.updateDialog("Are you okay…?", 2000);
-				await Pause(2000);
-
-				this.anims.create({
-					key: "koti_tv_uusi",
-					frames: this.anims.generateFrameNames("koti_tv_uusi"),
-					frameRate: 10,
-					repeat: 0
-				});
-
-				this.dadsTv.anims.play("koti_tv_uusi")
-					.on("animationcomplete", () => {
-						let enemy = new ShadowEnemy(this, this.dadsTv.x, this.dadsTv.y - 100);
-						this.player.sprite.body.pos.x = stopPositionX - (this.player.sprite.width / 2);
-						this.player.sprite.body.enabled = true;
-						enemy.spawn();
-						enableControls(this);
-					});
+				await this.dialogScene.updateDialog("I’m scared. I need to find Daddy!", 2000);
 			}
 		});
 
+		//Girl runs away
+		timeline.add({
+			targets: this.player.sprite,
+			x: this.dadsRecliner.x - 400,
+			duration: 5000,
+			delay: 1000,
+			ease: "Power2",
+			onStart: () => {
+				this.player.sprite.anims.play("TG_girl_run", true);
+			},
+		});
+
+		//Girl speaks
+		timeline.add({
+			targets: this.player.sprite,
+			alpha: { from: 1, to: 1 },
+			duration: 8000,
+			onStart: async () => {
+				this.player.sprite.anims.play("TG_girl_idle", true);
+				await this.dialogScene.updateDialog("Daddy, there’s something outside", 2000);
+				await Pause(1000)
+				await this.dialogScene.updateDialog("Daddy...?", 2000);
+				await Pause(1000)
+				await this.dialogScene.updateDialog("Are you okay…?", 2000);
+			}
+		});
+
+		//TV Spawns enemy
+		timeline.add({
+			targets: this.dadsTv,
+			alpha: { from: 1, to: 1 },
+			duration: 5000,
+			ease: "Linear",
+			onStart: () => {
+				this.dadsTv.anims.play("koti_tv_uusi")
+					.on("animationcomplete", () => {
+						tv_monster.setAlpha(1);
+						tv_monster.anims.play("varjo_spawn");
+					});
+			},
+			onComplete: () => {
+				console.log("END")
+			},
+		});
+
+		//Monster approaches
+		timeline.add({
+			targets: tv_monster,
+			x: 3000,
+			duration: 1000,
+			ease: "Linear",
+			onStart: () => {
+				tv_monster.setTint("0xFF0000");
+				this.cameras.main.shake(100)
+			},
+			onComplete: () => {
+				setTimeout(() => {
+					tv_monster.anims.playReverse("varjo_spawn", true);
+				}, 1000);
+			},
+		});
+
+		//Girl runs upstairs
+		timeline.add({
+			targets: this.player.sprite,
+			x: 2200,
+			y: 1000,
+			duration: 2000,
+			ease: "Power2",
+			offset: "-=500",
+			onStart: () => {
+				this.player.sprite.anims.play("TG_girl_run", true);
+				this.player.sprite.flipX = true;
+			},
+			onComplete: () => {
+				this.player.sprite.anims.play("TG_girl_idle", true);
+			},
+		});
+
+		//Girl walks to below attic
+		timeline.add({
+			targets: this.player.sprite,
+			x: 1700,
+			y: 1000,
+			duration: 2000,
+			ease: "Sine",
+			onStart: () => {
+				this.player.sprite.anims.play("TG_girl_run", true);
+			},
+			onComplete: () => {
+				this.player.sprite.anims.play("TG_girl_idle", true);
+			},
+		});
+
+		timeline.play();
+
+		timeline.on("complete", async () => {
+			enableControls(this);
+			this.player.sprite.body.pos.x = this.player.sprite.x - (this.player.sprite.width / 2);
+			this.player.sprite.body.pos.y = this.player.sprite.y - (this.player.sprite.height / 2);
+			this.player.sprite.body.enabled = true;
+		});
 	}
 }

@@ -44,46 +44,6 @@ export class Dad {
 		this.scene.events.on("preupdate", this.update, this);
 		this.sprite.setCollideCallback(this.collide, this);
 
-		this.animate();
-	}
-
-	animate() {
-		let { anims } = this.scene;
-
-		anims.create({
-			key: "isa_idle",
-			frames: anims.generateFrameNames("isa_idle"),
-			frameRate: 10,
-			repeat: -1
-		});
-
-		anims.create({
-			key: "isa_walk",
-			frames: anims.generateFrameNames("isa_walk"),
-			frameRate: 10,
-			repeat: -1
-		});
-
-		anims.create({
-			key: "isa_jumptry",
-			frames: anims.generateFrameNames("isa_jumptry"),
-			frameRate: 10,
-			repeat: 0
-		});
-
-		anims.create({
-			key: "isa_jumpsuccess",
-			frames: anims.generateFrameNames("isa_jumpsuccess"),
-			frameRate: 10,
-			repeat: 0
-		});
-
-		anims.create({
-			key: "isa_jumpsuccess_onair",
-			frames: anims.generateFrameNames("isa_jumpsuccess_onair"),
-			frameRate: 10,
-			repeat: -1
-		});
 	}
 
 	update(time, delta) {
