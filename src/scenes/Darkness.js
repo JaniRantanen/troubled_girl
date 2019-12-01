@@ -1,4 +1,3 @@
-import { Player } from "../characters/Player";
 import { setupLevel, setupScene, disableControls } from "../utils/utils";
 import { Trigger } from "../items/Trigger";
 import { ShadowEnemy } from "../characters/ShadowEnemy";

@@ -1,4 +1,4 @@
-import { Pause, setupLevel, disableControls, enableControls, setupScene } from "../utils/utils";
+import { setupLevel } from "../utils/utils";
 import { Dad } from "../characters/Dad";
 import { Trigger } from "../items/Trigger";
 export class DadJourney extends Phaser.Scene {
