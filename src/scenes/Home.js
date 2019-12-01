@@ -21,8 +21,8 @@ export class Home extends Phaser.Scene {
 
 		// Girls room
 		let bear = new Toy(this, 150, floor_1_Y, "item_nalle", dragUnlock.bind(this, this));
-		let bed = this.add.sprite(400, floor_1_Y, "koti_sanky").setDepth(-1);
-		let box = new DraggableItem(this, 800, floor_1_Y - 100, "koti_laatikko");
+		let bed = this.add.sprite(550, floor_1_Y, "koti_sanky").setDepth(-1);
+		// let box = new DraggableItem(this, 800, floor_1_Y - 100, "koti_laatikko");
 		let chair = new DraggableItem(this, 1300, floor_1_Y, "koti_tuoli_sivu");
 
 		// Living room 
@@ -37,22 +37,22 @@ export class Home extends Phaser.Scene {
 		);
 
 		this.dadsRecliner = this.add.image(3300, floor_1_Y, "koti_nojatuoli_isalla");
-		this.dadsTv = this.add.sprite(3600, floor_1_Y, "koti_tv_uusi", 0);
+		this.dadsTv = this.add.sprite(3600, floor_1_Y - 50, "koti_tv_uusi", 0);
 
 		//Second floor
-		let myFirstCheckpoint = new Checkpoint(this, 1800, floor_2_Y - 250, 100, 450);
-		let kitchenTable = this.add.image(800, floor_2_Y, "koti_poytaliinalla").setDepth(-1);
+		let myFirstCheckpoint = new Checkpoint(this, 1900, floor_2_Y - 250, 100, 450);
+		let lamp = new DraggableItem(this, 1150, floor_2_Y, "koti_lamppu");
+		let kitchenTable = this.add.image(800, floor_2_Y - 50, "koti_poytaliinalla").setDepth(-1);
 		let stool = new DraggableItem(this, 500, floor_2_Y, "koti_jakkara");
 		let window = this.add.image(3000, floor_2_Y - 100, "koti_ikkuna_reveal").setDepth(-1);
 		let clock = this.add.image(3400, floor_2_Y - 200, "koti_kello").setDisplaySize(100, 100).setDepth(-1);
-		let lamp = new DraggableItem(this, 3600, floor_2_Y, "koti_lamppu");
+		let stool1 = new DraggableItem(this, 3400, floor_2_Y, "koti_jakkara");
 		lamp.sprite.setBodyScale(1.15, 1.15);
 
 		//Third floor
 		let stackedBoxes = [
 			new DraggableItem(this, 2500, floor_3_Y, "koti_laatikko"),
 			new DraggableItem(this, 2500, floor_3_Y - 100, "koti_laatikko"),
-			new DraggableItem(this, 2500, floor_3_Y - 200, "koti_laatikko"),
 		]
 
 		//Outside
@@ -66,12 +66,13 @@ export class Home extends Phaser.Scene {
 
 		//Between fences
 		let bushes = [
-			new Hideout(this, 7400, floor_1_Y, "metsa_pensas"),
+			new Hideout(this, 7300, floor_1_Y, "metsa_pensas"),
+			new Hideout(this, 7500, floor_1_Y, "metsa_pensas"),
 			new Hideout(this, 8000, floor_1_Y, "metsa_pensas"),
 			new Hideout(this, 8600, floor_1_Y, "metsa_pensas")
 		];
 
-		let hideMechanicEnemy = new SimpleEnemy(this, 8000, floor_1_Y);
+		let hideMechanicEnemy = new SimpleEnemy(this, 8100, floor_1_Y);
 
 		let exitTrigger = new Trigger(this, 9825, 1000, 150, 1000, () => {
 			this.scene.transition({
