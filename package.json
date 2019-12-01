@@ -1,6 +1,6 @@
 {
   "name": "troubled_girl",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Entry for Game Off 2019",
   "main": "index.js",
   "scripts": {
