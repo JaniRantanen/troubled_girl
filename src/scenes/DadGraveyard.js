@@ -28,11 +28,7 @@ export class DadGraveyard extends Phaser.Scene {
 
 		let grave = this.add.sprite(6500, 1550, "item_hauta").setDepth(-1);
 
-
-		setTimeout(() => {
-			this.player.sprite.setVelocityX(50)
-		}, 500, this);
-
+		this.cameras.main.fadeIn(1000);
 	}
 
 	async graveyardCutscene() {
@@ -94,7 +90,6 @@ export class DadGraveyard extends Phaser.Scene {
 					backgrounds: ["tausta_metsa"],
 					nextSceneKey: "cliff"
 				},
-				remove: true,
 				duration: 1000
 			});
 		})
