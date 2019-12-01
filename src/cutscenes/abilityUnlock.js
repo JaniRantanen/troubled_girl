@@ -4,8 +4,8 @@ function createAbilityUnlockTimeline(scene, colorlessSpriteKey, colorSpriteKey) 
 	let timeline = scene.tweens.createTimeline();
 	let { width, height, centerX, centerY } = scene.cameras.main.worldView;
 	let backgroundImage = scene.add.image(centerX, centerY, "spotlight").setAlpha(0).setDepth(3).setDisplaySize(width, height);
-	let memoryItem_black = scene.add.image(centerX, centerY, colorlessSpriteKey).setAlpha(0).setDepth(4).setDisplaySize(width / 2, height / 2);
-	let memoryItem_color = scene.add.image(centerX, centerY, colorSpriteKey).setAlpha(0).setDepth(4).setDisplaySize(width / 2, height / 2);
+	let memoryItem_black = scene.add.image(centerX, centerY, colorlessSpriteKey).setAlpha(0).setDepth(4);
+	let memoryItem_color = scene.add.image(centerX, centerY, colorSpriteKey).setAlpha(0).setDepth(4);
 
 	memoryItem_black.flipX = !scene.player.sprite.flipX;
 	memoryItem_color.flipX = !scene.player.sprite.flipX;
