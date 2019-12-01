@@ -13,12 +13,13 @@ export class DadJourney extends Phaser.Scene {
 		this.backgrounds = data.backgrounds;
 		this.nextSceneKey = data.nextSceneKey;
 
+		this.cameras.main.fadeIn(2000);
 		new Trigger(this, 3000, 0, 300, 1700, this.setupJourneyAndBackdrop.bind(this), false);
 		this.setupJourneyAndBackdrop();
 	}
 
 	setupJourneyAndBackdrop() {
-		this.cameras.main.fadeOut(2000);
+		this.cameras.main.fadeIn(2000);
 
 		this.player.sprite.body.pos.x = 100;
 
@@ -30,12 +31,11 @@ export class DadJourney extends Phaser.Scene {
 		} else {
 			this.scene.transition({
 				target: this.nextSceneKey,
-				remove: true,
 				duration: 1000
 			});
 		}
 
-		this.cameras.main.fadeIn(2000);
+
 
 	}
 }

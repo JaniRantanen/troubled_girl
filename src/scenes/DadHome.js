@@ -25,12 +25,11 @@ export class DadHome extends Phaser.Scene {
 
 	}
 	async cutscene() {
-
-		await Pause(500);
+		this.cameras.main.fadeIn(1000);
 		await this.dialogScene.updateDialog("I must have fallen asleep.", 2000);
 		await Pause(1000);
 		await this.dialogScene.updateDialog("Haven't slept for weeks now.", 2000);
-		await Pause(1000);
+		await Pause(2000);
 		await this.dialogScene.updateDialog("Nothing makes sense.", 2000);
 		await Pause(1000);
 		await this.dialogScene.updateDialog("...wait where is she?", 2000);

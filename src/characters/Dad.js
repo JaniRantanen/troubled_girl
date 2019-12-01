@@ -83,7 +83,7 @@ export class Dad {
 	respawn() {
 		let flash = this.scene.cameras.main.flash(750);
 		this.sprite.body.pos.x = this.latestCheckpointPosition.x;
-		this.sprite.body.pos.y = this.latestCheckpointPosition.y - (this.sprite.body.size.y / 2);
+		this.sprite.body.pos.y = this.latestCheckpointPosition.y - this.sprite.body.size.y;
 		this.sprite.setVelocity(0, 0);
 	}
 }
