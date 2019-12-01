@@ -8,8 +8,9 @@ export class Graveyard extends Phaser.Scene {
 	async create() {
 		this.level = setupLevel(this, "graveyard");
 		setupScene(this, this.level, "tausta_hautausmaa", { x: 4000, y: 1600 });
-		this.musicScene.backgroundMusic = this.sound.add("hautausmaamusiikki_tausta", { loop: true, volume: 1, });
-		this.musicScene.backgroundMusic.play();
+		let backgroundMusic = this.sound.add("hautausmaamusiikki_tausta", { loop: true, volume: 1, });
+		this.musicScene.changeBackroundTrack(backgroundMusic);
+
 		this.mom = this.add.sprite(6250, 1500, "aiti_idle5fps", 0);
 		this.dad = this.add.sprite(5200, 1500, "varjoisa_walk", 0).setAlpha(0);
 		this.firstMonster = this.add.sprite(5550, 1500, "varjo_spawn", 0).setFlipX(true).setAlpha(0);
@@ -98,13 +99,15 @@ export class Graveyard extends Phaser.Scene {
 		timeline.add({
 			targets: this.mom,
 			alpha: { from: 1, to: 0 },
-			duration: 1000,
+			duration: 6000,
 			ease: 'linear',
 			onStart: async () => {
-				await this.dialogScene.updateDialog("Mommy, you're…", 1000);
+				await Pause(1000)
+				await this.dialogScene.updateDialog("Mommy, you're…", 2000);
 			},
 			onComplete: async () => {
 				this.player.sprite.anims.play("TG_girl_lookdown_cry5fps", true);
+				await Pause(1000)
 				await this.dialogScene.updateDialog("…gone.", 2000)
 				this.player.sprite.anims.play("TG_girl_lookdown_cry_idle5fps", true);
 			},
@@ -143,11 +146,24 @@ export class Graveyard extends Phaser.Scene {
 			x: this.level.widthInPixels,
 			duration: 2000,
 			delay: 2000,
-			ease: 'linear',
+			ease: 'Power2',
 			onStart: () => {
 				this.player.sprite.anims.play("TG_girl_run", true);
 			},
 			onComplete: () => {
+			},
+		});
+
+		timeline.add({
+			targets: [this.firstMonster, this.secondMonster],
+			x: this.level.widthInPixels,
+			duration: 1000,
+			offset: "-=1000",
+			ease: 'Power2',
+			onStart: () => {
+				this.cameras.main.fadeOut(1000);
+				this.firstMonster.setTint("0xFF0000");
+				this.secondMonster.setTint("0xFF0000");
 			},
 		});
 

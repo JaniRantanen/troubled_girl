@@ -32,4 +32,12 @@ export class Music extends Phaser.Scene {
 			}
 		}
 	}
+
+	changeBackroundTrack(sound) {
+		if (this.backgroundMusic !== null) {
+			this.backgroundMusic.stop();
+		}
+		this.backgroundMusic = sound;
+		this.backgroundMusic.play();
+	}
 }
