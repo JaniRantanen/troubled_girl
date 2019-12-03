@@ -47,7 +47,6 @@ export class Music extends Phaser.Scene {
 	}
 
 	changeTrack(trackKey) {
-		this.resetMusic();
 		this.backgroundMusic = this.sound.add(trackKey, { loop: true });
 		this.backgroundMusic.play();
 	}
